@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop – Vandals Fashion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; background-color: #fff; color: #222; }
+
+    header {
+      background-color: black; color: white;
+      padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+    }
+
+    nav a {
+      color: white; margin-left: 1.5rem; text-decoration: none;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .card {
+      border: 1px solid #eee;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      background: white;
+      transition: 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 15px rgba(255, 182, 193, 0.4);
+    }
+
+    .card img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .card-content h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .btn {
+      margin-top: 1rem;
+      padding: 0.6rem 1.4rem;
+      background-color: black;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #FFD700;
+      color: black;
+    }
+
+    .marquee {
+      background-color: black;
+      color: white;
+      font-weight: bold;
+      padding: 0.7rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll 20s linear infinite;
+    }
+
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      padding: 1rem 0;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div><strong>Vandals Fashion</strong></div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="explore.html">Explore</a>
+      <a href="custom-order.html">Custom</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="cart.html">🛒</a>
+    </nav>
+  </header>
+
+  <h1>Explore Our Collection</h1>
+
+  <section class="product-grid" id="productGrid">
+    <!-- Dynamic products will be loaded here -->
+  </section>
+
+  <div class="marquee">
+    <span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION • </span>
+  </div>
+
+  <footer>
+    &copy; 2025 Vandals Fashion. All rights reserved.
+  </footer>
+
+  <!-- JS Placeholder -->
+  <script>
+    // Will load from Firestore or Google Sheets dynamically
+    document.getElementById("productGrid").innerHTML = "<p style='text-align:center; color:#888;'>Products will appear here soon!</p>";
+  </script>
+</body>
+</html>
+

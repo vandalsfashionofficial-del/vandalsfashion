@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact – Vandals Fashion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff;
+      color: #222;
+    }
+
+    header {
+      background-color: black;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      margin-left: 1.5rem;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background-color: #f9f9f9;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      margin-bottom: 1.2rem;
+      text-align: center;
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 0.8rem;
+    }
+
+    a.contact-link {
+      color: black;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+
+    .info {
+      margin-top: 2rem;
+    }
+
+    .info p {
+      margin-bottom: 0.5rem;
+    }
+
+    .marquee {
+      background-color: black;
+      color: white;
+      font-weight: bold;
+      padding: 0.7rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll 20s linear infinite;
+    }
+
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      padding: 1rem 0;
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div><strong>Vandals Fashion</strong></div>
+    <nav>
+  <a href="index.html">Home</a>
+  <a href="shop.html">Shop</a>
+  <a href="explore.html">Explore</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+  <a href="cart.html">🛒</a>
+</nav>
+
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1>Contact Us</h1>
+    <p>We’d love to hear from you! Whether you have a custom design in mind or want to know more about our latest collection, feel free to reach out to us anytime.</p>
+
+    <div class="info">
+      <p><strong>📞 Phone / WhatsApp:</strong> <a class="contact-link" href="https://wa.me/917837498898" target="_blank">+91 78374 98898</a></p>
+      <p><strong>📍 Address:</strong> #60, Dashmesh Nagar A, Street No 3, Behind Central Jail, Patiala, Punjab, India</p>
+      <p><strong>📷 Instagram:</strong> <a class="contact-link" href="https://www.instagram.com/vandalsfashion_by_priya_vandal" target="_blank">@vandalsfashion_by_priya_vandal</a></p>
+      <p><strong>📌 Pinterest:</strong> <a class="contact-link" href="https://pin.it/3cRfrYmFh" target="_blank">Vandals Fashion Pins</a></p>
+    </div>
+  </div>
+
+  <!-- Marquee -->
+  <div class="marquee">
+    <span>GET IN TOUCH • WHATSAPP US • FOLLOW ON INSTAGRAM • VISIT OUR BOUTIQUE • VANDALS FASHION • </span>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Vandals Fashion. All rights reserved.
+  </footer>
+
+</body>
+</html>

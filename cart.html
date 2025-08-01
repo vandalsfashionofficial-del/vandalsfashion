@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cart – Vandals Fashion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff;
+      color: #222;
+    }
+
+    header {
+      background-color: black;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      margin-left: 1.5rem;
+      text-decoration: none;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .cart-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .item {
+      border-bottom: 1px solid #eee;
+      padding: 1rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .item h3 {
+      font-size: 1.2rem;
+    }
+
+    .item button {
+      background-color: black;
+      color: white;
+      border: none;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .item button:hover {
+      background-color: #FFD700;
+      color: black;
+    }
+
+    .total {
+      text-align: right;
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-top: 2rem;
+    }
+
+    .buy-now {
+      text-align: right;
+      margin-top: 1rem;
+    }
+
+    .buy-now a {
+      background-color: black;
+      color: white;
+      text-decoration: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .buy-now a:hover {
+      background-color: #FFD700;
+      color: black;
+    }
+
+    .marquee {
+      background-color: black;
+      color: white;
+      font-weight: bold;
+      padding: 0.7rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll 20s linear infinite;
+    }
+
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      padding: 1rem 0;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div><strong>Vandals Fashion</strong></div>
+   <nav>
+  <a href="index.html">Home</a>
+  <a href="shop.html">Shop</a>
+  <a href="explore.html">Explore</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+  <a href="cart.html">🛒</a>
+</nav>
+
+  </header>
+
+  <!-- Page Title -->
+  <h1>Your Cart</h1>
+
+  <div class="cart-container" id="cartItems"></div>
+  <div class="total" id="cartTotal">Total: ₹0</div>
+
+  <!-- Buy Now Button -->
+  <div class="buy-now">
+    <a href="checkout.html">Buy Now</a>
+  </div>
+
+  <!-- Marquee -->
+  <div class="marquee">
+    <span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION • </span>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Vandals Fashion. All rights reserved.
+  </footer>
+
+  <!-- Cart Logic -->
+ <!-- Cart Logic -->
+<script>
+  const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
+  const cartContainer = document.getElementById("cartItems");
+  const cartTotal = document.getElementById("cartTotal");
+
+  function updateCart() {
+    const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
+    const customOrder = JSON.parse(localStorage.getItem("customOrder"));
+
+    cartContainer.innerHTML = '';
+    let total = 0;
+
+    if (cartItems.length === 0 && !customOrder) {
+      cartContainer.innerHTML = "<p style='text-align:center; color:#888; font-weight:bold;'>Your cart is empty.</p>";
+      cartTotal.style.display = "none";
+      document.querySelector(".buy-now").style.display = "none";
+      return;
+    }
+
+    cartItems.forEach((item, index) => {
+      total += item.price;
+
+      const div = document.createElement("div");
+      div.className = "item";
+      div.innerHTML = `
+        <h3>${item.name}</h3>
+        <div>
+          ₹${item.price}
+          <button onclick="removeItem(${index})">Remove</button>
+        </div>
+      `;
+      cartContainer.appendChild(div);
+    });
+
+    if (customOrder) {
+      const div = document.createElement("div");
+      div.className = "item";
+      div.innerHTML = `
+        <h3>🧵 Custom Order #1</h3>
+        <div>
+          <p><strong>Name:</strong> ${customOrder.name}</p>
+          <p><strong>Style:</strong> ${customOrder.style}</p>
+          <p><strong>Size:</strong> ${customOrder.size}</p>
+          <p><strong>Color:</strong> ${customOrder.color}</p>
+          <p><strong>Notes:</strong> ${customOrder.notes}</p>
+          <p style="color: darkred; font-weight: bold;">💰 Price is variable based on design & fabric.</p>
+          <p style="color: darkred; font-weight: bold;">⏳ Delivery time will be confirmed personally.</p>
+          <button onclick="removeCustomOrder()">Remove</button>
+        </div>
+      `;
+      cartContainer.appendChild(div);
+    }
+
+    cartTotal.textContent = "Total: ₹" + total;
+    cartTotal.style.display = "block";
+    document.querySelector(".buy-now").style.display = "block";
+  }
+
+  function removeItem(index) {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCart();
+  }
+
+  function removeCustomOrder() {
+    localStorage.removeItem("customOrder");
+    updateCart();
+  }
+
+  updateCart();
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About – Vandals Fashion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff;
+      color: #222;
+    }
+
+    header {
+      background-color: black;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      margin-left: 1.5rem;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background-color: #f9f9f9;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      margin-bottom: 1.2rem;
+      text-align: center;
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 1.2rem;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #000;
+    }
+
+    .marquee {
+      background-color: black;
+      color: white;
+      font-weight: bold;
+      padding: 0.7rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll 20s linear infinite;
+    }
+
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      padding: 1rem 0;
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div><strong>Vandals Fashion</strong></div>
+   <nav>
+  <a href="index.html">Home</a>
+  <a href="shop.html">Shop</a>
+  <a href="explore.html">Explore</a>
+  <a href="about.html">About</a>
+  <a href="contact.html">Contact</a>
+  <a href="cart.html">🛒</a>
+</nav>
+
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1>Our Story</h1>
+    <p><span class="highlight">Vandals Fashion</span> is not just a boutique — it’s a space where your style dreams come to life. Founded by <strong>Priya Vandal</strong>, a visionary with a deep passion for Indian elegance and contemporary cuts, Vandals Fashion is rooted in timeless beauty and tailored perfection.</p>
+
+    <p>Our tagline, <em>"You choose, we design"</em>, defines how we work — our designs are crafted not just for you, but with you. Whether it’s a traditional suit, a fusion Indo-western outfit, or a bold Pakistani look, we’re here to stitch your vibe into every piece.</p>
+
+    <p>From our Patiala boutique to wardrobes across the city, our journey has always been about creating comfort, luxury, and expression — in fabric, in fit, and in fashion.</p>
+
+    <p>Step into Vandals Fashion, where every design tells a story — <span class="highlight">your</span> story.</p>
+  </div>
+
+  <!-- Marquee -->
+  <div class="marquee">
+    <span>FASHION • ELEGANCE • CUSTOM DESIGNS • STYLE • YOU CHOOSE, WE DESIGN • VANDALS FASHION • </span>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Vandals Fashion. All rights reserved.
+  </footer>
+
+</body>
+</html>
