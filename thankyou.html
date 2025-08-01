@@ -119,7 +119,20 @@
     setTimeout(() => {
       localStorage.removeItem("orderData");
     }, 10000);
+const orderID = localStorage.getItem("vf_order_id") || "Not Found";
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("orderIdDisplay").textContent = orderID;
+  });
+
+  function copyOrderID() {
+    const id = document.getElementById("orderIdDisplay").textContent;
+    navigator.clipboard.writeText(id);
+    alert("Order ID copied: " + id);
+  }
   </script>
+<!-- Somewhere in body -->
+<p><strong>Your Order ID:</strong> <span id="orderIdDisplay"></span></p>
+<button onclick="copyOrderID()">📋 Copy Order ID</button>
 
 </body>
 </html>

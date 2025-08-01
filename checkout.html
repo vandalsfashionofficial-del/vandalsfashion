@@ -162,6 +162,7 @@
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
       <a href="cart.html">🛒</a>
+      <a href="orders.html">Orders</a>
     </nav>
   </header>
 
@@ -301,6 +302,23 @@
     localStorage.removeItem("customOrder");
     window.location.href = "thankyou.html";
   }
+
+  function generateOrderID() {
+    const id = "VF-" + Math.floor(1000 + Math.random() * 9000); // e.g., VF-4321
+    localStorage.setItem("vf_order_id", id);
+    return id;
+  }
+
+  function handleCheckout() {
+    const orderID = generateOrderID();
+    // you can add more logic here (like storing cart items)
+    window.location.href = "thankyou.html";
+  }
+
+
+<!-- Replace your checkout button -->
+<button onclick="handleCheckout()">Checkout</button>
+
 </script>
 
 

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cancel Order - Vandals Fashion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: #fff5fa;
+      color: #333;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+      padding: 30px;
+      border-top: 6px solid #ffd700;
+    }
+
+    h2 {
+      text-align: center;
+      color: #e91e63;
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 20px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    button {
+      background: #ffd700;
+      color: #000;
+      font-weight: bold;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 30px;
+      margin-top: 25px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #e6c200;
+    }
+
+    .success {
+      text-align: center;
+      color: green;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Cancel Your Order</h2>
+    <form id="cancelForm">
+      <label for="name">Your Name</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="order_id">Order ID</label>
+      <input type="text" id="order_id" name="order_id" required />
+
+      <label for="phone">Phone Number</label>
+      <input type="text" id="phone" name="phone" required />
+
+      <label for="reason">Reason for Cancellation</label>
+      <textarea id="reason" name="reason" rows="4" required></textarea>
+
+      <button type="submit">Submit Cancellation</button>
+    </form>
+    <div class="success" id="successMsg" style="display:none;">
+      ✅ Your cancellation request has been sent.
+    </div>
+  </div>
+
+  <script>
+    emailjs.init("CB8hwx-xnlGQcO9aL"); // Your public key
+
+    document.getElementById("cancelForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      emailjs.send("service_byyvwjh", "template_q5qbgho", {
+        name: document.getElementById("name").value,
+        order_id: document.getElementById("order_id").value,
+        phone: document.getElementById("phone").value,
+        reason: document.getElementById("reason").value,
+      })
+      .then(function(response) {
+        console.log("SUCCESS!", response.status, response.text);
+        document.getElementById("cancelForm").reset();
+        document.getElementById("successMsg").style.display = "block";
+        setTimeout(() => {
+          window.location.href = "thankyou.html"; // or cancel-thankyou.html if you want a special page
+        }, 2000);
+      }, function(error) {
+        console.error("FAILED...", error);
+        alert("Something went wrong. Please try again.");
+      });
+    });
+  </script>
+
+</body>
+</html>
