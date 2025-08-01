@@ -1,65 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Thank You – Vandals Fashion</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
       font-family: 'Poppins', sans-serif;
       background-color: #fff;
-      color: #333;
-      padding: 2rem;
-      text-align: center;
+      color: #222;
+    }
+
+    header {
+      background-color: black;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      margin-left: 1.5rem;
+      text-decoration: none;
     }
 
     h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 2.8rem;
-      margin-bottom: 1rem;
-      color: #000;
+      font-size: 2.5rem;
+      margin: 2rem 0 1rem;
+      text-align: center;
     }
 
-    .summary {
-      max-width: 600px;
-      margin: 2rem auto;
-      text-align: left;
-      border: 1px solid #ccc;
+    .thankyou-container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .order-id-box {
+      background-color: #f9f9f9;
+      border: 2px dashed #FFD700;
+      padding: 1.5rem;
       border-radius: 10px;
-      padding: 1.5rem 2rem;
-      background-color: #fdfdfd;
+      margin: 1rem auto;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #333;
+      max-width: 400px;
     }
 
-    .summary h2 {
-      margin-bottom: 1rem;
-      font-size: 1.4rem;
-      color: #222;
-    }
-
-    .summary p {
-      margin: 0.6rem 0;
-      line-height: 1.6;
-    }
-
-    .back-home {
-      display: inline-block;
-      margin-top: 2rem;
-      padding: 0.6rem 1.5rem;
+    .btn-copy {
       background-color: black;
       color: white;
-      text-decoration: none;
-      border-radius: 25px;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
       font-weight: bold;
+      margin-top: 1rem;
     }
 
-    .back-home:hover {
+    .btn-copy:hover {
       background-color: #FFD700;
       color: black;
     }
 
+    .info {
+      margin-top: 2rem;
+      font-size: 0.95rem;
+      color: #555;
+      font-style: italic;
+    }
+
     .marquee {
-      margin-top: 3rem;
       background-color: black;
       color: white;
       font-weight: bold;
@@ -71,68 +90,82 @@
     .marquee span {
       display: inline-block;
       padding-left: 100%;
-      animation: scroll 18s linear infinite;
+      animation: scroll 20s linear infinite;
     }
 
     @keyframes scroll {
       0% { transform: translateX(0); }
       100% { transform: translateX(-100%); }
     }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      padding: 1rem 0;
+      background-color: #f9f9f9;
+    }
   </style>
 </head>
 <body>
 
-  <h1>Thank You for Your Order! 🖤</h1>
+  <!-- Header -->
+  <header>
+    <div><strong>Vandals Fashion</strong></div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="explore.html">Explore</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="cart.html">🛒</a>
+      <a href="orders.html">Orders</a>
+    </nav>
+  </header>
 
-  <div class="summary" id="orderSummary">
-    <h2>Order Summary</h2>
-    <p><strong>Name:</strong> </p>
-    <p><strong>Phone:</strong> </p>
-    <p><strong>Address:</strong> </p>
-    <p><strong>Pincode:</strong> </p>
-    <p><strong>Payment Method:</strong> </p>
-    <p><strong>Total:</strong> ₹</p>
+  <!-- Thank You Message -->
+  <h1>Thank You for Your Order!</h1>
+
+  <div class="thankyou-container">
+    <p>Your order has been placed successfully.</p>
+
+    <div class="order-id-box">
+      Your Order ID: <span id="orderIdDisplay">Loading...</span>
+    </div>
+
+    <button class="btn-copy" onclick="copyOrderID()">📋 Copy Order ID</button>
+
+    <div class="info">
+      Please save this Order ID. It will be needed for cancellation within 1–2 days of placing the order.
+    </div>
   </div>
 
-  <a class="back-home" href="index.html">← Back to Home</a>
-
+  <!-- Marquee -->
   <div class="marquee">
-    <span>THANK YOU FOR SHOPPING WITH US • STYLE • ELEGANCE • LUXURY • FASHION • </span>
+    <span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION • </span>
   </div>
 
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Vandals Fashion. All rights reserved.
+  </footer>
+
+  <!-- Script -->
   <script>
-    // Pull data from localStorage (saved in checkout.html)
-    const orderData = JSON.parse(localStorage.getItem("orderData") || "{}");
+    const orderID = localStorage.getItem("vf_order_id") || "Not Available";
 
-    const summary = document.getElementById("orderSummary");
-    summary.innerHTML = `
-      <h2>Order Summary</h2>
-      <p><strong>Name:</strong> ${orderData.name || "—"}</p>
-      <p><strong>Phone:</strong> ${orderData.phone || "—"}</p>
-      <p><strong>Address:</strong> ${orderData.address || "—"}</p>
-      <p><strong>Pincode:</strong> ${orderData.pincode || "—"}</p>
-      <p><strong>Payment Method:</strong> ${orderData.payment || "—"}</p>
-      <p><strong>Total:</strong> ₹${orderData.total || "0"}</p>
-    `;
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("orderIdDisplay").textContent = orderID;
+    });
 
-    // Optionally clear data after 10s
-    setTimeout(() => {
-      localStorage.removeItem("orderData");
-    }, 10000);
-const orderID = localStorage.getItem("vf_order_id") || "Not Found";
-  document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("orderIdDisplay").textContent = orderID;
-  });
-
-  function copyOrderID() {
-    const id = document.getElementById("orderIdDisplay").textContent;
-    navigator.clipboard.writeText(id);
-    alert("Order ID copied: " + id);
-  }
+    function copyOrderID() {
+      navigator.clipboard.writeText(orderID).then(() => {
+        alert("Order ID copied: " + orderID);
+      }).catch(() => {
+        alert("Failed to copy. Please copy it manually.");
+      });
+    }
   </script>
-<!-- Somewhere in body -->
-<p><strong>Your Order ID:</strong> <span id="orderIdDisplay"></span></p>
-<button onclick="copyOrderID()">📋 Copy Order ID</button>
 
 </body>
 </html>
