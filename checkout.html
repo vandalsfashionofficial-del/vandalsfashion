@@ -221,106 +221,92 @@
 
   <!-- Script -->
   <script>
-  const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
-  const customOrder = JSON.parse(localStorage.getItem("customOrder"));
-  const cartTotalBox = document.getElementById("cartTotal");
-  const orderSummarySection = document.getElementById("orderSummary");
-  const orderSummaryList = orderSummarySection.querySelector("ul");
-  const customNote = document.getElementById("customNote");
-  const deliveryNote = document.querySelector(".delivery-note");
+    const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
+    const customOrder = JSON.parse(localStorage.getItem("customOrder"));
+    const cartTotalBox = document.getElementById("cartTotal");
+    const orderSummarySection = document.getElementById("orderSummary");
+    const orderSummaryList = orderSummarySection.querySelector("ul");
+    const customNote = document.getElementById("customNote");
+    const deliveryNote = document.querySelector(".delivery-note");
 
-  let total = 0;
-  let hasItems = false;
+    let total = 0;
+    let hasItems = false;
 
-  if (Array.isArray(cartItems) && cartItems.length > 0) {
-    cartItems.forEach(item => {
+    if (Array.isArray(cartItems) && cartItems.length > 0) {
+      cartItems.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.name} – ₹${item.price}`;
+        orderSummaryList.appendChild(li);
+        total += item.price;
+      });
+      hasItems = true;
+    }
+
+    if (customOrder) {
       const li = document.createElement("li");
-      li.textContent = `${item.name} – ₹${item.price}`;
+      li.textContent = "Custom Order – Price to be discussed";
       orderSummaryList.appendChild(li);
-      total += item.price;
-    });
-    hasItems = true;
-  }
-
-  if (customOrder) {
-    const li = document.createElement("li");
-    li.textContent = "Custom Order – Price to be discussed";
-    orderSummaryList.appendChild(li);
-    customNote.style.display = "block";
-    hasItems = true;
-  }
-
-  if (hasItems) {
-    orderSummarySection.style.display = "block";
-    deliveryNote.style.display = "block";
-    if (total > 0 && customOrder) {
-      cartTotalBox.textContent = `Total: ₹${total} + Custom Order`;
-    } else if (total > 0) {
-      cartTotalBox.textContent = `Total: ₹${total}`;
-    } else if (customOrder) {
-      cartTotalBox.textContent = `Total: Custom Order`;
-    }
-  } else {
-    orderSummarySection.style.display = "none";
-    cartTotalBox.style.display = "none";
-    customNote.style.display = "none";
-    deliveryNote.style.display = "none";
-
-    const msg = document.createElement("p");
-    msg.textContent = "No items in cart to checkout.";
-    msg.style.textAlign = "center";
-    msg.style.color = "#888";
-    msg.style.fontWeight = "bold";
-    msg.style.margin = "2rem 0";
-    document.querySelector(".checkout-container").prepend(msg);
-  }
-
-  function placeOrder() {
-    const name = document.getElementById("name").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const address = document.getElementById("address").value.trim();
-    const pincode = document.getElementById("pincode").value.trim();
-    const payment = document.getElementById("payment").value;
-
-    if (!name || !phone || !address || !pincode) {
-      alert("Please fill in all details.");
-      return;
+      customNote.style.display = "block";
+      hasItems = true;
     }
 
-    const totalText = cartTotalBox.textContent;
-    const orderData = {
-      name,
-      phone,
-      address,
-      pincode,
-      payment,
-      total: totalText
-    };
+    if (hasItems) {
+      orderSummarySection.style.display = "block";
+      deliveryNote.style.display = "block";
+      if (total > 0 && customOrder) {
+        cartTotalBox.textContent = `Total: ₹${total} + Custom Order`;
+      } else if (total > 0) {
+        cartTotalBox.textContent = `Total: ₹${total}`;
+      } else if (customOrder) {
+        cartTotalBox.textContent = `Total: Custom Order`;
+      }
+    } else {
+      orderSummarySection.style.display = "none";
+      cartTotalBox.style.display = "none";
+      customNote.style.display = "none";
+      deliveryNote.style.display = "none";
 
-    localStorage.setItem("orderData", JSON.stringify(orderData));
-    localStorage.removeItem("cart");
-    localStorage.removeItem("customOrder");
-    window.location.href = "thankyou.html";
-  }
+      const msg = document.createElement("p");
+      msg.textContent = "No items in cart to checkout.";
+      msg.style.textAlign = "center";
+      msg.style.color = "#888";
+      msg.style.fontWeight = "bold";
+      msg.style.margin = "2rem 0";
+      document.querySelector(".checkout-container").prepend(msg);
+    }
 
-  function generateOrderID() {
-    const id = "VF-" + Math.floor(1000 + Math.random() * 9000); // e.g., VF-4321
-    localStorage.setItem("vf_order_id", id);
-    return id;
-  }
+    function placeOrder() {
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const address = document.getElementById("address").value.trim();
+      const pincode = document.getElementById("pincode").value.trim();
+      const payment = document.getElementById("payment").value;
 
-  function handleCheckout() {
-    const orderID = generateOrderID();
-    // you can add more logic here (like storing cart items)
-    window.location.href = "thankyou.html";
-  }
+      if (!name || !phone || !address || !pincode) {
+        alert("Please fill in all details.");
+        return;
+      }
 
+      const totalText = cartTotalBox.textContent;
+      const orderData = {
+        name,
+        phone,
+        address,
+        pincode,
+        payment,
+        total: totalText
+      };
 
-<!-- Replace your checkout button -->
-<button onclick="handleCheckout()">Checkout</button>
+      const orderID = "VF-" + Math.floor(1000 + Math.random() * 9000); // 👈 Generate Order ID
+      localStorage.setItem("vf_order_id", orderID); // 👈 Store Order ID
+      localStorage.setItem("orderData", JSON.stringify(orderData));
 
-</script>
+      localStorage.removeItem("cart");
+      localStorage.removeItem("customOrder");
 
+      window.location.href = "thankyou.html";
+    }
+  </script>
 
 </body>
 </html>
