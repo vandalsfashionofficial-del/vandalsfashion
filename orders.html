@@ -94,40 +94,40 @@
   </div>
 
   <script>
-    const ordersContainer = document.getElementById("ordersContainer");
-    let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]").reverse();
+  const ordersContainer = document.getElementById("ordersContainer");
+  const allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]").reverse(); // show latest first ✅
 
+  if (!Array.isArray(allOrders) || allOrders.length === 0) {
+    ordersContainer.innerHTML = '<p class="empty-msg">No orders found.</p>';
+  } else {
+    allOrders.forEach((order, index) => {
+      const card = document.createElement("div");
+      card.className = "order-card";
 
-    if (!Array.isArray(orders) || orders.length === 0) {
-      ordersContainer.innerHTML = '<p class="empty-msg">No orders found.</p>';
-    } else {
-      orders.forEach((order, index) => {
-        const card = document.createElement("div");
-        card.className = "order-card";
+      const content = `
+        <h3>Order #${index + 1} – ${order.orderId || 'VF-XXXX'}</h3>
+        <p><strong>Name:</strong> ${order.name}</p>
+        <p><strong>Phone:</strong> ${order.phone}</p>
+        <p><strong>Total:</strong> ${order.total}</p>
+        <p><strong>Payment:</strong> ${order.payment}</p>
+        <p><strong>Address:</strong> ${order.address}, ${order.pincode}</p>
+        ${order.custom ? '<p><strong>Note:</strong> Custom order – cancellation not supported online.</p>' : 
+        `<a href="cancel.html" class="btn-cancel" onclick="prepareCancel('${order.name}', '${order.orderId}', '${order.phone}')">Cancel Order</a>`}
+      `;
 
-        const content = `
-          <h3>Order #${index + 1} – ${order.orderId || 'VF-XXXX'}</h3>
-          <p><strong>Name:</strong> ${order.name}</p>
-          <p><strong>Phone:</strong> ${order.phone}</p>
-          <p><strong>Total:</strong> ${order.total}</p>
-          <p><strong>Payment:</strong> ${order.payment}</p>
-          <p><strong>Address:</strong> ${order.address}, ${order.pincode}</p>
-          ${order.custom ? '<p><strong>Note:</strong> Custom order – cancellation not supported online.</p>' : 
-          `<a href="cancel.html" class="btn-cancel" onclick="prepareCancel('${order.name}', '${order.orderId}', '${order.phone}')">Cancel Order</a>`}
-        `;
+      card.innerHTML = content;
+      ordersContainer.appendChild(card);
+    });
+  }
 
-        card.innerHTML = content;
-        ordersContainer.appendChild(card);
-      });
-    }
-
-    function prepareCancel(name, orderId, phone) {
-      localStorage.setItem("cancel_name", name);
-      localStorage.setItem("cancel_order_id", orderId);
-      localStorage.setItem("cancel_phone", phone);
-    }
-  </script>
+  function prepareCancel(name, orderId, phone) {
+    localStorage.setItem("cancel_name", name);
+    localStorage.setItem("cancel_order_id", orderId);
+    localStorage.setItem("cancel_phone", phone);
+  }
+</script>
 
 </body>
 </html>
+
 
