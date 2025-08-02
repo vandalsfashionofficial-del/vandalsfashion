@@ -95,7 +95,8 @@
 
   <script>
     const ordersContainer = document.getElementById("ordersContainer");
-    let orders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
+    let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]").reverse();
+
 
     if (!Array.isArray(orders) || orders.length === 0) {
       ordersContainer.innerHTML = '<p class="empty-msg">No orders found.</p>';
@@ -129,3 +130,4 @@
 
 </body>
 </html>
+
