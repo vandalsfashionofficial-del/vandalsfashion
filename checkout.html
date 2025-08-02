@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -320,17 +320,18 @@ localStorage.setItem("vf_order_id", order_id);
 localStorage.setItem("lastOrderId", order_id); // ← for thankyou.html
   
 
-      const orderData = {
-        name,
-        phone,
-        address,
-        pincode,
-        payment,
-        total: totalText,
-        orderId,
-        items: cartItems,
-        timestamp: Date.now()
-      };
+     const orderData = {
+  name,
+  phone,
+  address,
+  pincode,
+  payment,
+  total: totalText,
+  orderId: order_id,
+  items: cartItems,
+  timestamp: Date.now()
+};
+
 
       if (customOrder) {
         orderData.custom = true;
@@ -360,5 +361,6 @@ localStorage.setItem("lastOrderId", order_id); // ← for thankyou.html
 
 </body>
 </html>
+
 
 
