@@ -22,6 +22,11 @@
       align-items: center;
     }
 
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
     nav a {
       color: white;
       margin-left: 1.5rem;
@@ -107,6 +112,50 @@
       background-color: #f9f9f9;
     }
 
+    /* Profile dropdown */
+    .profile-container {
+      position: relative;
+      display: inline-block;
+      margin-left: 1.5rem;
+    }
+
+    .profile-img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid white;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 45px;
+      right: 0;
+      background-color: white;
+      min-width: 160px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      z-index: 1000;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .dropdown-menu a {
+      color: #333;
+      padding: 0.75rem 1rem;
+      display: block;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .dropdown-menu a:hover {
+      background-color: #f2f2f2;
+    }
+
+    .profile-container:hover .dropdown-menu {
+      display: block;
+    }
+
     @media screen and (max-width: 768px) {
       .hero-content h1 { font-size: 2.2rem; }
       .hero-content p { font-size: 1rem; }
@@ -128,7 +177,13 @@
       <a href="cart.html">🛒</a>
       <a href="orders.html">Orders</a>
       <a id="loginLink" href="auth.html">Login</a>
-      <a id="accountIcon" href="orders.html" style="display:none;">👤</a>
+      <div id="profileContainer" class="profile-container" style="display:none;">
+        <img id="profilePic" class="profile-img" src="" alt="Account" />
+        <div class="dropdown-menu">
+          <a href="https://myaccount.google.com" target="_blank">Manage Account</a>
+          <a href="#" onclick="logout()">Logout</a>
+        </div>
+      </div>
     </nav>
   </header>
 
@@ -152,24 +207,41 @@
     &copy; 2025 Vandals Fashion. All rights reserved.
   </footer>
 
-  <!-- Firebase Auth Status Script -->
+  <!-- Firebase Auth Script -->
   <script type="module">
     import { auth } from './firebase-config.js';
-    import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+    import {
+      onAuthStateChanged,
+      signOut
+    } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 
     const loginLink = document.getElementById("loginLink");
-    const accountIcon = document.getElementById("accountIcon");
+    const profileContainer = document.getElementById("profileContainer");
+    const profilePic = document.getElementById("profilePic");
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        accountIcon.style.display = "inline-block";
+        // Show profile image and dropdown
+        profileContainer.style.display = "inline-block";
         loginLink.style.display = "none";
+        if (user.photoURL) {
+          profilePic.src = user.photoURL;
+        } else {
+          profilePic.src = "default-avatar.png"; // Fallback image
+        }
       } else {
-        accountIcon.style.display = "none";
+        profileContainer.style.display = "none";
         loginLink.style.display = "inline-block";
       }
     });
+
+    window.logout = function () {
+      signOut(auth).then(() => {
+        window.location.href = "index.html";
+      });
+    }
   </script>
 
 </body>
 </html>
+
