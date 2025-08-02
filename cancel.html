@@ -126,10 +126,21 @@
         alert("Something went wrong. Try again later.");
       });
     });
+    window.addEventListener("DOMContentLoaded", () => {
+  const name = localStorage.getItem("cancel_name");
+  const orderId = localStorage.getItem("cancel_order_id");
+  const phone = localStorage.getItem("cancel_phone");
+
+  if (name) document.getElementById("name").value = name;
+  if (orderId) document.getElementById("order_id").value = orderId;
+  if (phone) document.getElementById("phone").value = phone;
+});
+
   </script>
 
 </body>
 </html>
+
 
 
 
