@@ -101,12 +101,12 @@
     document.getElementById("cancelForm").addEventListener("submit", function(event) {
       event.preventDefault();
 
-      emailjs.send("service_byyvwjh", "template_q5qbgho", {
-        name: document.getElementById("name").value,
-        order_id: document.getElementById("order_id").value,
-        phone: document.getElementById("phone").value,
-        reason: document.getElementById("reason").value,
-      })
+     emailjs.send("service_byyvwjh", "template_q5qbgho", {
+  name: name,
+  order_id: orderId,
+  reason: reason,
+  phone: phone,
+})
       .then(function(response) {
         console.log("SUCCESS!", response.status, response.text);
         document.getElementById("cancelForm").reset();
@@ -114,12 +114,13 @@
         setTimeout(() => {
           window.location.href = "thankyou.html"; // or cancel-thankyou.html if you want a special page
         }, 2000);
-      }, function(error) {
-        console.error("FAILED...", error);
-        alert("Something went wrong. Please try again.");
+      }, catch((error) => {
+  console.error("EmailJS Error:", error);
+  alert("Something went wrong. Try again later.");
       });
     });
   </script>
 
 </body>
 </html>
+
