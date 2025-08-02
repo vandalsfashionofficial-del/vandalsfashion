@@ -75,7 +75,8 @@
 
   <div class="container">
     <h2>Cancel Your Order</h2>
-    <form id="cancelForm">
+    <form id="cancelForm" onsubmit="sendCancelRequest(event)">
+
       <label for="name">Your Name</label>
       <input type="text" id="name" name="name" required />
 
@@ -124,5 +125,6 @@
 
 </body>
 </html>
+
 
 
