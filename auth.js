@@ -1,91 +1,66 @@
-// auth.js
-import { auth, db } from './firebase-config.js';
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  setPersistence,
-  browserLocalPersistence
-} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
-import {
-  doc,
-  setDoc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-// Session persistence (auto-login across tabs/reload)
-setPersistence(auth, browserLocalPersistence);
+import { firebaseConfig } from "./firebase-config.js";
 
-// Toggle forms
-window.showSignup = () => {
-  document.getElementById("formTitle").innerText = "Sign Up";
-  document.getElementById("loginForm").classList.add("hidden");
-  document.getElementById("signupForm").classList.remove("hidden");
-};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
-window.showLogin = () => {
-  document.getElementById("formTitle").innerText = "Login";
-  document.getElementById("signupForm").classList.add("hidden");
-  document.getElementById("loginForm").classList.remove("hidden");
-};
-
-// Signup logic
-window.signup = async () => {
-  const username = document.getElementById("signupUsername").value.trim();
-  const email = document.getElementById("signupEmail").value.trim();
+window.signup = async function () {
+  const username = document.getElementById("signupUsername").value;
+  const email = document.getElementById("signupEmail").value;
   const password = document.getElementById("signupPassword").value;
 
-  if (!username || !email || !password) {
-    alert("Please fill all fields.");
-    return;
-  }
-
-  const docRef = doc(db, "usernames", username);
-  const docSnap = await getDoc(docRef);
-
-  if (docSnap.exists()) {
-    alert("Username already taken.");
-    return;
-  }
-
   try {
-    const userCred = await createUserWithEmailAndPassword(auth, email, password);
-    await setDoc(doc(db, "usernames", username), {
-      uid: userCred.user.uid,
-      email: email
-    });
-
-    alert("Signup successful!");
+    await createUserWithEmailAndPassword(auth, email, password);
+    localStorage.setItem("vf_username", username);
     window.location.href = "index.html";
   } catch (error) {
-    alert("Signup Error: " + error.message);
+    alert(error.message);
   }
 };
 
-// Login logic
-window.login = async () => {
-  const username = document.getElementById("loginUsername").value.trim();
+window.login = async function () {
+  const username = document.getElementById("loginUsername").value;
   const password = document.getElementById("loginPassword").value;
-
-  if (!username || !password) {
-    alert("Please fill all fields.");
-    return;
-  }
-
-  const docRef = doc(db, "usernames", username);
-  const docSnap = await getDoc(docRef);
-
-  if (!docSnap.exists()) {
-    alert("Username not found.");
-    return;
-  }
-
-  const { email } = docSnap.data();
+  const email = `${username}@vandals.com`;
 
   try {
     await signInWithEmailAndPassword(auth, email, password);
-    alert("Login successful!");
+    localStorage.setItem("vf_username", username);
     window.location.href = "index.html";
   } catch (error) {
-    alert("Login Error: " + error.message);
+    alert(error.message);
   }
+};
+
+window.googleSignIn = async function () {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    localStorage.setItem("vf_username", user.displayName);
+    localStorage.setItem("vf_user_photo", user.photoURL);
+    window.location.href = "index.html";
+  } catch (error) {
+    alert("Google sign-in failed: " + error.message);
+  }
+};
+
+window.showSignup = () => {
+  document.getElementById("signupForm").classList.remove("hidden");
+  document.getElementById("loginForm").classList.add("hidden");
+  document.getElementById("formTitle").innerText = "Sign Up";
+};
+
+window.showLogin = () => {
+  document.getElementById("signupForm").classList.add("hidden");
+  document.getElementById("loginForm").classList.remove("hidden");
+  document.getElementById("formTitle").innerText = "Login";
 };
