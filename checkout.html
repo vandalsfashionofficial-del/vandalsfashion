@@ -315,7 +315,10 @@
       }
 
       const totalText = cartTotalBox.textContent || "Custom Order";
-      const orderId = generateOrderID();
+     const order_id = "VF-" + Math.floor(1000 + Math.random() * 9000);
+localStorage.setItem("vf_order_id", order_id);
+localStorage.setItem("lastOrderId", order_id); // ← for thankyou.html
+  
 
       const orderData = {
         name,
@@ -357,4 +360,5 @@
 
 </body>
 </html>
+
 
