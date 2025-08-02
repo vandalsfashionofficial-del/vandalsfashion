@@ -306,6 +306,8 @@
       const payment = document.getElementById("payment").value;
       const total = cartTotalBox.textContent || "Custom Order";
       const order_id = "VF-" + Math.floor(1000 + Math.random() * 9000);
+      localStorage.setItem("vf_order_id", order_id);
+
 
       if (!name || !phone || !address || !pincode) {
         alert("Please fill in all details.");
@@ -331,3 +333,4 @@
 
 </body>
 </html>
+
