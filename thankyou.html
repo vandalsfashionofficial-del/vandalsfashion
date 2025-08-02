@@ -132,7 +132,7 @@
     <p>Your order has been placed successfully.</p>
 
     <div class="order-id-box">
-      Your Order ID: <span id="orderIdDisplay">Loading...</span>
+    <p>Your Order ID: <strong id="orderIdText">Loading...</strong></p>
     </div>
 
     <button class="btn-copy" onclick="copyOrderID()">📋 Copy Order ID</button>
@@ -154,7 +154,16 @@
 
   <!-- Script -->
   <script>
-    const orderID = localStorage.getItem("vf_order_id") || "Not Available";
+    const orderId = localStorage.getItem("vf_order_id");
+  const orderIdElement = document.getElementById("orderIdText");
+  if (orderId) {
+    orderIdElement.textContent = orderId;
+  } else {
+    orderIdElement.textContent = "Not available";
+  }
+
+  // Optional: Clear it so it doesn't persist forever
+  localStorage.removeItem("vf_order_id");
 
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("orderIdDisplay").textContent = orderID;
@@ -171,3 +180,4 @@
 
 </body>
 </html>
+
