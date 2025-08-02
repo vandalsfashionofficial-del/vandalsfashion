@@ -105,7 +105,7 @@
       card.className = "order-card";
 
       const content = `
-        <h3>Order #${index + 1} – ${order.orderId || 'VF-XXXX'}</h3>
+        <h3>Order #${allOrders.length - index} – ${order.orderId || 'VF-XXXX'}</h3>
         <p><strong>Name:</strong> ${order.name}</p>
         <p><strong>Phone:</strong> ${order.phone}</p>
         <p><strong>Total:</strong> ${order.total}</p>
@@ -129,5 +129,6 @@
 
 </body>
 </html>
+
 
 
