@@ -32,9 +32,47 @@
       text-decoration: none;
     }
 
+    .profile-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .profile-pic {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+      vertical-align: middle;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: white;
+      color: black;
+      min-width: 150px;
+      box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+      z-index: 1000;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px 15px;
+      text-decoration: none;
+      color: black;
+      font-size: 0.95rem;
+    }
+
+    .dropdown a:hover {
+      background-color: #f2f2f2;
+    }
+
     .hero {
       background: url('vandalsfashion.jpeg') no-repeat center center/cover;
-
       height: calc(100vh - 70px);
       position: relative;
       display: flex;
@@ -128,18 +166,17 @@
   <!-- Header -->
   <header>
     <div><strong>Vandals Fashion</strong></div>
-    <nav>
-  <a href="index.html">Home</a>
-  <a href="shop.html">Shop</a>
-  <a href="explore.html">Explore</a>
-  <a href="about.html">About</a>
-  <a href="contact.html">Contact</a>
-  <a href="custom-order.html">Custom</a>
-  <a href="cart.html">🛒</a>
-  <a href="orders.html">Orders</a>
-  <a href="auth.html">Login</a> 
-</nav>
-
+    <nav id="navMenu">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="explore.html">Explore</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="custom-order.html">Custom</a>
+      <a href="cart.html">🛒</a>
+      <a href="orders.html">Orders</a>
+      <a href="auth.html" id="loginLink">Login</a>
+    </nav>
   </header>
 
   <!-- Hero -->
@@ -148,7 +185,7 @@
     <div class="hero-content">
       <h1>You Choose, We Design</h1>
       <p>Experience timeless fashion with elegance and individuality.</p>
-     <a href="explore.html" class="btn">Explore Now
+      <a href="explore.html" class="btn">Explore Now</a>
     </div>
   </section>
 
@@ -162,6 +199,56 @@
     &copy; 2025 Vandals Fashion. All rights reserved.
   </footer>
 
+  <!-- Profile Logic -->
+  <script>
+    const loginLink = document.getElementById("loginLink");
+    const navMenu = document.getElementById("navMenu");
+
+    const username = localStorage.getItem("vf_username");
+    const photo = localStorage.getItem("vf_user_photo");
+
+    if (username || photo) {
+      loginLink.remove();
+
+      const container = document.createElement("div");
+      container.className = "profile-container";
+
+      const img = document.createElement("img");
+      img.className = "profile-pic";
+      img.src = photo || "https://cdn-icons-png.flaticon.com/512/847/847969.png";
+
+      const dropdown = document.createElement("div");
+      dropdown.className = "dropdown";
+
+      dropdown.innerHTML = `
+        <a href="https://myaccount.google.com/" target="_blank">Manage Account</a>
+        <a href="#" onclick="logout()">Logout</a>
+      `;
+
+      img.onclick = () => {
+        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+      };
+
+      container.appendChild(img);
+      container.appendChild(dropdown);
+      navMenu.appendChild(container);
+    }
+
+    window.logout = () => {
+      localStorage.removeItem("vf_username");
+      localStorage.removeItem("vf_user_photo");
+      localStorage.removeItem("vf_user_google");
+      window.location.href = "index.html";
+    };
+
+    // Hide dropdown on click outside
+    window.addEventListener("click", (e) => {
+      const dropdowns = document.querySelectorAll(".dropdown");
+      dropdowns.forEach(d => {
+        if (!d.parentNode.contains(e.target)) d.style.display = "none";
+      });
+    });
+  </script>
+
 </body>
 </html>
-
