@@ -315,7 +315,23 @@
       }
 
       const orderData = { name, phone, address, pincode, payment, total, order_id };
-      localStorage.setItem("orderData", JSON.stringify(orderData));
+// Get existing orders array or start fresh
+let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
+
+// Add order ID
+orderData.orderId = generateOrderID();
+
+// If it's a custom order, flag it
+if (customOrder) {
+  orderData.custom = true;
+}
+
+// Add the new order to the list
+allOrders.push(orderData);
+
+// Save back to localStorage
+localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
+
 
       emailjs.send("service_byyvwjh", "template_z8lkhwp", orderData)
         .then(() => {
@@ -333,4 +349,5 @@
 
 </body>
 </html>
+
 
