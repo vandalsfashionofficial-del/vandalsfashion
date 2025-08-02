@@ -247,7 +247,7 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script>
-    emailjs.init("CB8hwx-xnlGQcO9aL"); // Your public EmailJS key
+    emailjs.init("CB8hwx-xnlGQcO9aL");
 
     const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
     const customOrder = JSON.parse(localStorage.getItem("customOrder"));
@@ -298,41 +298,49 @@
       document.querySelector(".checkout-container").prepend(msg);
     }
 
+    function generateOrderID() {
+      return "VF-" + Math.floor(1000 + Math.random() * 9000);
+    }
+
     function placeOrder() {
       const name = document.getElementById("name").value.trim();
       const phone = document.getElementById("phone").value.trim();
       const address = document.getElementById("address").value.trim();
       const pincode = document.getElementById("pincode").value.trim();
       const payment = document.getElementById("payment").value;
-      const total = cartTotalBox.textContent || "Custom Order";
-      const order_id = "VF-" + Math.floor(1000 + Math.random() * 9000);
-      localStorage.setItem("vf_order_id", order_id);
-
 
       if (!name || !phone || !address || !pincode) {
         alert("Please fill in all details.");
         return;
       }
 
-      const orderData = { name, phone, address, pincode, payment, total, order_id };
-// Get existing orders array or start fresh
-let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
+      const totalText = cartTotalBox.textContent || "Custom Order";
+      const orderId = generateOrderID();
 
-// Add order ID
-orderData.orderId = generateOrderID();
+      const orderData = {
+        name,
+        phone,
+        address,
+        pincode,
+        payment,
+        total: totalText,
+        orderId,
+        items: cartItems,
+        timestamp: Date.now()
+      };
 
-// If it's a custom order, flag it
-if (customOrder) {
-  orderData.custom = true;
-}
+      if (customOrder) {
+        orderData.custom = true;
+        orderData.customDetails = customOrder;
+      }
 
-// Add the new order to the list
-allOrders.push(orderData);
+      // Save to full order history
+      let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
+      allOrders.push(orderData);
+      localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
+      localStorage.setItem("lastOrderId", orderId);
 
-// Save back to localStorage
-localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
-
-
+      // Send order email
       emailjs.send("service_byyvwjh", "template_z8lkhwp", orderData)
         .then(() => {
           localStorage.removeItem("cart");
@@ -349,5 +357,4 @@ localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
 
 </body>
 </html>
-
 
