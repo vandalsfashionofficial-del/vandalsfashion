@@ -4,7 +4,7 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
 
 // Your Firebase config
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyAoVwaiSqtp_r3c7UgqxkTlu7EedRqnzJE",
   authDomain: "vandals-fashion.firebaseapp.com",
   projectId: "vandals-fashion",
