@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cancel Order - Vandals Fashion</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <style>
     body {
       font-family: 'Quicksand', sans-serif;
@@ -96,29 +96,34 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<script>
-  emailjs.init("CB8hwx-xnlGQcO9aL");
+  <script>
+    emailjs.init("CB8hwx-xnlGQcO9aL");
 
     document.getElementById("cancelForm").addEventListener("submit", function(event) {
       event.preventDefault();
 
-     emailjs.send("service_byyvwjh", "template_q5qbgho", {
-  name: name,
-  order_id: orderId,
-  reason: reason,
-  phone: phone,
-})
+      const name = document.getElementById("name").value.trim();
+      const orderId = document.getElementById("order_id").value.trim();
+      const reason = document.getElementById("reason").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+
+      emailjs.send("service_byyvwjh", "template_q5qbgho", {
+        name: name,
+        order_id: orderId,
+        reason: reason,
+        phone: phone,
+      })
       .then(function(response) {
         console.log("SUCCESS!", response.status, response.text);
         document.getElementById("cancelForm").reset();
         document.getElementById("successMsg").style.display = "block";
         setTimeout(() => {
-          window.location.href = "thankyou.html"; // or cancel-thankyou.html if you want a special page
+          window.location.href = "thankyou.html";
         }, 2000);
-      }, catch((error) => {
-  console.error("EmailJS Error:", error);
-  alert("Something went wrong. Try again later.");
+      })
+      .catch(function(error) {
+        console.error("EmailJS Error:", error);
+        alert("Something went wrong. Try again later.");
       });
     });
   </script>
