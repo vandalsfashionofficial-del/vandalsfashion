@@ -2,15 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vandals Fashion</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login / Signup – Vandals Fashion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body, html {
-      height: 100%;
+    body {
       font-family: 'Poppins', sans-serif;
+      background-color: #fffafc;
+      margin: 0;
+      padding: 0;
+      color: #222;
     }
 
     header {
@@ -22,143 +23,94 @@
       align-items: center;
     }
 
-    nav {
-      display: flex;
-      align-items: center;
-    }
-
     nav a {
       color: white;
       margin-left: 1.5rem;
       text-decoration: none;
     }
 
-    .hero {
-      background: url('vandalsfashion.jpeg') no-repeat center center/cover;
-      height: calc(100vh - 70px);
-      position: relative;
-      display: flex;
-      align-items: center;
+    .container {
+      max-width: 400px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: #fff;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      border-top: 5px solid #FFD700;
     }
 
-    .overlay {
-      position: absolute;
-      inset: 0;
-      background-color: rgba(0, 0, 0, 0.6);
-    }
-
-    .hero-content {
-      position: relative;
-      color: white;
-      z-index: 10;
-      padding-left: 5%;
-      max-width: 600px;
-    }
-
-    .hero-content h1 {
+    h2 {
+      text-align: center;
       font-family: 'Playfair Display', serif;
-      font-size: 3.5rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.7rem;
       margin-bottom: 1rem;
-      line-height: 1.2;
+      border: 1px solid #ccc;
+      border-radius: 6px;
     }
 
-    .hero-content p {
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-    }
-
-    .btn {
-      background-color: white;
-      color: black;
-      padding: 0.8rem 2rem;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 1rem;
-      text-decoration: none;
-      transition: 0.3s ease;
-    }
-
-    .btn:hover {
-      background-color: #ffd700;
-      color: white;
-    }
-
-    .marquee {
+    button {
       background-color: black;
       color: white;
-      font-weight: bold;
-      padding: 0.7rem 0;
-      overflow: hidden;
-      white-space: nowrap;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-    }
-
-    .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll 20s linear infinite;
-    }
-
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-
-    footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      padding: 1rem 0;
-      background-color: #f9f9f9;
-    }
-
-    /* Profile dropdown */
-    .profile-container {
-      position: relative;
-      display: inline-block;
-      margin-left: 1.5rem;
-    }
-
-    .profile-img {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 30px;
       cursor: pointer;
-      border: 2px solid white;
+      font-weight: bold;
+      width: 100%;
     }
 
-    .dropdown-menu {
+    button:hover {
+      background-color: #FFD700;
+      color: black;
+    }
+
+    .toggle {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .toggle a {
+      color: #e91e63;
+      cursor: pointer;
+    }
+
+    .hidden {
       display: none;
-      position: absolute;
-      top: 45px;
-      right: 0;
-      background-color: white;
-      min-width: 160px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      z-index: 1000;
-      border-radius: 8px;
-      overflow: hidden;
     }
 
-    .dropdown-menu a {
-      color: #333;
-      padding: 0.75rem 1rem;
-      display: block;
-      text-decoration: none;
-      font-weight: 500;
+    .google-btn {
+      margin-top: 1rem;
+      background-color: #fff;
+      color: #444;
+      border: 1px solid #ccc;
+      padding: 0.7rem;
+      border-radius: 30px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
     }
 
-    .dropdown-menu a:hover {
-      background-color: #f2f2f2;
-    }
-
-    .profile-container:hover .dropdown-menu {
-      display: block;
+    .google-btn img {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
     }
 
     @media screen and (max-width: 768px) {
-      .hero-content h1 { font-size: 2.2rem; }
-      .hero-content p { font-size: 1rem; }
+      nav a {
+        display: block;
+        margin: 0.5rem 0;
+      }
+
+      .container {
+        margin: 1rem;
+      }
     }
   </style>
 </head>
@@ -176,71 +128,41 @@
       <a href="custom-order.html">Custom</a>
       <a href="cart.html">🛒</a>
       <a href="orders.html">Orders</a>
-      <a id="loginLink" href="auth.html">Login</a>
-      <div id="profileContainer" class="profile-container" style="display:none;">
-        <img id="profilePic" class="profile-img" src="" alt="Account" />
-        <div class="dropdown-menu">
-          <a href="https://myaccount.google.com" target="_blank">Manage Account</a>
-          <a href="#" onclick="logout()">Logout</a>
-        </div>
-      </div>
     </nav>
   </header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="overlay"></div>
-    <div class="hero-content">
-      <h1>You Choose, We Design</h1>
-      <p>Experience timeless fashion with elegance and individuality.</p>
-      <a href="explore.html" class="btn">Explore Now</a>
-    </div>
-  </section>
+  <!-- Login/Signup Box -->
+  <div class="container">
+    <h2 id="formTitle">Login</h2>
 
-  <!-- Marquee -->
-  <div class="marquee">
-    <span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION • </span>
+    <!-- Login Form -->
+    <div id="loginForm">
+      <input type="text" id="loginUsername" placeholder="Username" />
+      <input type="password" id="loginPassword" placeholder="Password" />
+      <button onclick="login()">Login</button>
+
+      <div class="toggle">Don't have an account? <a onclick="showSignup()">Sign up</a></div>
+
+      <div class="google-btn" onclick="googleSignIn()">
+        <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google Logo"/>
+        Sign in with Google
+      </div>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="signupForm" class="hidden">
+      <input type="text" id="signupUsername" placeholder="Username" />
+      <input type="email" id="signupEmail" placeholder="Email" />
+      <input type="password" id="signupPassword" placeholder="Password" />
+      <button onclick="signup()">Sign Up</button>
+
+      <div class="toggle">Already have an account? <a onclick="showLogin()">Login</a></div>
+    </div>
   </div>
 
-  <!-- Footer -->
-  <footer>
-    &copy; 2025 Vandals Fashion. All rights reserved.
-  </footer>
-
-  <!-- Firebase Auth Script -->
-  <script type="module">
-    import { auth } from './firebase-config.js';
-    import {
-      onAuthStateChanged,
-      signOut
-    } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-
-    const loginLink = document.getElementById("loginLink");
-    const profileContainer = document.getElementById("profileContainer");
-    const profilePic = document.getElementById("profilePic");
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // Show profile image and dropdown
-        profileContainer.style.display = "inline-block";
-        loginLink.style.display = "none";
-        if (user.photoURL) {
-          profilePic.src = user.photoURL;
-        } else {
-          profilePic.src = "default-avatar.png"; // Fallback image
-        }
-      } else {
-        profileContainer.style.display = "none";
-        loginLink.style.display = "inline-block";
-      }
-    });
-
-    window.logout = function () {
-      signOut(auth).then(() => {
-        window.location.href = "index.html";
-      });
-    }
-  </script>
+  <!-- Firebase + Auth Logic -->
+  <script type="module" src="firebase-config.js"></script>
+  <script type="module" src="auth.js"></script>
 
 </body>
 </html>
