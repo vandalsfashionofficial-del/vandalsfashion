@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload Product | Vandals Fashion</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: #fcefe3;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    header h1 {
+      color: #c39a6b;
+      font-size: 1.5rem;
+    }
+    .upload-container {
+      max-width: 600px;
+      margin: 3rem auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .upload-container h2 {
+      text-align: center;
+      color: #c39a6b;
+      margin-bottom: 2rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+    button {
+      background: #c39a6b;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s ease;
+      display: block;
+      margin: 0 auto;
+    }
+    button:hover {
+      background: #a77b4d;
+    }
+    .status {
+      text-align: center;
+      margin-top: 1rem;
+      font-weight: 500;
+    }
+    @media (max-width: 600px) {
+      .upload-container {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Vandals Fashion</h1>
+    <span id="logoutBtn" style="cursor:pointer; color:#c39a6b; font-weight:600;">Logout</span>
+  </header>
+
+  <div class="upload-container">
+    <h2>Upload New Product</h2>
+    <form id="uploadForm">
+      <label for="productImage">Product Image</label>
+      <input type="file" id="productImage" accept="image/*" required />
+
+      <label for="productName">Product Name</label>
+      <input type="text" id="productName" required />
+
+      <label for="productPrice">Price (INR)</label>
+      <input type="number" id="productPrice" required />
+
+      <label for="productCategory">Category</label>
+      <select id="productCategory" required>
+        <option value="">Select category</option>
+        <option value="T-Shirts">T-Shirts</option>
+        <option value="Oversized">Oversized</option>
+        <option value="Limited Edition">Limited Edition</option>
+        <option value="Accessories">Accessories</option>
+      </select>
+
+      <label for="productDescription">Description</label>
+      <textarea id="productDescription" rows="4" required></textarea>
+
+      <button type="submit">Upload Product</button>
+      <div class="status" id="uploadStatus"></div>
+    </form>
+  </div>
+
+  <script type="module" src="firebase-config.js"></script>
+  <script type="module" src="upload.js"></script>
+</body>
+</html>
