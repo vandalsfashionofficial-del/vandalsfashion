@@ -95,8 +95,9 @@
     </div>
   </div>
 
-  <script>
-    emailjs.init("CB8hwx-xnlGQcO9aL"); // Your public key
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+  emailjs.init("CB8hwx-xnlGQcO9aL");
 
     document.getElementById("cancelForm").addEventListener("submit", function(event) {
       event.preventDefault();
@@ -123,4 +124,5 @@
 
 </body>
 </html>
+
 
