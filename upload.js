@@ -30,6 +30,8 @@ const form = document.getElementById('uploadForm');
 const statusDiv = document.getElementById('uploadStatus');
 
 form.addEventListener('submit', async (e) => {
+  const displayOn = document.getElementById('productTarget').value;
+
   e.preventDefault();
 
   const imageFile = document.getElementById('productImage').files[0];
