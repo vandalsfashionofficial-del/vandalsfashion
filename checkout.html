@@ -21,6 +21,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     nav a {
@@ -148,6 +149,30 @@
       font-weight: bold;
       margin: 2rem 0;
     }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav a {
+        display: block;
+        margin: 0.5rem 0;
+      }
+
+      .checkout-container {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -157,14 +182,12 @@
     <div><strong>Vandals Fashion</strong></div>
     <nav>
       <a href="index.html">Home</a>
-  <a href="shop.html">Shop</a>
-  <a href="explore.html">Explore</a>
-  <a href="about.html">About</a>
-  <a href="contact.html">Contact</a>
-  <a href="custom-order.html">Custom</a>
-  <a href="cart.html">🛒</a>
-  <a href="orders.html">Orders</a>
-  <a href="auth.html">Login</a> 
+      <a href="shop.html">Shop</a>
+      <a href="explore.html">Explore</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="cart.html">🛒</a>
+      <a href="orders.html">Orders</a>
     </nav>
   </header>
 
@@ -221,13 +244,15 @@
     &copy; 2025 Vandals Fashion. All rights reserved.
   </footer>
 
-  <!-- Script -->
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script>
+    emailjs.init("CB8hwx-xnlGQcO9aL"); // Your public EmailJS key
+
     const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
     const customOrder = JSON.parse(localStorage.getItem("customOrder"));
     const cartTotalBox = document.getElementById("cartTotal");
-    const orderSummarySection = document.getElementById("orderSummary");
-    const orderSummaryList = orderSummarySection.querySelector("ul");
+    const orderSummaryList = document.querySelector("#orderSummary ul");
     const customNote = document.getElementById("customNote");
     const deliveryNote = document.querySelector(".delivery-note");
 
@@ -253,27 +278,23 @@
     }
 
     if (hasItems) {
-      orderSummarySection.style.display = "block";
       deliveryNote.style.display = "block";
       if (total > 0 && customOrder) {
         cartTotalBox.textContent = `Total: ₹${total} + Custom Order`;
       } else if (total > 0) {
         cartTotalBox.textContent = `Total: ₹${total}`;
-      } else if (customOrder) {
+      } else {
         cartTotalBox.textContent = `Total: Custom Order`;
       }
     } else {
-      orderSummarySection.style.display = "none";
+      document.getElementById("orderSummary").style.display = "none";
       cartTotalBox.style.display = "none";
       customNote.style.display = "none";
       deliveryNote.style.display = "none";
 
       const msg = document.createElement("p");
       msg.textContent = "No items in cart to checkout.";
-      msg.style.textAlign = "center";
-      msg.style.color = "#888";
-      msg.style.fontWeight = "bold";
-      msg.style.margin = "2rem 0";
+      msg.className = "empty-msg";
       document.querySelector(".checkout-container").prepend(msg);
     }
 
@@ -283,80 +304,29 @@
       const address = document.getElementById("address").value.trim();
       const pincode = document.getElementById("pincode").value.trim();
       const payment = document.getElementById("payment").value;
+      const total = cartTotalBox.textContent || "Custom Order";
+      const order_id = "VF-" + Math.floor(1000 + Math.random() * 9000);
 
       if (!name || !phone || !address || !pincode) {
         alert("Please fill in all details.");
         return;
       }
 
-      const totalText = cartTotalBox.textContent;
-      const orderData = {
-        name,
-        phone,
-        address,
-        pincode,
-        payment,
-        total: totalText
-      };
-
-      const orderID = "VF-" + Math.floor(1000 + Math.random() * 9000); // 👈 Generate Order ID
-      localStorage.setItem("vf_order_id", orderID); // 👈 Store Order ID
+      const orderData = { name, phone, address, pincode, payment, total, order_id };
       localStorage.setItem("orderData", JSON.stringify(orderData));
 
-      localStorage.removeItem("cart");
-      localStorage.removeItem("customOrder");
-
-      window.location.href = "thankyou.html";
+      emailjs.send("service_byyvwjh", "template_z8lkhwp", orderData)
+        .then(() => {
+          localStorage.removeItem("cart");
+          localStorage.removeItem("customOrder");
+          window.location.href = "thankyou.html";
+        })
+        .catch(error => {
+          console.error("EmailJS Error:", error);
+          alert("Order placed, but email failed.");
+          window.location.href = "thankyou.html";
+        });
     }
-    <!-- EmailJS SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<script>
-  emailjs.init("CB8hwx-xnlGQcO9aL"); // your public key
-
-  function placeOrder() {
-    const name = document.getElementById("name").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const address = document.getElementById("address").value.trim();
-    const pincode = document.getElementById("pincode").value.trim();
-    const payment = document.getElementById("payment").value;
-    const total = document.getElementById("cartTotal").textContent || "Custom Order";
-    const order_id = "VF-" + Math.floor(1000 + Math.random() * 9000);
-
-    if (!name || !phone || !address || !pincode) {
-      alert("Please fill in all details.");
-      return;
-    }
-
-    // Save locally for thankyou page (optional)
-    const orderData = {
-      name, phone, address, pincode, payment, total, order_id
-    };
-    localStorage.setItem("orderData", JSON.stringify(orderData));
-
-    // Send email via EmailJS
-    emailjs.send("service_byyvwjh", "template_z8lkhwp", {
-      name,
-      phone,
-      address,
-      pincode,
-      payment,
-      total,
-      order_id
-    })
-    .then(() => {
-      console.log("Order email sent!");
-      localStorage.removeItem("cart");
-      localStorage.removeItem("customOrder");
-      window.location.href = "thankyou.html";
-    })
-    .catch((error) => {
-      console.error("EmailJS Error:", error);
-      alert("Order placed, but email failed.");
-      window.location.href = "thankyou.html";
-    });
-  }
-</script>
-
   </script>
 
 </body>
