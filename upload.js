@@ -52,14 +52,15 @@ form.addEventListener('submit', async (e) => {
     await uploadBytes(imageRef, imageFile);
     const imageUrl = await getDownloadURL(imageRef);
 
-    const productData = {
-      name,
-      price,
-      category,
-      description,
-      imageUrl,
-      createdAt: Timestamp.now()
-    };
+  const productData = {
+  name,
+  price,
+  category,
+  description,
+  imageUrl,
+  displayOn, // 🎯 this line adds the target (shop/explore/both)
+  createdAt: Timestamp.now()
+};
 
     await addDoc(collection(db, 'products'), productData);
     statusDiv.textContent = '✅ Product uploaded successfully!';
