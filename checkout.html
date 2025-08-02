@@ -321,27 +321,31 @@
     localStorage.setItem("vf_order_id", order_id);
     localStorage.setItem("lastOrderId", order_id);
 
-    const orderData = {
-      name,
-      phone,
-      address,
-      pincode,
-      payment,
-      total: totalText,
-      orderId: order_id,
-      items: cartItems,
-      timestamp: Date.now()
-    };
+   const orderData = {
+  name,
+  phone,
+  address,
+  pincode,
+  payment,
+  total: totalText,
+  orderId: order_id,
+  items: cartItems,
+  timestamp: Date.now()
+};
 
-    if (customOrder) {
-      orderData.custom = true;
-      orderData.customDetails = customOrder;
-    }
+if (customOrder) {
+  orderData.custom = true;
+  orderData.customDetails = customOrder;
+}
 
-    // Save to full order history
-    let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
-    allOrders.push(orderData);
-    localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
+// 🔥 THIS is the fix 👇
+localStorage.setItem("orderData", JSON.stringify(orderData)); // ✅ So thankyou.html can show summary
+
+// Save to full order history
+let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
+allOrders.push(orderData);
+localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
+
 
     // Send order email
     emailjs.send("service_byyvwjh", "template_z8lkhwp", orderData)
@@ -362,6 +366,7 @@
 
 </body>
 </html>
+
 
 
 
