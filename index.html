@@ -8,42 +8,42 @@
     
   <style>
     .hamburger {
-  display: none;
-  font-size: 1.8rem;
-  cursor: pointer;
-}
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
 
-@media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
 
-  nav {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    background-color: black;
-    margin-top: 1rem;
-  }
+      nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: black;
+        margin-top: 1rem;
+      }
 
-  nav a {
-    padding: 0.8rem 1rem;
-    border-top: 1px solid #333;
-    display: block;
-  }
+      nav a {
+        padding: 0.8rem 1rem;
+        border-top: 1px solid #333;
+        display: block;
+      }
 
-  nav.show {
-    display: flex;
-  }
+      nav.show {
+        display: flex;
+      }
 
-  .hamburger {
-    display: block;
-    color: white;
-    margin-top: 0.5rem;
-    font-weight: bold;
-  }
-}
+      .hamburger {
+        display: block;
+        color: white;
+        margin-top: 0.5rem;
+        font-weight: bold;
+      }
+    }
 
     * {
       margin: 0;
@@ -74,6 +74,7 @@
     .profile-container {
       position: relative;
       display: inline-block;
+      margin-left: 1.5rem;
     }
 
     .profile-pic {
@@ -188,25 +189,14 @@
       padding: 1rem 0;
       background-color: #f9f9f9;
     }
-
-  .menu-toggle {
-  display: none;
-  color: white;
-  font-size: 1.8rem;
-  cursor: pointer;
-}
-
-
   </style>
 </head>
 <body>
 
-  <!-- Header -->
- <header>
+<!-- Header -->
+<header>
   <div><strong>Vandals Fashion</strong></div>
-  
   <div class="hamburger" onclick="toggleMenu()">☰</div>
-
   <nav id="navbar">
     <a href="index.html">Home</a>
     <a href="shop.html">Shop</a>
@@ -220,86 +210,83 @@
   </nav>
 </header>
 
-
-  <!-- Hero -->
-  <section class="hero">
-    <div class="overlay"></div>
-    <div class="hero-content">
-      <h1>You Choose, We Design</h1>
-      <p>Experience timeless fashion with elegance and individuality.</p>
-      <a href="explore.html" class="btn">Explore Now</a>
-    </div>
-  </section>
-
-  <!-- Marquee -->
-  <div class="marquee">
-    <span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION • </span>
+<!-- Hero -->
+<section class="hero">
+  <div class="overlay"></div>
+  <div class="hero-content">
+    <h1>You Choose, We Design</h1>
+    <p>Experience timeless fashion with elegance and individuality.</p>
+    <a href="explore.html" class="btn">Explore Now</a>
   </div>
+</section>
 
-  <!-- Footer -->
-  <footer>
-    &copy; 2025 Vandals Fashion. All rights reserved.
-  </footer>
+<!-- Marquee -->
+<div class="marquee">
+  <span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION • </span>
+</div>
 
-  <!-- Profile Logic -->
-  <script>
-    const loginLink = document.getElementById("loginLink");
-    const navMenu = document.getElementById("navMenu");
+<!-- Footer -->
+<footer>
+  &copy; 2025 Vandals Fashion. All rights reserved.
+</footer>
 
-    const username = localStorage.getItem("vf_username");
-    const photo = localStorage.getItem("vf_user_photo");
-
-    if (username || photo) {
-      loginLink.remove();
-
-      const container = document.createElement("div");
-      container.className = "profile-container";
-
-      const img = document.createElement("img");
-      img.className = "profile-pic";
-      img.src = photo || "https://cdn-icons-png.flaticon.com/512/847/847969.png";
-
-      const dropdown = document.createElement("div");
-      dropdown.className = "dropdown";
-
-      dropdown.innerHTML = `
-        <a href="https://myaccount.google.com/" target="_blank">Manage Account</a>
-        <a href="#" onclick="logout()">Logout</a>
-      `;
-
-      img.onclick = () => {
-        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-      };
-
-      container.appendChild(img);
-      container.appendChild(dropdown);
-      navMenu.appendChild(container);
-    }
-
-    window.logout = () => {
-      localStorage.removeItem("vf_username");
-      localStorage.removeItem("vf_user_photo");
-      localStorage.removeItem("vf_user_google");
-      window.location.href = "index.html";
-    };
-
-    // Hide dropdown on click outside
-    window.addEventListener("click", (e) => {
-      const dropdowns = document.querySelectorAll(".dropdown");
-      dropdowns.forEach(d => {
-        if (!d.parentNode.contains(e.target)) d.style.display = "none";
-      });
-    });
-  </script>
+<!-- Profile Logic -->
 <script>
   function toggleMenu() {
     document.getElementById("navbar").classList.toggle("show");
   }
-</script>
 
+  const authLink = document.getElementById("authLink");
+  const navbar = document.getElementById("navbar");
+
+  const username = localStorage.getItem("vf_username");
+  const photo = localStorage.getItem("vf_user_photo");
+
+  if (username || photo) {
+    if (authLink) authLink.remove();
+
+    const container = document.createElement("div");
+    container.className = "profile-container";
+
+    const img = document.createElement("img");
+    img.className = "profile-pic";
+    img.src = photo || "https://cdn-icons-png.flaticon.com/512/847/847969.png";
+
+    const dropdown = document.createElement("div");
+    dropdown.className = "dropdown";
+
+    dropdown.innerHTML = `
+      <a href="https://myaccount.google.com/" target="_blank">Manage Account</a>
+      <a href="#" onclick="logout()">Logout</a>
+    `;
+
+    img.onclick = () => {
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    };
+
+    container.appendChild(img);
+    container.appendChild(dropdown);
+    navbar.appendChild(container);
+  }
+
+  function logout() {
+    localStorage.removeItem("vf_username");
+    localStorage.removeItem("vf_user_photo");
+    localStorage.removeItem("vf_user_google");
+    window.location.href = "index.html";
+  }
+
+  window.addEventListener("click", (e) => {
+    const dropdowns = document.querySelectorAll(".dropdown");
+    dropdowns.forEach(d => {
+      if (!d.parentNode.contains(e.target)) d.style.display = "none";
+    });
+  });
+</script>
 
 </body>
 </html>
+
 
 
 
