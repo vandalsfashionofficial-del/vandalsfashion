@@ -29,6 +29,34 @@ window.signup = async function () {
 
 window.login = async function () {
   const username = document.getElementById("loginUsername").value;
+  import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const provider = new GoogleAuthProvider();
+const auth = getAuth();
+
+window.googleSignIn = function () {
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      const user = result.user;
+      console.log("Google user:", user);
+
+      // Store user info
+      localStorage.setItem("vf_user_google", JSON.stringify({
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+        uid: user.uid
+      }));
+
+      // Redirect to homepage
+      window.location.href = "index.html";
+    })
+    .catch((error) => {
+      console.error("Google Sign-In error:", error);
+      alert("Google sign-in failed.");
+    });
+};
+
   const password = document.getElementById("loginPassword").value;
   const email = `${username}@vandals.com`;
 
