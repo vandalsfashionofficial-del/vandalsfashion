@@ -105,6 +105,15 @@
       <a href="explore.html">Explore</a>
       <img id="profilePic" src="" alt="" style="display:none; width:30px; height:30px; border-radius:50%; vertical-align:middle; cursor:pointer;">
       <a id="authLink" href="auth.html">Login</a>
+      <div class="profile-section">
+  <a id="authLink" href="auth.html">Login</a>
+  <img id="profilePic" src="" alt="Profile" style="display:none; width:35px; height:35px; border-radius:50%; cursor:pointer;" />
+  <div id="userDropdown" class="dropdown" style="display:none; position:absolute; right:10px; top:60px; background:white; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
+    <a href="auth.html" style="display:block; padding:10px;">Manage Account</a>
+    <a href="#" onclick="logout()" style="display:block; padding:10px; border-top:1px solid #eee;">Logout</a>
+  </div>
+</div>
+
     </nav>
   </header>
 
@@ -137,8 +146,38 @@
 
       <label for="colorChange">Color Preference:</label>
       <input type="text" id="colorChange" placeholder="e.g., pastel mint" />
-
+<script>
       <button onclick="placeOrder()">Place Order</button>
+      <script type="module">
+  import { auth } from './firebase-config.js';
+  import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
+
+  const profilePic = document.getElementById("profilePic");
+  const authLink = document.getElementById("authLink");
+  const userDropdown = document.getElementById("userDropdown");
+
+  onAuthStateChanged(auth, (user) => {
+    if (user && user.photoURL) {
+      profilePic.src = user.photoURL;
+      profilePic.style.display = "inline-block";
+      authLink.style.display = "none";
+    } else {
+      profilePic.style.display = "none";
+      authLink.style.display = "inline-block";
+    }
+  });
+
+  profilePic?.addEventListener("click", () => {
+    userDropdown.style.display = userDropdown.style.display === "block" ? "none" : "block";
+  });
+
+  window.logout = () => {
+    signOut(auth).then(() => {
+      window.location.href = "auth.html";
+    });
+  };
+</script>
+
     </div>
   </div>
 
