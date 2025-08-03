@@ -46,12 +46,27 @@
       border-bottom: 1px solid #eee;
       padding: 1rem 0;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .item img {
+      width: 120px;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    .item-details {
+      flex: 1;
     }
 
     .item h3 {
       font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .item-details p {
+      margin: 0.3rem 0;
     }
 
     .item button {
@@ -61,6 +76,7 @@
       padding: 0.4rem 1rem;
       border-radius: 20px;
       cursor: pointer;
+      margin-top: 0.5rem;
     }
 
     .item button:hover {
@@ -129,18 +145,17 @@
   <!-- Header -->
   <header>
     <div><strong>Vandals Fashion</strong></div>
-   <nav>
-<a href="index.html">Home</a>
-  <a href="shop.html">Shop</a>
-  <a href="explore.html">Explore</a>
-  <a href="about.html">About</a>
-  <a href="contact.html">Contact</a>
-  <a href="custom-order.html">Custom</a>
-  <a href="cart.html">🛒</a>
-  <a href="orders.html">Orders</a>
-  <a href="auth.html">Login</a> 
-</nav>
-
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="explore.html">Explore</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="custom-order.html">Custom</a>
+      <a href="cart.html">🛒</a>
+      <a href="orders.html">Orders</a>
+      <a href="auth.html">Login</a> 
+    </nav>
   </header>
 
   <!-- Page Title -->
@@ -165,81 +180,82 @@
   </footer>
 
   <!-- Cart Logic -->
- <!-- Cart Logic -->
-<script>
-  const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
-  const cartContainer = document.getElementById("cartItems");
-  const cartTotal = document.getElementById("cartTotal");
+  <script>
+    const cartContainer = document.getElementById("cartItems");
+    const cartTotal = document.getElementById("cartTotal");
 
-  function updateCart() {
-    const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
-    const customOrder = JSON.parse(localStorage.getItem("customOrder"));
+    function updateCart() {
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      const customOrder = JSON.parse(localStorage.getItem("customOrder"));
+      cartContainer.innerHTML = "";
+      let total = 0;
 
-    cartContainer.innerHTML = '';
-    let total = 0;
+      if (cart.length === 0 && !customOrder) {
+        cartContainer.innerHTML = "<p style='text-align:center; color:#888; font-weight:bold;'>Your cart is empty.</p>";
+        cartTotal.style.display = "none";
+        document.querySelector(".buy-now").style.display = "none";
+        return;
+      }
 
-    if (cartItems.length === 0 && !customOrder) {
-      cartContainer.innerHTML = "<p style='text-align:center; color:#888; font-weight:bold;'>Your cart is empty.</p>";
-      cartTotal.style.display = "none";
-      document.querySelector(".buy-now").style.display = "none";
-      return;
+      cart.forEach((item, index) => {
+        total += item.price;
+
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `
+          <img src="${item.imageUrl}" alt="${item.name}">
+          <div class="item-details">
+            <h3>${item.name}</h3>
+            <p><strong>Price:</strong> ₹${item.price}</p>
+            <p><strong>Size:</strong> ${item.size}</p>
+            ${item.customSizes ? `
+              <p><strong>Custom:</strong> Waist: ${item.customSizes.waist}", Hip: ${item.customSizes.hip}", Chest: ${item.customSizes.chest}"</p>
+            ` : ""}
+            ${item.colorPreference ? `<p><strong>Color Preference:</strong> ${item.colorPreference}</p>` : ""}
+            <button onclick="removeItem(${index})">Remove</button>
+          </div>
+        `;
+        cartContainer.appendChild(div);
+      });
+
+      if (customOrder) {
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `
+          <h3>🧵 Custom Order #1</h3>
+          <div class="item-details">
+            <p><strong>Name:</strong> ${customOrder.name}</p>
+            <p><strong>Style:</strong> ${customOrder.style}</p>
+            <p><strong>Size:</strong> ${customOrder.size}</p>
+            <p><strong>Color:</strong> ${customOrder.color}</p>
+            <p><strong>Notes:</strong> ${customOrder.notes}</p>
+            <p style="color: darkred; font-weight: bold;">💰 Price is variable based on design & fabric.</p>
+            <p style="color: darkred; font-weight: bold;">⏳ Delivery time will be confirmed personally.</p>
+            <button onclick="removeCustomOrder()">Remove</button>
+          </div>
+        `;
+        cartContainer.appendChild(div);
+      }
+
+      cartTotal.textContent = "Total: ₹" + total;
+      cartTotal.style.display = "block";
+      document.querySelector(".buy-now").style.display = "block";
     }
 
-    cartItems.forEach((item, index) => {
-      total += item.price;
-
-      const div = document.createElement("div");
-      div.className = "item";
-      div.innerHTML = `
-        <h3>${item.name}</h3>
-        <div>
-          ₹${item.price}
-          <button onclick="removeItem(${index})">Remove</button>
-        </div>
-      `;
-      cartContainer.appendChild(div);
-    });
-
-    if (customOrder) {
-      const div = document.createElement("div");
-      div.className = "item";
-      div.innerHTML = `
-        <h3>🧵 Custom Order #1</h3>
-        <div>
-          <p><strong>Name:</strong> ${customOrder.name}</p>
-          <p><strong>Style:</strong> ${customOrder.style}</p>
-          <p><strong>Size:</strong> ${customOrder.size}</p>
-          <p><strong>Color:</strong> ${customOrder.color}</p>
-          <p><strong>Notes:</strong> ${customOrder.notes}</p>
-          <p style="color: darkred; font-weight: bold;">💰 Price is variable based on design & fabric.</p>
-          <p style="color: darkred; font-weight: bold;">⏳ Delivery time will be confirmed personally.</p>
-          <button onclick="removeCustomOrder()">Remove</button>
-        </div>
-      `;
-      cartContainer.appendChild(div);
+    function removeItem(index) {
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCart();
     }
 
-    cartTotal.textContent = "Total: ₹" + total;
-    cartTotal.style.display = "block";
-    document.querySelector(".buy-now").style.display = "block";
-  }
+    function removeCustomOrder() {
+      localStorage.removeItem("customOrder");
+      updateCart();
+    }
 
-  function removeItem(index) {
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    cart.splice(index, 1);
-    localStorage.setItem("cart", JSON.stringify(cart));
     updateCart();
-  }
-
-  function removeCustomOrder() {
-    localStorage.removeItem("customOrder");
-    updateCart();
-  }
-
-  updateCart();
-</script>
-
-
+  </script>
 
 </body>
 </html>
