@@ -63,6 +63,7 @@ async function loadProducts() {
         <img src="${data.imageUrl}" alt="${data.name}">
         <h3>${data.name}</h3>
         <p>₹${data.price}</p>
+        <p style="font-size: 0.85rem; color: #666;">${data.description || "Estimated delivery: 15–20 days. International shipping may take an additional 15–20 days."}</p>
         <button class="delete-btn" data-id="${docSnap.id}">Delete</button>
       `;
       grid.appendChild(card);
