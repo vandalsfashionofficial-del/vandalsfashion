@@ -13,9 +13,16 @@ export const firebaseConfig = {
   messagingSenderId: "273607679264",
   appId: "1:273607679264:web:77166ec46f479b082d8b45"
 };
+// firebase-config.js
+import { getStorage } from "firebase/storage";
+// ...
+export const storage = getStorage(app); ✅
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app); // ✅ Export storage
+
+
