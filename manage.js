@@ -1,73 +1,65 @@
-// ✅ FINAL manage.js (Updated for imgbb hosted images)
+// ✅ Use your shared firebase-config.js
+import { db, auth } from './firebase-config.js';
+import { collection, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-import { auth, db } from './firebase-config.js';
-import {
-  collection,
-  getDocs,
-  deleteDoc,
-  doc
-} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
-import {
-  onAuthStateChanged,
-  signOut
-} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+// DOM
+const productListDiv = document.getElementById("productGrid");
 
-const grid = document.getElementById("productGrid");
+// 👨‍💻 Team-only check
 const allowedEmails = [
   "vandalsfashionofficial@gmail.com",
   "arjunbtskimm123098@gmail.com"
 ];
 
 onAuthStateChanged(auth, async (user) => {
-  if (!user || !allowedEmails.includes(user.email)) {
-    alert("Access denied. Admins only.");
-    window.location.href = "auth.html";
-    return;
+  if (user && allowedEmails.includes(user.email)) {
+    await loadProducts();
+  } else {
+    productListDiv.innerHTML = "<p>Access Denied. Team only.</p>";
   }
-
-  loadProducts();
 });
 
 async function loadProducts() {
-  grid.innerHTML = "<p>Loading...</p>";
   try {
     const snapshot = await getDocs(collection(db, "products"));
+    productListDiv.innerHTML = "";
+
     if (snapshot.empty) {
-      grid.innerHTML = "<p>No products found.</p>";
+      productListDiv.innerHTML = "<p>No products found.</p>";
       return;
     }
-    grid.innerHTML = "";
 
     snapshot.forEach((docSnap) => {
       const data = docSnap.data();
       const card = document.createElement("div");
       card.className = "product-card";
       card.innerHTML = `
-        <img src="${data.imageUrl}" alt="${data.name}" />
+        <img src="${data.imageUrl}" alt="${data.name}">
         <h3>${data.name}</h3>
         <p>₹${data.price}</p>
         <button class="delete-btn" data-id="${docSnap.id}">Delete</button>
       `;
-      grid.appendChild(card);
+      productListDiv.appendChild(card);
     });
 
     document.querySelectorAll(".delete-btn").forEach((btn) => {
       btn.addEventListener("click", async () => {
-        const id = btn.getAttribute("data-id");
-        if (confirm("Delete this product?")) {
-          try {
-            await deleteDoc(doc(db, "products", id));
-            btn.parentElement.remove();
-            alert("Product deleted.");
-          } catch (err) {
-            console.error("Delete error:", err);
-            alert("Failed to delete.");
-          }
+        const productId = btn.getAttribute("data-id");
+        if (!confirm("Are you sure you want to delete this product?")) return;
+
+        try {
+          await deleteDoc(doc(db, "products", productId));
+          btn.parentElement.remove();
+          alert("Product deleted.");
+        } catch (err) {
+          console.error("Delete error:", err);
+          alert("Failed to delete.");
         }
       });
     });
-  } catch (err) {
-    console.error("Load error:", err);
-    grid.innerHTML = "<p>Error loading products.</p>";
+  } catch (error) {
+    console.error("Load error:", error);
+    productListDiv.innerHTML = "<p>Error loading products.</p>";
   }
 }
