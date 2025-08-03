@@ -56,10 +56,34 @@
       gap: 2rem;
     }
 
-    .image-section img {
+    .image-section {
+      flex: 1;
       max-width: 500px;
+    }
+
+    .main-image {
       width: 100%;
       border-radius: 20px;
+    }
+
+    .thumbnail-row {
+      display: flex;
+      margin-top: 1rem;
+      gap: 10px;
+      overflow-x: auto;
+    }
+
+    .thumbnail-row img {
+      width: 70px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .thumbnail-row img.active {
+      border-color: #ffd7b5;
     }
 
     .details {
@@ -157,7 +181,8 @@
 
   <div class="container">
     <div class="image-section">
-      <img id="productImage" src="" alt="Product Image" />
+      <img id="mainImage" class="main-image" src="" alt="Main Product Image" />
+      <div class="thumbnail-row" id="thumbnailRow"></div>
     </div>
     <div class="details">
       <h2 id="productName">Product Name</h2>
@@ -228,3 +253,4 @@
   <script type="module" src="product.js"></script>
 </body>
 </html>
+
