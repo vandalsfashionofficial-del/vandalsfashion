@@ -1,4 +1,3 @@
-// ✅ FINAL upload.js (for pasted imgbb links only)
 import { auth, db } from './firebase-config.js';
 import {
   collection,
@@ -36,15 +35,22 @@ const statusDiv = document.getElementById("uploadStatus");
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const imageUrl = document.getElementById("productImageUrl").value.trim(); // ✅ Only URL now
+  const imageUrl = document.getElementById("productImageUrl").value.trim();
   const name = document.getElementById("productName").value.trim();
   const price = parseFloat(document.getElementById("productPrice").value);
-  const category = document.getElementById("productCategory").value;
+  const category = document.getElementById("productCategory").value.trim();
   const description = document.getElementById("productDescription").value.trim();
-  const displayOn = document.getElementById("productTarget").value;
+  const displayOn = document.getElementById("productTarget").value.trim().toLowerCase();
 
   if (!imageUrl || !name || !price || !category || !description || !displayOn) {
-    statusDiv.textContent = "❗ Please fill all fields.";
+    statusDiv.textContent = "❗ Please fill all fields correctly.";
+    return;
+  }
+
+  // ✅ Validate displayOn value
+  const validTargets = ["shop", "explore", "both"];
+  if (!validTargets.includes(displayOn)) {
+    statusDiv.textContent = "❌ Invalid Display On value.";
     return;
   }
 
@@ -56,16 +62,18 @@ form.addEventListener("submit", async (e) => {
       price,
       category,
       description,
-      imageUrl, // 🎯 Directly using hosted URL
+      imageUrl,
       displayOn,
       createdAt: Timestamp.now()
     };
 
     await addDoc(collection(db, "products"), productData);
-    statusDiv.textContent = "✅ Uploaded successfully!";
+
+    statusDiv.textContent = "✅ Product uploaded successfully!";
     form.reset();
   } catch (err) {
     console.error("Upload error:", err);
-    statusDiv.textContent = "❌ Upload failed.";
+    statusDiv.textContent = "❌ Upload failed. Check console.";
   }
 });
+
