@@ -97,24 +97,22 @@
   </style>
 </head>
 <body>
-  <header>
-    <h1>Vandals Fashion</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
-      <a href="explore.html">Explore</a>
-      <img id="profilePic" src="" alt="" style="display:none; width:30px; height:30px; border-radius:50%; vertical-align:middle; cursor:pointer;">
-      <a id="authLink" href="auth.html">Login</a>
-      <div class="profile-section">
-  <a id="authLink" href="auth.html">Login</a>
-  <img id="profilePic" src="" alt="Profile" style="display:none; width:35px; height:35px; border-radius:50%; cursor:pointer;" />
-  <div id="userDropdown" class="dropdown" style="display:none; position:absolute; right:10px; top:60px; background:white; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
-    <a href="auth.html" style="display:block; padding:10px;">Manage Account</a>
-    <a href="#" onclick="logout()" style="display:block; padding:10px; border-top:1px solid #eee;">Logout</a>
-  </div>
-</div>
+ <!-- ✅ HEADER FIXED -->
+<header>
+  <h1>Vandals Fashion</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="explore.html">Explore</a>
+    <img id="profilePic" src="" alt="Profile" style="display:none; width:35px; height:35px; border-radius:50%; cursor:pointer;" />
+    <a id="authLink" href="auth.html">Login</a>
+    <div id="userDropdown" class="dropdown" style="display:none; position:absolute; right:10px; top:60px; background:white; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
+      <a href="auth.html" style="display:block; padding:10px;">Manage Account</a>
+      <a href="#" onclick="logout()" style="display:block; padding:10px; border-top:1px solid #eee;">Logout</a>
+    </div>
+  </nav>
+</header>
 
-    </nav>
   </header>
 
   <div class="container">
@@ -146,9 +144,11 @@
 
       <label for="colorChange">Color Preference:</label>
       <input type="text" id="colorChange" placeholder="e.g., pastel mint" />
-<script>
-      <button onclick="placeOrder()">Place Order</button>
-      <script type="module">
+<!-- ✅ Order Button -->
+<button onclick="placeOrder()">Place Order</button>
+
+<!-- ✅ Auth logic properly placed -->
+<script type="module">
   import { auth } from './firebase-config.js';
   import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
 
@@ -177,7 +177,6 @@
     });
   };
 </script>
-
     </div>
   </div>
 
