@@ -36,7 +36,7 @@ const statusDiv = document.getElementById("uploadStatus");
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const imageUrl = document.getElementById("productImageUrl").value.trim();
+  const imageUrl = document.getElementById("productImageUrl").value.trim(); // ✅ Only URL now
   const name = document.getElementById("productName").value.trim();
   const price = parseFloat(document.getElementById("productPrice").value);
   const category = document.getElementById("productCategory").value;
@@ -56,7 +56,7 @@ form.addEventListener("submit", async (e) => {
       price,
       category,
       description,
-      imageUrl, // ✅ No Firebase Storage, use direct link
+      imageUrl, // 🎯 Directly using hosted URL
       displayOn,
       createdAt: Timestamp.now()
     };
@@ -69,4 +69,3 @@ form.addEventListener("submit", async (e) => {
     statusDiv.textContent = "❌ Upload failed.";
   }
 });
-
