@@ -11,7 +11,6 @@ import {
 
 const imgbbAPIKey = "bbfd6eceec416726284963eb08f78632";
 
-// 🔐 Restrict access
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     alert("Please login first.");
@@ -35,6 +34,7 @@ const statusDiv = document.getElementById("uploadStatus");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  console.log("📥 Form submitted");
 
   const fileInput = document.getElementById("productImageFile");
   const imageFiles = fileInput.files;
@@ -47,11 +47,12 @@ form.addEventListener("submit", async (e) => {
 
   if (!imageFiles.length || !name || !price || !category || !description || !displayOn) {
     statusDiv.textContent = "❗ Please fill all fields and upload at least one image.";
+    console.warn("🚫 Form validation failed");
     return;
   }
 
   statusDiv.textContent = "📤 Uploading images...";
-  console.log("Uploading images to ImgBB...");
+  console.log("🚀 Uploading images to ImgBB...");
 
   try {
     const imageUrls = [];
@@ -66,14 +67,19 @@ form.addEventListener("submit", async (e) => {
       });
       const result = await res.json();
 
-      if (!result.success) throw new Error("ImgBB upload failed");
+      if (!result.success) {
+        console.error("❌ ImgBB upload failed for image", i);
+        throw new Error("ImgBB upload failed");
+      }
+
       imageUrls.push(result.data.url);
+      console.log(`✅ Image ${i + 1} uploaded: ${result.data.url}`);
     }
 
     if (!imageUrls.length) throw new Error("No image URLs generated.");
 
     statusDiv.textContent = "⏳ Uploading product to Firestore...";
-    console.log("Uploading product to Firestore...");
+    console.log("📦 Uploading product to Firestore...");
 
     const productData = {
       name,
@@ -81,23 +87,22 @@ form.addEventListener("submit", async (e) => {
       category,
       description,
       imageUrls,
-      imageUrl: imageUrls[0], // ✅ For compatibility with old pages
+      imageUrl: imageUrls[0], // for old views
       displayOn,
       createdAt: Timestamp.now()
     };
 
     await addDoc(collection(db, "products"), productData);
 
-    console.log("✅ Product successfully added:", productData);
     statusDiv.textContent = "✅ Product uploaded successfully!";
+    console.log("🎉 Firestore upload complete:", productData);
     form.reset();
   } catch (err) {
-    console.error("Upload Error:", err);
+    console.error("❌ Upload Error:", err);
     statusDiv.textContent = "❌ Upload failed. " + err.message;
   }
 });
 
-// Convert file to base64
 function toBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
