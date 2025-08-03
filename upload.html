@@ -128,42 +128,53 @@
     <span id="logoutBtn" style="cursor:pointer; color:#c39a6b; font-weight:600;" onclick="logout()">Logout</span>
   </header>
 
-  <div class="upload-container">
-    <h2>Upload New Product</h2>
-    <form id="uploadForm">
-      <label for="productImageUrl">Product Image URL</label>
-      <input type="url" id="productImageUrl" placeholder="Paste hosted image link" required />
+<div class="upload-container">
+  <h2>Upload New Product</h2>
+  <form id="uploadForm">
+    
+    <label for="productImageUrl">Product Image URL</label>
+    <input
+      type="url"
+      id="productImageUrl"
+      placeholder="Paste hosted image link (e.g. imgbb)"
+      required
+    />
 
-      <label for="productName">Product Name</label>
-      <input type="text" id="productName" required />
+    <label for="productName">Product Name</label>
+    <input type="text" id="productName" placeholder="E.g. Midnight Oversized Tee" required />
 
-      <label for="productPrice">Price (INR)</label>
-      <input type="number" id="productPrice" required />
+    <label for="productPrice">Price (INR)</label>
+    <input type="number" id="productPrice" placeholder="E.g. 899" required />
 
-      <label for="productCategory">Category</label>
-      <select id="productCategory" required>
-        <option value="">Select category</option>
-        <option value="T-Shirts">T-Shirts</option>
-        <option value="Oversized">Oversized</option>
-        <option value="Limited Edition">Limited Edition</option>
-        <option value="Accessories">Accessories</option>
-      </select>
+    <label for="productCategory">Category</label>
+    <select id="productCategory" required>
+      <option value="">Select category</option>
+      <option value="T-Shirts">T-Shirts</option>
+      <option value="Oversized">Oversized</option>
+      <option value="Limited Edition">Limited Edition</option>
+      <option value="Accessories">Accessories</option>
+    </select>
 
-      <label for="productTarget">Display On</label>
-      <select id="productTarget" required>
-        <option value="">Select where to display</option>
-        <option value="shop">Shop</option>
-        <option value="explore">Explore</option>
-        <option value="both">Both</option>
-      </select>
+    <label for="productTarget">Display On</label>
+    <select id="productTarget" required>
+      <option value="">Select where to display</option>
+      <option value="shop">Shop</option>
+      <option value="explore">Explore</option>
+      <option value="both">Both</option>
+    </select>
 
-      <label for="productDescription">Description</label>
-      <textarea id="productDescription" rows="4" required></textarea>
+    <label for="productDescription">Description</label>
+    <textarea
+      id="productDescription"
+      rows="4"
+      placeholder="Enter product details..."
+      required
+    ></textarea>
 
-      <button type="submit">Upload Product</button>
-      <div class="status" id="uploadStatus"></div>
-    </form>
-  </div>
+    <button type="submit">Upload Product</button>
+    <div class="status" id="uploadStatus"></div>
+  </form>
+</div>
 
   <script>
     const allowedEmails = [
