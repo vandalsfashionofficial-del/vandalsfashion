@@ -81,6 +81,7 @@ form.addEventListener("submit", async (e) => {
       category,
       description,
       imageUrls,
+      imageUrl: imageUrls[0], // ✅ For compatibility with old pages
       displayOn,
       createdAt: Timestamp.now()
     };
@@ -105,4 +106,5 @@ function toBase64(file) {
     reader.onerror = error => reject(error);
   });
 }
+
 
