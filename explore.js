@@ -1,32 +1,71 @@
 // explore.js
-import { db } from './firebase-config.js';
-import { collection, getDocs } from 'firebase/firestore';
+import { auth, db } from './firebase-config.js';
+import {
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+import {
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
 
-const productGrid = document.getElementById('exploreProducts');
+const grid = document.getElementById('productGrid');
+const profilePic = document.getElementById("profilePic");
+const authLink = document.getElementById("authLink");
+const userDropdown = document.getElementById("userDropdown");
 
+// 🔄 Load Explore Products
 async function loadExploreProducts() {
   try {
-    const querySnapshot = await getDocs(collection(db, "products"));
-    querySnapshot.forEach((doc) => {
-      const product = doc.data();
+    const snapshot = await getDocs(collection(db, "products"));
+    const products = [];
 
-      // Only show products marked for "explore" or "both"
-      if (product.displayOn === "explore" || product.displayOn === "both") {
-        const card = document.createElement("div");
-        card.className = "product-card";
-
-        card.innerHTML = `
-          <img src="${product.imageUrl}" alt="${product.name}" />
-          <h3>${product.name}</h3>
-          <p>₹${product.price}</p>
-        `;
-
-        productGrid.appendChild(card);
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      if (data.displayOn === "explore" || data.displayOn === "both") {
+        products.push(data);
       }
+    });
+
+    if (products.length === 0) {
+      grid.innerHTML = "<p style='text-align:center;'>No products found.</p>";
+      return;
+    }
+
+    grid.innerHTML = "";
+    products.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+        <img src="${p.imageUrl}" alt="${p.name}" />
+        <h3>${p.name}</h3>
+        <p>₹${p.price}</p>
+      `;
+      grid.appendChild(card);
     });
   } catch (error) {
     console.error("Error loading explore products:", error);
+    grid.innerHTML = "<p style='text-align:center; color:red;'>Error loading products.</p>";
   }
 }
+
+onAuthStateChanged(auth, (user) => {
+  if (user && user.photoURL) {
+    profilePic.src = user.photoURL;
+    profilePic.style.display = "inline-block";
+    authLink.style.display = "none";
+  }
+});
+
+profilePic?.addEventListener("click", () => {
+  userDropdown.style.display =
+    userDropdown.style.display === "block" ? "none" : "block";
+});
+
+window.logout = () => {
+  signOut(auth).then(() => {
+    window.location.href = "auth.html";
+  });
+};
 
 loadExploreProducts();
