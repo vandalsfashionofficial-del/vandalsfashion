@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Details | Vandals Fashion</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #fffaf5;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    img {
+      width: 100%;
+      max-width: 450px;
+      border-radius: 12px;
+    }
+    .details {
+      flex: 1;
+    }
+    h1 {
+      font-size: 2rem;
+      color: #c39a6b;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      margin: 0.5rem 0;
+      color: #444;
+    }
+    .sizes, .custom-size {
+      margin-top: 1rem;
+    }
+    .sizes label, .custom-size label {
+      display: block;
+      margin-top: 0.5rem;
+    }
+    input[type="text"], select {
+      padding: 0.5rem;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.8rem 2rem;
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .note {
+      background: #f9e5da;
+      padding: 1rem;
+      border-radius: 12px;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div>
+      <img id="productImage" src="" alt="Product" />
+    </div>
+    <div class="details">
+      <h1 id="productName"></h1>
+      <p id="productPrice"></p>
+      <p class="note">
+        Estimated delivery: 15–20 days. International orders may take an additional 15–20 days.
+      </p>
+      <div class="sizes">
+        <label for="sizeSelect">Choose a Size:</label>
+        <select id="sizeSelect">
+          <option value="M">M (Waist 17-18", Hip 21-22", Chest 20")</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+          <option value="XXL">XXL</option>
+          <option value="custom">Custom Size</option>
+        </select>
+      </div>
+      <div class="custom-size" id="customSizeFields" style="display:none;">
+        <label>Waist (inches): <input type="text" id="waist" /></label>
+        <label>Hip (inches): <input type="text" id="hip" /></label>
+        <label>Chest (inches): <input type="text" id="chest" /></label>
+      </div>
+      <label for="colorChange">Color Preference (if different):</label>
+      <input type="text" id="colorChange" placeholder="e.g., pastel pink" />
+      <button onclick="placeOrder()">Place Order</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { db } from './firebase-config.js';
+    import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js';
+
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get("id");
+
+    const productDoc = await getDoc(doc(db, "products", productId));
+    const product = productDoc.data();
+
+    document.getElementById("productImage").src = product.imageUrl;
+    document.getElementById("productName").textContent = product.name;
+    document.getElementById("productPrice").textContent = `Price: ₹${product.price}`;
+
+    const sizeSelect = document.getElementById("sizeSelect");
+    sizeSelect.addEventListener("change", () => {
+      document.getElementById("customSizeFields").style.display = sizeSelect.value === "custom" ? "block" : "none";
+    });
+
+    window.placeOrder = function () {
+      const size = sizeSelect.value;
+      const customSizes = size === "custom" ? {
+        waist: document.getElementById("waist").value,
+        hip: document.getElementById("hip").value,
+        chest: document.getElementById("chest").value
+      } : null;
+      const color = document.getElementById("colorChange").value;
+
+      console.log("Order placed with:", {
+        product: product.name,
+        price: product.price,
+        size,
+        customSizes,
+        color
+      });
+      alert("Your order has been initiated!");
+    };
+  </script>
+</body>
+</html>
