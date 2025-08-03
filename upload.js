@@ -35,6 +35,10 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const imageFile = document.getElementById('productImage').files[0];
+  if (!imageFile) {
+  statusDiv.textContent = 'Please select an image.';
+  return;
+}
   const name = document.getElementById('productName').value.trim();
   const price = parseFloat(document.getElementById('productPrice').value);
   const category = document.getElementById('productCategory').value;
