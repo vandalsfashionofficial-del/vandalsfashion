@@ -1,24 +1,19 @@
 import { auth, db } from './firebase-config.js';
 import {
-  collection,
-  addDoc,
-  Timestamp
+  collection, addDoc, Timestamp
 } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js';
 import {
-  onAuthStateChanged,
-  signOut
+  onAuthStateChanged, signOut
 } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
 
 const imgbbAPIKey = "bbfd6eceec416726284963eb08f78632";
 
-// 🔐 Restrict access
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     alert("Please login first.");
     window.location.href = "auth.html";
     return;
   }
-
   const allowed = ["vandalsfashionofficial@gmail.com", "arjunbtskimm123098@gmail.com"];
   if (!allowed.includes(user.email)) {
     alert("Not authorized.");
@@ -37,7 +32,7 @@ form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const fileInput = document.getElementById("productImageFile");
-  const imageFile = fileInput.files[0];
+  const imageFiles = fileInput.files;
 
   const name = document.getElementById("productName").value.trim();
   const price = parseFloat(document.getElementById("productPrice").value);
@@ -45,30 +40,29 @@ form.addEventListener("submit", async (e) => {
   const description = document.getElementById("productDescription").value.trim();
   const displayOn = document.getElementById("productTarget").value;
 
-  if (!imageFile || !name || !price || !category || !description || !displayOn) {
-    statusDiv.textContent = "❗ Please fill all fields and upload an image.";
+  if (imageFiles.length === 0 || !name || !price || !category || !description || !displayOn) {
+    statusDiv.textContent = "❗ Please fill all fields and upload at least 1 image.";
     return;
   }
 
-  statusDiv.textContent = "📤 Uploading image...";
+  statusDiv.textContent = "📤 Uploading images...";
 
   try {
-    // Read file as base64
-    const base64Image = await toBase64(imageFile);
+    const imageUrls = [];
 
-    // Upload to imgbb
-    const res = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`, {
-      method: "POST",
-      body: new URLSearchParams({
-        image: base64Image.split(',')[1]
-      })
-    });
+    for (const imageFile of imageFiles) {
+      const base64Image = await toBase64(imageFile);
+      const res = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`, {
+        method: "POST",
+        body: new URLSearchParams({
+          image: base64Image.split(',')[1]
+        })
+      });
 
-    const result = await res.json();
-
-    if (!result.success) throw new Error("Image upload failed.");
-
-    const imageUrl = result.data.url;
+      const result = await res.json();
+      if (!result.success) throw new Error("Image upload failed.");
+      imageUrls.push(result.data.url);
+    }
 
     statusDiv.textContent = "⏳ Uploading product...";
 
@@ -77,7 +71,7 @@ form.addEventListener("submit", async (e) => {
       price,
       category,
       description,
-      imageUrl,
+      imageUrls,
       displayOn,
       createdAt: Timestamp.now()
     };
@@ -92,13 +86,15 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
-// Helper: Convert file to base64
 function toBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result);
     reader.onerror = error => reject(error);
+  });
+}
+
   });
 }
 
