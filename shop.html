@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Shop – Vandals Fashion</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Poppins', sans-serif; background-color: #fff; color: #222; }
@@ -12,10 +13,50 @@
     header {
       background-color: black; color: white;
       padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+      position: relative;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
     }
 
     nav a {
-      color: white; margin-left: 1.5rem; text-decoration: none;
+      color: white; text-decoration: none; font-size: 0.9rem;
+    }
+
+    .profile-pic {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-left: 1rem;
+      cursor: pointer;
+    }
+
+    #userDropdown {
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      display: none;
+      z-index: 999;
+    }
+
+    #userDropdown a {
+      display: block;
+      padding: 0.5rem 1rem;
+      color: black;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    #userDropdown a:hover {
+      background-color: #f2f2f2;
     }
 
     h1 {
@@ -117,21 +158,26 @@
     <div><strong>Vandals Fashion</strong></div>
     <nav>
       <a href="index.html">Home</a>
-  <a href="shop.html">Shop</a>
-  <a href="explore.html">Explore</a>
-  <a href="about.html">About</a>
-  <a href="contact.html">Contact</a>
-  <a href="custom-order.html">Custom</a>
-  <a href="cart.html">🛒</a>
-  <a href="orders.html">Orders</a>
-  <a href="auth.html">Login</a> 
+      <a href="shop.html">Shop</a>
+      <a href="explore.html">Explore</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="custom-order.html">Custom</a>
+      <a href="cart.html">🛒</a>
+      <a href="orders.html">Orders</a>
+      <a href="auth.html" id="authLink">Login</a>
+      <img id="profilePic" class="profile-pic" style="display:none;" />
     </nav>
+    <div id="userDropdown">
+      <a href="https://myaccount.google.com" target="_blank">Manage Account</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
   </header>
 
   <h1>Explore Our Collection</h1>
 
   <section class="product-grid" id="productGrid">
-    <!-- Dynamic products will be loaded here -->
+    <!-- Products will appear here -->
   </section>
 
   <div class="marquee">
@@ -142,11 +188,11 @@
     &copy; 2025 Vandals Fashion. All rights reserved.
   </footer>
 
-  <!-- JS Placeholder -->
-  <script>
-    // Will load from Firestore or Google Sheets dynamically
-    document.getElementById("productGrid").innerHTML = "<p style='text-align:center; color:#888;'>Products will appear here soon!</p>";
-  </script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"></script>
+  <script src="./firebase-config.js"></script>
+  <script src="./shop.js"></script>
 </body>
 </html>
 
