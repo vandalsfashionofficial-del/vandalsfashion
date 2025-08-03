@@ -9,7 +9,9 @@ import {
   signOut
 } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
 
-// 🔐 Team-only Access
+const imgbbAPIKey = "bbfd6eceec416726284963eb08f78632";
+
+// 🔐 Restrict access
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     alert("Please login first.");
@@ -28,35 +30,48 @@ document.getElementById("logoutBtn").addEventListener("click", () => {
   signOut(auth).then(() => (window.location.href = "auth.html"));
 });
 
-// 📤 Handle Upload
 const form = document.getElementById("uploadForm");
 const statusDiv = document.getElementById("uploadStatus");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const imageUrl = document.getElementById("productImageUrl").value.trim();
+  const fileInput = document.getElementById("productImageFile");
+  const imageFile = fileInput.files[0];
+
   const name = document.getElementById("productName").value.trim();
   const price = parseFloat(document.getElementById("productPrice").value);
-  const category = document.getElementById("productCategory").value.trim();
+  const category = document.getElementById("productCategory").value;
   const description = document.getElementById("productDescription").value.trim();
-  const displayOn = document.getElementById("productTarget").value.trim().toLowerCase();
+  const displayOn = document.getElementById("productTarget").value;
 
-  if (!imageUrl || !name || !price || !category || !description || !displayOn) {
-    statusDiv.textContent = "❗ Please fill all fields correctly.";
+  if (!imageFile || !name || !price || !category || !description || !displayOn) {
+    statusDiv.textContent = "❗ Please fill all fields and upload an image.";
     return;
   }
 
-  // ✅ Validate displayOn value
-  const validTargets = ["shop", "explore", "both"];
-  if (!validTargets.includes(displayOn)) {
-    statusDiv.textContent = "❌ Invalid Display On value.";
-    return;
-  }
-
-  statusDiv.textContent = "Uploading...";
+  statusDiv.textContent = "📤 Uploading image...";
 
   try {
+    // Read file as base64
+    const base64Image = await toBase64(imageFile);
+
+    // Upload to imgbb
+    const res = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`, {
+      method: "POST",
+      body: new URLSearchParams({
+        image: base64Image.split(',')[1]
+      })
+    });
+
+    const result = await res.json();
+
+    if (!result.success) throw new Error("Image upload failed.");
+
+    const imageUrl = result.data.url;
+
+    statusDiv.textContent = "⏳ Uploading product...";
+
     const productData = {
       name,
       price,
@@ -72,8 +87,18 @@ form.addEventListener("submit", async (e) => {
     statusDiv.textContent = "✅ Product uploaded successfully!";
     form.reset();
   } catch (err) {
-    console.error("Upload error:", err);
-    statusDiv.textContent = "❌ Upload failed. Check console.";
+    console.error(err);
+    statusDiv.textContent = "❌ Upload failed.";
   }
 });
+
+// Helper: Convert file to base64
+function toBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
 
