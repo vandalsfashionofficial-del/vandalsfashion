@@ -1,6 +1,6 @@
 // product.js
 import { db } from './firebase-config.js';
-import { doc, getDoc, addDoc, collection, Timestamp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
 
 const params = new URLSearchParams(window.location.search);
 const productId = params.get("id");
@@ -34,6 +34,7 @@ async function loadProduct() {
     productImage.src = product.imageUrl;
     productName.textContent = product.name;
     productPrice.textContent = `Price: ₹${product.price}`;
+    productImage.setAttribute("data-url", product.imageUrl); // for cart
   } catch (err) {
     console.error("Error loading product:", err);
     alert("Failed to load product.");
@@ -57,39 +58,18 @@ window.addToCart = () => {
   const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
   cart.push({
-    productId,
+    id: productId,
     name: productName.textContent,
-    price: parseFloat(productPrice.textContent.replace(/[^\d.]/g, '')), // converts ₹1000 → 1000
+    price: parseInt(productPrice.textContent.replace("Price: ₹", "")),
+    imageUrl: productImage.getAttribute("data-url"),
     size,
-    customSizes: custom,
-    colorPreference: colorPref,
-    imageUrl: productImage.src
+    custom,
+    colorPreference: colorPref
   });
 
   localStorage.setItem("cart", JSON.stringify(cart));
-  alert("Product added to cart!");
-  window.location.href = "cart.html"; // redirect to cart page
-};
-
-
-  const colorPref = document.getElementById("colorChange").value.trim();
-  try {
-    const orderData = {
-      productId,
-      productName: productName.textContent,
-      productPrice: productPrice.textContent,
-      size,
-      customSizes: custom,
-      colorPreference: colorPref,
-      orderedAt: Timestamp.now()
-    };
-
-    await addDoc(collection(db, "orders"), orderData);
-    alert("Order placed successfully!");
-  } catch (err) {
-    console.error("Order failed:", err);
-    alert("Order failed. Try again.");
-  }
+  alert("Added to cart!");
+  window.location.href = "cart.html";
 };
 
 loadProduct();
