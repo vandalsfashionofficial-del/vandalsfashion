@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Product Details | Vandals Fashion</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product | Vandals Fashion</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico" />
   <style>
@@ -13,28 +13,40 @@
       color: #fcefe3;
       font-family: 'Poppins', sans-serif;
     }
+
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
       background: #000;
-      color: #fcefe3;
-      box-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
       position: sticky;
       top: 0;
       z-index: 10;
     }
+
     header h1 {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       color: #ffd7b5;
     }
+
     nav a {
       color: #fcefe3;
       text-decoration: none;
-      margin-left: 1.5rem;
+      margin-left: 1.2rem;
       font-weight: 500;
     }
+
+    #profilePic {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: none;
+      vertical-align: middle;
+      cursor: pointer;
+      margin-left: 1rem;
+    }
+
     .container {
       display: flex;
       flex-wrap: wrap;
@@ -43,24 +55,29 @@
       padding: 1rem;
       gap: 2rem;
     }
+
     .image-section img {
       max-width: 500px;
       width: 100%;
       border-radius: 20px;
     }
+
     .details {
       flex: 1;
       display: flex;
       flex-direction: column;
     }
+
     .details h2 {
       font-size: 2rem;
       color: #ffd7b5;
     }
+
     .details p {
       color: #fcefe3;
       margin: 0.5rem 0;
     }
+
     select, input[type="text"] {
       padding: 0.5rem;
       border-radius: 10px;
@@ -68,6 +85,7 @@
       margin-top: 0.5rem;
       width: 100%;
     }
+
     .note {
       background: #1e1e1e;
       padding: 1rem;
@@ -76,6 +94,7 @@
       font-size: 0.95rem;
       color: #f5d7c0;
     }
+
     button {
       margin-top: 1.5rem;
       padding: 0.8rem 2rem;
@@ -86,33 +105,54 @@
       font-weight: bold;
       cursor: pointer;
     }
+
     .custom-size {
       margin-top: 1rem;
     }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 20px;
+      top: 60px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px;
+      color: black;
+      text-decoration: none;
+    }
+
+    .dropdown a:hover {
+      background: #f0f0f0;
+    }
+
     footer {
       text-align: center;
       padding: 2rem;
       color: #999;
+      margin-top: 4rem;
     }
   </style>
 </head>
 <body>
- <!-- ✅ HEADER FIXED -->
-<header>
-  <h1>Vandals Fashion</h1>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="shop.html">Shop</a>
-    <a href="explore.html">Explore</a>
-    <img id="profilePic" src="" alt="Profile" style="display:none; width:35px; height:35px; border-radius:50%; cursor:pointer;" />
-    <a id="authLink" href="auth.html">Login</a>
-    <div id="userDropdown" class="dropdown" style="display:none; position:absolute; right:10px; top:60px; background:white; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.15);">
-      <a href="auth.html" style="display:block; padding:10px;">Manage Account</a>
-      <a href="#" onclick="logout()" style="display:block; padding:10px; border-top:1px solid #eee;">Logout</a>
-    </div>
-  </nav>
-</header>
-
+  <header>
+    <h1>Vandals Fashion</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="explore.html">Explore</a>
+      <a id="authLink" href="auth.html">Login</a>
+      <img id="profilePic" src="" alt="Profile" />
+      <div id="userDropdown" class="dropdown">
+        <a href="auth.html">Manage Account</a>
+        <a href="#" onclick="logout()">Logout</a>
+      </div>
+    </nav>
   </header>
 
   <div class="container">
@@ -144,46 +184,47 @@
 
       <label for="colorChange">Color Preference:</label>
       <input type="text" id="colorChange" placeholder="e.g., pastel mint" />
-      
-<button onclick="addToCart()">Add to Cart</button>
 
-<!-- ✅ Auth logic properly placed -->
-<script type="module">
-  import { auth } from './firebase-config.js';
-  import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
-
-  const profilePic = document.getElementById("profilePic");
-  const authLink = document.getElementById("authLink");
-  const userDropdown = document.getElementById("userDropdown");
-
-  onAuthStateChanged(auth, (user) => {
-    if (user && user.photoURL) {
-      profilePic.src = user.photoURL;
-      profilePic.style.display = "inline-block";
-      authLink.style.display = "none";
-    } else {
-      profilePic.style.display = "none";
-      authLink.style.display = "inline-block";
-    }
-  });
-
-  profilePic?.addEventListener("click", () => {
-    userDropdown.style.display = userDropdown.style.display === "block" ? "none" : "block";
-  });
-
-  window.logout = () => {
-    signOut(auth).then(() => {
-      window.location.href = "auth.html";
-    });
-  };
-</script>
+      <button onclick="addToCart()">Add to Cart</button>
     </div>
   </div>
 
   <footer>
-    &copy; Vandals Fashion 2025. All rights reserved.
+    &copy; 2025 Vandals Fashion. All rights reserved.
   </footer>
 
+  <!-- 🔐 Profile Logic -->
+  <script type="module">
+    import { auth } from './firebase-config.js';
+    import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
+
+    const profilePic = document.getElementById("profilePic");
+    const authLink = document.getElementById("authLink");
+    const userDropdown = document.getElementById("userDropdown");
+
+    onAuthStateChanged(auth, (user) => {
+      if (user && user.photoURL) {
+        profilePic.src = user.photoURL;
+        profilePic.style.display = "inline-block";
+        authLink.style.display = "none";
+      } else {
+        profilePic.style.display = "none";
+        authLink.style.display = "inline-block";
+      }
+    });
+
+    profilePic?.addEventListener("click", () => {
+      userDropdown.style.display = userDropdown.style.display === "block" ? "none" : "block";
+    });
+
+    window.logout = () => {
+      signOut(auth).then(() => {
+        window.location.href = "auth.html";
+      });
+    };
+  </script>
+
+  <!-- 🛒 Product Logic -->
   <script type="module" src="product.js"></script>
 </body>
 </html>
