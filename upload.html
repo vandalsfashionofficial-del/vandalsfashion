@@ -1,111 +1,93 @@
-<!-- FULL FILE - upload.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Upload Product | Vandals Fashion</title>
-
   <style>
     body {
-      background: #fcefe3;
-      font-family: 'Poppins', sans-serif;
       margin: 0;
-      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #fbeee0, #fff);
       color: #333;
     }
+
     header {
-      background: #fff;
-      padding: 1rem 2rem;
+      background-color: #f5d9ab;
+      padding: 1rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
+
     header h1 {
-      color: #c39a6b;
+      margin: 0;
       font-size: 1.5rem;
+      color: #333;
     }
-    .upload-container {
-      max-width: 600px;
-      margin: 3rem auto;
-      background: #fff;
-      padding: 2rem;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    }
-    .upload-container h2 {
-      text-align: center;
-      color: #c39a6b;
-      margin-bottom: 2rem;
-    }
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
-    input, textarea, select {
-      width: 100%;
-      padding: 0.8rem;
-      margin-bottom: 1.5rem;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 1rem;
-    }
-    button {
-      background: #c39a6b;
-      color: white;
-      padding: 0.8rem 1.5rem;
-      border: none;
-      border-radius: 10px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.3s ease;
-      display: block;
-      margin: 0 auto;
-    }
-    button:hover {
-      background: #a77b4d;
-    }
-    .status {
-      text-align: center;
-      margin-top: 1rem;
-      font-weight: 500;
-    }
-    #authOverlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      backdrop-filter: blur(10px);
-      background: rgba(255, 192, 203, 0.2);
-      z-index: 999;
+
+    .profile {
       display: flex;
-      justify-content: center;
       align-items: center;
+      gap: 1rem;
     }
-    .auth-box {
+
+    .logout-btn {
+      background-color: #000;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    main {
+      max-width: 600px;
+      margin: 2rem auto;
       background: white;
       padding: 2rem;
-      border-radius: 20px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      max-width: 400px;
-      width: 90%;
-      text-align: center;
+      border-radius: 16px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    .auth-box input {
-      width: 100%;
-      margin: 0.5rem 0;
-      padding: 0.8rem;
-      border-radius: 10px;
-      border: 1px solid #ccc;
+
+    main h2 {
+      margin-top: 0;
+      color: #000;
     }
-    .auth-box button {
+
+    form label {
+      display: block;
       margin-top: 1rem;
-      width: 100%;
+      font-weight: bold;
     }
+
+    form input, form select, form textarea {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    form button {
+      margin-top: 1.5rem;
+      background-color: #ffb347;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    #uploadStatus {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
     @media (max-width: 600px) {
-      .upload-container {
+      main {
         margin: 1rem;
         padding: 1.5rem;
       }
@@ -113,91 +95,51 @@
   </style>
 </head>
 <body>
-  <div id="authOverlay">
-    <div class="auth-box">
-      <h2>Team Login</h2>
-      <input type="email" id="authEmail" placeholder="Team Email" required />
-      <input type="password" id="authPassword" placeholder="Password" required />
-      <button onclick="checkAccess()">Login</button>
-      <p id="authError" style="color:red; margin-top:1rem;"></p>
-    </div>
-  </div>
-
   <header>
-    <h1>Vandals Fashion</h1>
-    <span id="logoutBtn" style="cursor:pointer; color:#c39a6b; font-weight:600;" onclick="logout()">Logout</span>
+    <h1>Upload Product</h1>
+    <div class="profile">
+      <button class="logout-btn" id="logoutBtn">Logout</button>
+    </div>
   </header>
 
-  <div class="upload-container">
-    <h2>Upload New Product</h2>
+  <main>
+    <h2>Add New Product</h2>
     <form id="uploadForm">
-      <label for="productImage">Product Image</label>
-      <input type="file" id="productImage" accept="image/*" required />
       <label for="productName">Product Name</label>
       <input type="text" id="productName" required />
+
       <label for="productPrice">Price (INR)</label>
-      <input type="number" id="productPrice" required />
+      <input type="number" id="productPrice" step="0.01" required />
+
       <label for="productCategory">Category</label>
       <select id="productCategory" required>
-        <option value="">Select category</option>
-        <option value="T-Shirts">T-Shirts</option>
+        <option value="">-- Select --</option>
+        <option value="T-shirt">T-shirt</option>
         <option value="Oversized">Oversized</option>
-        <option value="Limited Edition">Limited Edition</option>
-        <option value="Accessories">Accessories</option>
+        <option value="Streetwear">Streetwear</option>
+        <option value="Hoodie">Hoodie</option>
       </select>
+
+      <label for="productDescription">Description</label>
+      <textarea id="productDescription" rows="4" required></textarea>
+
+      <label for="productImage">Image</label>
+      <input type="file" id="productImage" accept="image/*" required />
+
       <label for="productTarget">Display On</label>
       <select id="productTarget" required>
-        <option value="">Select where to display</option>
+        <option value="">-- Select --</option>
         <option value="shop">Shop</option>
         <option value="explore">Explore</option>
         <option value="both">Both</option>
       </select>
-      <label for="productDescription">Description</label>
-      <textarea id="productDescription" rows="4" required></textarea>
+
       <button type="submit">Upload Product</button>
-      <div class="status" id="uploadStatus"></div>
+      <div id="uploadStatus"></div>
     </form>
-  </div>
+  </main>
 
-  <script>
-    const allowedEmails = [
-      'arjunbtskimm123098@gmail.com',
-      'vandalsfashionofficial@gmail.com'
-    ];
-    const allowedPassword = 'specialindicatedsite45';
-
-    function checkAccess() {
-      const email = document.getElementById("authEmail").value.trim();
-      const password = document.getElementById("authPassword").value;
-      const error = document.getElementById("authError");
-
-      if (!allowedEmails.includes(email) || password !== allowedPassword) {
-        error.textContent = "Access denied. Invalid credentials.";
-        return;
-      }
-
-      localStorage.setItem("vf_auth", "true");
-      document.getElementById("authOverlay").style.display = "none";
-    }
-
-    function logout() {
-      localStorage.removeItem("vf_auth");
-      location.reload();
-    }
-
-    window.onload = () => {
-      const isAuth = localStorage.getItem("vf_auth");
-      if (isAuth !== "true") {
-        document.getElementById("authOverlay").style.display = "flex";
-      } else {
-        document.getElementById("authOverlay").style.display = "none";
-      }
-    };
-  </script>
-
-  <script type="module" src="firebase-config.js"></script>
- <script type="module" src="upload.js"></script>
-
+  <!-- ✅ Load only upload.js -->
+  <script type="module" src="upload.js"></script>
 </body>
 </html>
-
