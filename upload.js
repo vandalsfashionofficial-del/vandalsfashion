@@ -1,4 +1,4 @@
-// upload.js
+// ✅ FINAL upload.js (for pasted imgbb links only)
 import { auth, db } from './firebase-config.js';
 import {
   collection,
