@@ -40,7 +40,7 @@ async function loadProduct() {
   }
 }
 
-window.placeOrder = async () => {
+window.addToCart = () => {
   const size = sizeSelect.value;
   if (!size) return alert("Please select a size.");
 
@@ -52,6 +52,25 @@ window.placeOrder = async () => {
     if (!waist || !hip || !chest) return alert("Fill in all custom size fields.");
     custom = { waist, hip, chest };
   }
+
+  const colorPref = document.getElementById("colorChange").value.trim();
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+  cart.push({
+    productId,
+    name: productName.textContent,
+    price: parseFloat(productPrice.textContent.replace(/[^\d.]/g, '')), // converts ₹1000 → 1000
+    size,
+    customSizes: custom,
+    colorPreference: colorPref,
+    imageUrl: productImage.src
+  });
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert("Product added to cart!");
+  window.location.href = "cart.html"; // redirect to cart page
+};
+
 
   const colorPref = document.getElementById("colorChange").value.trim();
   try {
