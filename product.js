@@ -1,108 +1,77 @@
-import { auth, db } from './firebase-config.js';
-import {
-  collection,
-  addDoc,
-  Timestamp
-} from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js';
-import {
-  onAuthStateChanged,
-  signOut
-} from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
+// product.js
+import { db } from './firebase-config.js';
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
 
-const imgbbAPIKey = "bbfd6eceec416726284963eb08f78632";
+const params = new URLSearchParams(window.location.search);
+const productId = params.get("id");
 
-// 🔐 Restrict access
-onAuthStateChanged(auth, (user) => {
-  if (!user) {
-    alert("Please login first.");
-    window.location.href = "auth.html";
-    return;
-  }
+const productImage = document.getElementById("productImage");
+const productName = document.getElementById("productName");
+const productPrice = document.getElementById("productPrice");
+const sizeSelect = document.getElementById("sizeSelect");
+const customSizeFields = document.getElementById("customSizeFields");
 
-  const allowed = ["vandalsfashionofficial@gmail.com", "arjunbtskimm123098@gmail.com"];
-  if (!allowed.includes(user.email)) {
-    alert("Not authorized.");
-    signOut(auth).then(() => (window.location.href = "auth.html"));
-  }
+sizeSelect.addEventListener("change", () => {
+  customSizeFields.style.display = sizeSelect.value === "custom" ? "block" : "none";
 });
 
-document.getElementById("logoutBtn").addEventListener("click", () => {
-  signOut(auth).then(() => (window.location.href = "auth.html"));
-});
-
-const form = document.getElementById("uploadForm");
-const statusDiv = document.getElementById("uploadStatus");
-
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const fileInput = document.getElementById("productImageFile");
-  const imageFiles = fileInput.files;
-
-  const name = document.getElementById("productName").value.trim();
-  const price = parseFloat(document.getElementById("productPrice").value);
-  const category = document.getElementById("productCategory").value;
-  const description = document.getElementById("productDescription").value.trim();
-  const displayOn = document.getElementById("productTarget").value;
-
-  if (!imageFiles.length || !name || !price || !category || !description || !displayOn) {
-    statusDiv.textContent = "❗ Please fill all fields and upload at least one image.";
+async function loadProduct() {
+  if (!productId) {
+    alert("No product ID found in URL.");
     return;
   }
-
-  statusDiv.textContent = "📤 Uploading images...";
 
   try {
-    const imageUrls = [];
+    const productRef = doc(db, "products", productId);
+    const productSnap = await getDoc(productRef);
 
-    for (let i = 0; i < imageFiles.length; i++) {
-      const base64Image = await toBase64(imageFiles[i]);
-
-      const res = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`, {
-        method: "POST",
-        body: new URLSearchParams({
-          image: base64Image.split(',')[1]
-        })
-      });
-
-      const result = await res.json();
-
-      if (!result.success) throw new Error("Image upload failed.");
-      imageUrls.push(result.data.url);
+    if (!productSnap.exists()) {
+      alert("Product not found.");
+      return;
     }
 
-    statusDiv.textContent = "⏳ Uploading product...";
-
-    const productData = {
-      name,
-      price,
-      category,
-      description,
-      imageUrls,
-      displayOn,
-      createdAt: Timestamp.now()
-    };
-
-    await addDoc(collection(db, "products"), productData);
-
-    statusDiv.textContent = "✅ Product uploaded successfully!";
-    form.reset();
+    const product = productSnap.data();
+    productImage.src = product.imageUrl;
+    productName.textContent = product.name;
+    productPrice.textContent = Price: ₹${product.price};
+    productImage.setAttribute("data-url", product.imageUrl); // for cart
   } catch (err) {
-    console.error(err);
-    statusDiv.textContent = "❌ Upload failed. " + err.message;
+    console.error("Error loading product:", err);
+    alert("Failed to load product.");
   }
-});
-
-// Convert file to base64
-function toBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-  });
 }
 
+window.addToCart = () => {
+  const size = sizeSelect.value;
+  if (!size) return alert("Please select a size.");
 
+  let custom = null;
+  if (size === "custom") {
+    const waist = document.getElementById("waist").value.trim();
+    const hip = document.getElementById("hip").value.trim();
+    const chest = document.getElementById("chest").value.trim();
+    if (!waist || !hip || !chest) return alert("Fill in all custom size fields.");
+    custom = { waist, hip, chest };
+  }
+
+  const colorPref = document.getElementById("colorChange").value.trim();
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+  cart.push({
+    id: productId,
+    name: productName.textContent,
+    price: parseInt(productPrice.textContent.replace("Price: ₹", "")),
+    imageUrl: productImage.getAttribute("data-url"),
+    size,
+    custom,
+    colorPreference: colorPref
+  });
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert("Added to cart!");
+  window.location.href = "cart.html";
+};
+
+loadProduct();
 
 
