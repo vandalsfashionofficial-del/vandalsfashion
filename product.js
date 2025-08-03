@@ -10,6 +10,7 @@ const productName = document.getElementById("productName");
 const productPrice = document.getElementById("productPrice");
 const sizeSelect = document.getElementById("sizeSelect");
 const customSizeFields = document.getElementById("customSizeFields");
+const gallery = document.getElementById("thumbnailGallery");
 
 sizeSelect.addEventListener("change", () => {
   customSizeFields.style.display = sizeSelect.value === "custom" ? "block" : "none";
@@ -31,10 +32,30 @@ async function loadProduct() {
     }
 
     const product = productSnap.data();
-    productImage.src = product.imageUrl;
+    const images = product.imageUrls || [product.imageUrl];
+
+    productImage.src = images[0];
+    productImage.setAttribute("data-url", images[0]); // for cart
     productName.textContent = product.name;
-    productPrice.textContent = Price: ₹${product.price};
-    productImage.setAttribute("data-url", product.imageUrl); // for cart
+    productPrice.textContent = `Price: ₹${product.price}`;
+
+    // Add image thumbnails if available
+    if (gallery) {
+      gallery.innerHTML = ""; // clear existing
+      images.forEach((url, idx) => {
+        const thumb = document.createElement("img");
+        thumb.src = url;
+        if (idx === 0) thumb.classList.add("active");
+        thumb.addEventListener("click", () => {
+          productImage.src = url;
+          productImage.setAttribute("data-url", url);
+          document.querySelectorAll(".thumbnail-gallery img").forEach(t => t.classList.remove("active"));
+          thumb.classList.add("active");
+        });
+        gallery.appendChild(thumb);
+      });
+    }
+
   } catch (err) {
     console.error("Error loading product:", err);
     alert("Failed to load product.");
