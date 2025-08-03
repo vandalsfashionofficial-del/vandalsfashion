@@ -23,7 +23,7 @@ async function loadExploreProducts() {
     snapshot.forEach(doc => {
       const data = doc.data();
       if (data.displayOn === "explore" || data.displayOn === "both") {
-        products.push(data);
+        products.push({ ...data, id: doc.id });
       }
     });
 
@@ -40,6 +40,7 @@ async function loadExploreProducts() {
         <img src="${p.imageUrl}" alt="${p.name}" />
         <h3>${p.name}</h3>
         <p>₹${p.price}</p>
+        <button onclick="location.href='product.html?id=${p.id}'">View</button>
       `;
       grid.appendChild(card);
     });
