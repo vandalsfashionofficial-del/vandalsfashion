@@ -78,33 +78,52 @@
       margin: 0 auto;
     }
 
-   .category-box {
-  width: 90%;
-  max-width: 700px;
-  padding: 2rem;
-  border-radius: 20px;
-  font-size: 1.8rem;
-  font-family: 'Playfair Display', serif;
-  background: white url("https://i.ibb.co/RkDkLcNj/images.jpg") no-repeat right center;
-  background-size: contain;
-  background-blend-mode: lighten;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  color: black;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  text-align: left;
-  min-height: 160px;
-}
+  .category-box {
+    position: relative;
+    width: 90%;
+    max-width: 700px;
+    padding: 2rem;
+    border-radius: 20px;
+    font-size: 1.8rem;
+    font-family: 'Playfair Display', serif;
+    background: white;
+    color: black;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
+    transition: background 0.4s ease;
+    margin-bottom: 2rem;
+  }
 
-.category-box:hover {
-  background: linear-gradient(to right, #f9d3ec, #e0c9ff);
-  background-blend-mode: lighten;
-  color: black;
-  transform: translateY(-5px);
-}
+  .category-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -100%;
+    width: 60%;
+    height: 100%;
+    background: url("https://i.ibb.co/RkDkLcNj/images.jpg") no-repeat center center;
+    background-size: cover;
+    transition: right 0.5s ease;
+    z-index: 1;
+    opacity: 1;
+  }
+
+  .category-box:hover {
+    background: linear-gradient(to right, #f9d3ec, #e0c9ff);
+  }
+
+  .category-box:hover::before {
+    right: 0;
+  }
+
+  .category-box span {
+    position: relative;
+    z-index: 2;
+  }
 
 
 
@@ -180,5 +199,6 @@
 
 </body>
 </html>
+
 
 
