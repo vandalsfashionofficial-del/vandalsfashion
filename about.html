@@ -17,16 +17,46 @@
     header {
       background-color: black;
       color: white;
-      padding: 1rem 2rem;
+      padding: 1rem 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.2rem;
     }
 
     nav a {
       color: white;
-      margin-left: 1.5rem;
       text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle div {
+      height: 3px;
+      width: 25px;
+      background: white;
+      margin: 4px 0;
+      border-radius: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.2rem;
     }
 
     .container {
@@ -83,25 +113,56 @@
       padding: 1rem 0;
       background-color: #fff;
     }
+
+    /* 🌐 Responsive */
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        background-color: black;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 100%;
+        padding: 1rem;
+        z-index: 999;
+      }
+
+      nav.show {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      nav a {
+        margin: 0.5rem 0;
+      }
+    }
   </style>
 </head>
 <body>
 
   <!-- Header -->
   <header>
-    <div><strong>Vandals Fashion</strong></div>
-   <nav>
-  <a href="index.html">Home</a>
-  <a href="shop.html">Shop</a>
-  <a href="explore.html">Explore</a>
-  <a href="about.html">About</a>
-  <a href="contact.html">Contact</a>
-  <a href="custom-order.html">Custom</a>
-  <a href="cart.html">🛒</a>
-  <a href="orders.html">Orders</a>
-  <a href="auth.html">Login</a> 
-</nav>
+    <div class="logo">Vandals Fashion</div>
 
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <div></div><div></div><div></div>
+    </div>
+
+    <nav id="navMenu">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="explore.html">Explore</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="custom-order.html">Custom</a>
+      <a href="cart.html">🛒</a>
+      <a href="orders.html">Orders</a>
+      <a href="auth.html">Login</a> 
+    </nav>
   </header>
 
   <!-- Main Content -->
@@ -126,5 +187,13 @@
     &copy; 2025 Vandals Fashion. All rights reserved.
   </footer>
 
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById("navMenu");
+      nav.classList.toggle("show");
+    }
+  </script>
+
 </body>
 </html>
+
