@@ -7,6 +7,19 @@ const profilePic = document.getElementById("profilePic");
 const authLink = document.getElementById("authLink");
 const userDropdown = document.getElementById("userDropdown");
 
+// ✅ Get category from URL (e.g., ?category=Trendy)
+const urlParams = new URLSearchParams(window.location.search);
+const selectedCategory = urlParams.get("category");
+
+// Optional: Show heading
+if (selectedCategory) {
+  const heading = document.createElement("h2");
+  heading.textContent = `Showing: ${selectedCategory}`;
+  heading.style.textAlign = "center";
+  heading.style.margin = "20px 0";
+  grid.before(heading);
+}
+
 // 🔐 Profile UI
 onAuthStateChanged(auth, (user) => {
   if (user && user.photoURL) {
@@ -34,13 +47,16 @@ async function loadProducts() {
 
     snapshot.forEach(docSnap => {
       const data = docSnap.data();
-      if (data.displayOn === "shop" || data.displayOn === "both") {
+      const showOnShop = data.displayOn === "shop" || data.displayOn === "both";
+      const matchesCategory = !selectedCategory || data.category === selectedCategory;
+
+      if (showOnShop && matchesCategory) {
         products.push({ id: docSnap.id, ...data });
       }
     });
 
     if (products.length === 0) {
-      grid.innerHTML = "<p style='text-align:center; color:#888;'>No products found.</p>";
+      grid.innerHTML = "<p style='text-align:center; color:#888;'>No products found in this category.</p>";
       return;
     }
 
@@ -53,8 +69,7 @@ async function loadProducts() {
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
-      <img src="${(p.imageUrls && p.imageUrls[0]) || ''}" alt="${p.name}">
-
+        <img src="${imageUrl}" alt="${p.name}">
         <div class="card-content">
           <h3>${p.name}</h3>
           <p>₹${p.price}</p>
