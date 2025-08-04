@@ -3,69 +3,128 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Upload Product</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Upload Product - VF Admin</title>
   <style>
     body {
-      background-color: #0f0f0f;
-      color: #f8d8ff;
+      background-color: #0d0d0d;
+      color: #f9eaff;
       font-family: 'Segoe UI', sans-serif;
-      padding: 2rem;
+      padding: 30px;
     }
-    input, textarea, select, button {
+
+    h1 {
+      text-align: center;
+      color: #ffd6fa;
+      margin-bottom: 30px;
+    }
+
+    form {
+      max-width: 500px;
+      margin: auto;
+      background-color: #1a1a1a;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 182, 255, 0.2);
+    }
+
+    label {
       display: block;
-      width: 100%;
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-      background-color: #1e1e1e;
-      color: white;
+      margin-bottom: 15px;
+      font-size: 15px;
+      color: #ffbbff;
     }
-    label { margin-top: 15px; }
-    #uploadStatus { margin-top: 20px; font-weight: bold; }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      background-color: #2a2a2a;
+      color: #f9eaff;
+      border: 1px solid #ffb5f5;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    input[type="file"] {
+      margin-top: 5px;
+      color: #f9eaff;
+    }
+
+    button {
+      background-color: #ffb5f5;
+      color: #0d0d0d;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 15px;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.2s ease-in-out;
+    }
+
+    button:hover {
+      background-color: #ffd6fa;
+    }
+
+    #uploadStatus {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
-  <h1>Upload Product</h1>
+  <h1>Upload New Product</h1>
+
   <form id="uploadForm">
-    <label>Product Name</label>
-    <input type="text" id="productName" required />
+    <label>Product Name:
+      <input type="text" id="productName" required>
+    </label>
 
-    <label>Product Price (₹)</label>
-    <input type="number" id="productPrice" required />
+    <label>Product Price:
+      <input type="number" id="productPrice" required>
+    </label>
 
-    <label>Category</label>
-    <select id="productCategory" required>
-      <option disabled selected value="">Select category</option>
-      <option>Pakistani Luxe Wear</option>
-      <option>Designer</option>
-      <option>Trendy</option>
-      <option>Lehenga</option>
-      <option>Indo-Western</option>
-      <option>Western</option>
-      <option>Embroidery</option>
-    </select>
+    <label>Category:
+      <select id="productCategory" required>
+        <option value="">--Choose--</option>
+        <option value="Pakistani Luxe Wear">Pakistani Luxe Wear</option>
+        <option value="Designer">Designer</option>
+        <option value="Trendy">Trendy</option>
+        <option value="Lehenga">Lehenga</option>
+        <option value="Indo-Western">Indo-Western</option>
+        <option value="Western">Western</option>
+        <option value="Embroidery">Embroidery</option>
+      </select>
+    </label>
 
-    <label>Description</label>
-    <textarea id="productDescription" rows="4" required></textarea>
+    <label>Description:
+      <textarea id="productDescription" required rows="4"></textarea>
+    </label>
 
-    <label>Display On</label>
-    <select id="productTarget" required>
-      <option disabled selected value="">Where to show?</option>
-      <option>shop</option>
-      <option>explore</option>
-    </select>
+    <label>Display On:
+      <select id="productTarget" required>
+        <option value="">--Choose--</option>
+        <option value="home">Home</option>
+        <option value="shop">Shop</option>
+      </select>
+    </label>
 
-    <label>Product Images</label>
-    <input type="file" id="productImageFiles" accept="image/*" multiple required />
+    <label>Upload Images (Multiple):
+      <input type="file" id="productImageFile" accept="image/*" multiple required>
+    </label>
 
     <button type="submit">Upload Product</button>
   </form>
 
   <div id="uploadStatus"></div>
 
-  <script type="module" src="upload.js"></script>
+  <script type="module" src="./upload.js"></script>
 </body>
 </html>
+
+
 
