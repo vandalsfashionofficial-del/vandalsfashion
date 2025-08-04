@@ -1,15 +1,10 @@
 // explore.js
-import { auth, db } from './firebase-config.js';
+import { auth } from "./firebase-config.js";
 import {
   onAuthStateChanged,
-  signOut
+  signOut,
 } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
-import {
-  collection,
-  getDocs
-} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
 
-const exploreContainer = document.getElementById("exploreContainer");
 const profilePic = document.getElementById("profilePic");
 const authLink = document.getElementById("authLink");
 const userDropdown = document.getElementById("userDropdown");
@@ -24,50 +19,17 @@ const categories = [
   "Embroidery"
 ];
 
-// 🔄 Load and group products by category
-async function loadExploreProducts() {
-  const productsByCategory = {};
+const container = document.getElementById("categoryContainer");
 
-  categories.forEach(cat => productsByCategory[cat] = []);
+// Load category banners
+categories.forEach((cat) => {
+  const box = document.createElement("div");
+  box.className = "category-box";
+  box.textContent = cat;
+  container.appendChild(box);
+});
 
-  try {
-    const snapshot = await getDocs(collection(db, "products"));
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      if ((data.displayOn === "explore" || data.displayOn === "both") && categories.includes(data.category)) {
-        productsByCategory[data.category].push({ ...data, id: doc.id });
-      }
-    });
-
-    categories.forEach(cat => {
-      const items = productsByCategory[cat];
-      if (items.length > 0) {
-        const section = document.createElement("section");
-        section.className = "category-section";
-        section.innerHTML = `
-          <div class="category-banner">${cat}</div>
-          <div class="product-grid">
-            ${items.map(p => `
-              <div class="product-card">
-                <img src="${Array.isArray(p.imageUrls) ? p.imageUrls[0] : p.imageUrl}" alt="${p.name}" />
-                <h3>${p.name}</h3>
-                <p>₹${p.price}</p>
-                <button onclick="location.href='product.html?id=${p.id}'">View</button>
-              </div>
-            `).join("")}
-          </div>
-        `;
-        exploreContainer.appendChild(section);
-      }
-    });
-
-  } catch (error) {
-    console.error("Error loading explore products:", error);
-    exploreContainer.innerHTML = "<p style='text-align:center; color:red;'>Error loading products.</p>";
-  }
-}
-
-// 🔒 Auth
+// Auth UI
 onAuthStateChanged(auth, (user) => {
   if (user && user.photoURL) {
     profilePic.src = user.photoURL;
@@ -86,6 +48,4 @@ window.logout = () => {
     window.location.href = "auth.html";
   });
 };
-
-loadExploreProducts();
 
