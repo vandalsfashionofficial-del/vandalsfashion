@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Explore – Vandals Fashion</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css" />
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -71,40 +70,39 @@
     .category-boxes {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      padding: 1rem;
-      gap: 1.5rem;
+      gap: 2rem;
       max-width: 1000px;
       margin: 0 auto;
+      padding: 1rem;
     }
 
     .category-box {
-      width: 90%;
-      max-width: 700px;
-      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       border-radius: 20px;
-      text-align: center;
+      overflow: hidden;
+      height: 180px;
+      background-color: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      border: 1px solid #eee;
+    }
+
+    .category-text {
+      flex: 1;
+      padding: 2rem;
       font-size: 1.8rem;
       font-family: 'Playfair Display', serif;
-      background: #f5f5f5;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      color: black;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      font-weight: 600;
     }
 
-    .category-box:hover {
-      background: linear-gradient(135deg, #ffe6f0, #f0f0ff);
-      transform: translateY(-5px);
-      color: #222;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      padding: 2rem 0 1rem;
-      background-color: #f9f9f9;
+    .pattern {
+      flex: 1;
+      height: 100%;
+      background-image: url('download.jpg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.25;
     }
 
     .marquee {
@@ -125,6 +123,31 @@
     @keyframes scroll {
       0% { transform: translateX(0); }
       100% { transform: translateX(-100%); }
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      padding: 2rem 0 1rem;
+      background-color: #f9f9f9;
+    }
+
+    @media(max-width: 768px) {
+      .category-box {
+        flex-direction: column;
+        height: auto;
+      }
+
+      .category-text {
+        padding: 1.5rem;
+        text-align: center;
+      }
+
+      .pattern {
+        width: 100%;
+        height: 120px;
+      }
     }
   </style>
 </head>
@@ -152,7 +175,14 @@
   <h1>Explore Our Categories</h1>
 
   <div class="category-boxes" id="categoryContainer">
-    <!-- Dynamic categories will go here -->
+    <!-- These 7 boxes will always show -->
+    <div class="category-box"><div class="category-text">Pakistani Luxe Wear</div><div class="pattern"></div></div>
+    <div class="category-box"><div class="category-text">Designer</div><div class="pattern"></div></div>
+    <div class="category-box"><div class="category-text">Trendy</div><div class="pattern"></div></div>
+    <div class="category-box"><div class="category-text">Lehenga</div><div class="pattern"></div></div>
+    <div class="category-box"><div class="category-text">Indo-Western</div><div class="pattern"></div></div>
+    <div class="category-box"><div class="category-text">Western</div><div class="pattern"></div></div>
+    <div class="category-box"><div class="category-text">Embroidery</div><div class="pattern"></div></div>
   </div>
 
   <div class="marquee">
