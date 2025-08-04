@@ -53,7 +53,8 @@ async function loadProducts() {
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
-        <img src="${imageUrl}" alt="${p.name}">
+      <img src="${(p.imageUrls && p.imageUrls[0]) || ''}" alt="${p.name}">
+
         <div class="card-content">
           <h3>${p.name}</h3>
           <p>₹${p.price}</p>
