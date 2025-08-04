@@ -1,4 +1,3 @@
-// shop.js
 import { auth, db } from './firebase-config.js';
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
@@ -47,10 +46,14 @@ async function loadProducts() {
 
     grid.innerHTML = "";
     products.forEach(p => {
+      const imageUrl = Array.isArray(p.imageUrls) && p.imageUrls.length > 0
+        ? p.imageUrls[0]
+        : (p.imageUrl || "placeholder.jpg"); // fallback
+
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
-        <img src="${p.imageUrl}" alt="${p.name}">
+        <img src="${imageUrl}" alt="${p.name}">
         <div class="card-content">
           <h3>${p.name}</h3>
           <p>₹${p.price}</p>
@@ -66,4 +69,3 @@ async function loadProducts() {
 }
 
 loadProducts();
-
