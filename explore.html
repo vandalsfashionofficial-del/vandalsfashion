@@ -78,36 +78,34 @@
       margin: 0 auto;
     }
 
-    .category-box {
+   .category-box {
   width: 90%;
   max-width: 700px;
-  height: 150px;
+  padding: 2rem;
   border-radius: 20px;
+  font-size: 1.8rem;
+  font-family: 'Playfair Display', serif;
+  background: white url("https://i.ibb.co/RkDkLcNj/images.jpg") no-repeat right center;
+  background-size: contain;
+  background-blend-mode: lighten;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  color: black;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 1.5rem 2rem;
-  background-color: white;
-  background-image: url('./download.jpg');
-  background-repeat: no-repeat;
-  background-position: right center;
-  background-size: 35% auto;
-  color: black;
-  font-size: 1.6rem;
-  font-family: 'Playfair Display', serif;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
-  transition: all 0.3s ease;
-  overflow: hidden;
+  justify-content: flex-start;
   text-align: left;
+  min-height: 160px;
 }
 
 .category-box:hover {
-  background: linear-gradient(to right, #ffe6f0 0%, #f0f0ff 100%), url('./download.jpg');
-  background-blend-mode: screen;
+  background: linear-gradient(to right, #f9d3ec, #e0c9ff);
+  background-blend-mode: lighten;
+  color: black;
   transform: translateY(-5px);
-  color: #222;
 }
+
 
 
     footer {
@@ -182,4 +180,5 @@
 
 </body>
 </html>
+
 
