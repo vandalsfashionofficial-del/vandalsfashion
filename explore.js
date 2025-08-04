@@ -26,8 +26,15 @@ categories.forEach((cat) => {
   const box = document.createElement("div");
   box.className = "category-box";
   box.textContent = cat;
+
+  // ✅ Make it clickable
+  box.onclick = () => {
+    window.location.href = `shop.html?category=${encodeURIComponent(cat)}`;
+  };
+
   container.appendChild(box);
 });
+
 
 // Auth UI
 onAuthStateChanged(auth, (user) => {
