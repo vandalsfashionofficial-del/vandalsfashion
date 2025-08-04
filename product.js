@@ -10,7 +10,7 @@ const productName = document.getElementById("productName");
 const productPrice = document.getElementById("productPrice");
 const sizeSelect = document.getElementById("sizeSelect");
 const customSizeFields = document.getElementById("customSizeFields");
-const gallery = document.getElementById("thumbnailGallery");
+const gallery = document.getElementById("thumbnailRow");
 
 sizeSelect.addEventListener("change", () => {
   customSizeFields.style.display = sizeSelect.value === "custom" ? "block" : "none";
