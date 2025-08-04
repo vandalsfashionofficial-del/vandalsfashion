@@ -1,17 +1,10 @@
 import { auth, db } from './firebase-config.js';
-import {
-  collection,
-  addDoc,
-  Timestamp
-} from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js';
-import {
-  onAuthStateChanged,
-  signOut
-} from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
+import { collection, addDoc, Timestamp } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js';
+import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
 
 const imgbbAPIKey = "bbfd6eceec416726284963eb08f78632";
+const allowedAdmins = ["vandalsfashionofficial@gmail.com", "arjunbtskimm123098@gmail.com"];
 
-// 🔐 Restrict access
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     alert("Please login first.");
@@ -19,34 +12,25 @@ onAuthStateChanged(auth, (user) => {
     return;
   }
 
-  const allowed = ["vandalsfashionofficial@gmail.com", "arjunbtskimm123098@gmail.com"];
-  if (!allowed.includes(user.email)) {
+  if (!allowedAdmins.includes(user.email)) {
     alert("Not authorized.");
-    signOut(auth).then(() => (window.location.href = "auth.html"));
+    signOut(auth).then(() => window.location.href = "auth.html");
   }
 });
 
-document.getElementById("logoutBtn").addEventListener("click", () => {
-  signOut(auth).then(() => (window.location.href = "auth.html"));
-});
-
-const form = document.getElementById("uploadForm");
-const statusDiv = document.getElementById("uploadStatus");
-
-form.addEventListener("submit", async (e) => {
+document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   e.preventDefault();
-
-  const fileInput = document.getElementById("productImageFile");
-  const imageFiles = fileInput.files;
 
   const name = document.getElementById("productName").value.trim();
   const price = parseFloat(document.getElementById("productPrice").value);
   const category = document.getElementById("productCategory").value;
   const description = document.getElementById("productDescription").value.trim();
   const displayOn = document.getElementById("productTarget").value;
+  const imageFiles = document.getElementById("productImageFiles").files;
+  const statusDiv = document.getElementById("uploadStatus");
 
   if (!imageFiles.length || !name || !price || !category || !description || !displayOn) {
-    statusDiv.textContent = "❗ Please fill all fields and upload at least one image.";
+    statusDiv.textContent = "❗ Please fill all fields and upload images.";
     return;
   }
 
@@ -54,24 +38,19 @@ form.addEventListener("submit", async (e) => {
 
   try {
     const imageUrls = [];
-
-    for (let i = 0; i < imageFiles.length; i++) {
-      const base64Image = await toBase64(imageFiles[i]);
+    for (const file of imageFiles) {
+      const base64 = await toBase64(file);
       const res = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`, {
         method: "POST",
-        body: new URLSearchParams({
-          image: base64Image.split(',')[1]
-        })
+        body: new URLSearchParams({ image: base64.split(',')[1] })
       });
 
       const result = await res.json();
-      if (!result.success) throw new Error("Image upload failed.");
+      if (!result.success) throw new Error("Image upload failed");
       imageUrls.push(result.data.url);
     }
 
-    if (!imageUrls.length) throw new Error("No images uploaded.");
-
-    statusDiv.textContent = "⏳ Uploading product...";
+    statusDiv.textContent = "⏳ Saving product...";
 
     const productData = {
       name,
@@ -86,22 +65,22 @@ form.addEventListener("submit", async (e) => {
     await addDoc(collection(db, "products"), productData);
 
     statusDiv.textContent = "✅ Product uploaded successfully!";
-    form.reset();
+    document.getElementById("uploadForm").reset();
   } catch (err) {
-    console.error("Upload Error:", err);
-    statusDiv.textContent = "❌ Upload failed. " + err.message;
+    console.error(err);
+    statusDiv.textContent = "❌ Upload failed. Please try again.";
   }
 });
 
-// Helper: Convert file to base64
 function toBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
   });
 }
+
 
 
   });
