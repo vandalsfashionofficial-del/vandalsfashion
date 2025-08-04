@@ -10,10 +10,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
 
 const imgbbAPIKey = "bbfd6eceec416726284963eb08f78632";
-const statusDiv = document.getElementById("uploadStatus");
-const form = document.getElementById("uploadForm");
 
-// 🔐 Restrict access
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     alert("Please login first.");
@@ -28,49 +25,60 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  signOut(auth).then(() => (window.location.href = "auth.html"));
+});
+
+const form = document.getElementById("uploadForm");
+const statusDiv = document.getElementById("uploadStatus");
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const files = document.getElementById("productImageFile").files;
+  if (files.length === 0) {
+    statusDiv.textContent = "❗ Please select at least one image.";
+    return;
+  }
+
   const name = document.getElementById("productName").value.trim();
   const price = parseFloat(document.getElementById("productPrice").value);
   const category = document.getElementById("productCategory").value;
   const description = document.getElementById("productDescription").value.trim();
   const displayOn = document.getElementById("productTarget").value;
 
-  if (files.length === 0 || !name || !price || !category || !description || !displayOn) {
-    statusDiv.textContent = "❗ Please fill all fields and upload at least one image.";
+  if (!name || !price || !category || !description || !displayOn) {
+    statusDiv.textContent = "❗ Please fill all fields.";
     return;
   }
 
-  statusDiv.textContent = "📤 Uploading images...";
-
   try {
+    statusDiv.textContent = "📤 Uploading images...";
+
     const imageUrls = [];
 
-    for (let i = 0; i < files.length; i++) {
-      const base64Image = await toBase64(files[i]);
-
+    for (let file of files) {
+      const base64 = await toBase64(file);
       const res = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbAPIKey}`, {
         method: "POST",
-        body: new URLSearchParams({ image: base64Image.split(',')[1] })
+        body: new URLSearchParams({
+          image: base64.split(',')[1]
+        })
       });
 
       const result = await res.json();
-
-      if (!result.success) throw new Error("One or more image uploads failed.");
-
+      if (!result.success) throw new Error("One or more images failed to upload.");
       imageUrls.push(result.data.url);
     }
 
-    statusDiv.textContent = "⏳ Uploading product details...";
+    statusDiv.textContent = "⏳ Uploading product data...";
 
     const productData = {
       name,
       price,
       category,
       description,
-      imageUrls, // array of all uploaded image links
+      imageUrls,
       displayOn,
       createdAt: Timestamp.now()
     };
@@ -85,13 +93,13 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
-// Helper
 function toBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
+    reader.onerror = (err) => reject(err);
   });
 }
+
 
