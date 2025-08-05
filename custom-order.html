@@ -2,374 +2,245 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Custom Order – Vandals Fashion</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom Order - Vandals Fashion</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="images/favicon.png" />
+  <script type="module" src="firebase-config.js"></script>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("CB8hwx-xnlGQcO9aL");
+    })();
+  </script>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #fff;
-      color: #222;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
     }
 
     header {
-      background-color: black;
-      color: white;
-      padding: 1rem 1.5rem;
+      background-color: #000;
+      color: #fff;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: relative;
+      padding: 1rem;
     }
 
     .logo {
-      font-weight: bold;
+      font-size: 1.5rem;
     }
 
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-size: 0.95rem;
-    }
-
-    .menu-icon {
+    .menu {
       display: none;
       flex-direction: column;
       cursor: pointer;
     }
 
-    .menu-icon div {
+    .bar {
       width: 25px;
       height: 3px;
       background-color: white;
-      margin: 4px 0;
+      margin: 3px 0;
     }
 
-    .mobile-menu {
-      display: none;
-      flex-direction: column;
-      background-color: black;
-      position: absolute;
-      top: 100%;
-      right: 0;
-      width: 200px;
-      z-index: 10;
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
     }
 
-    .mobile-menu a {
-      padding: 0.8rem 1rem;
-      border-top: 1px solid #333;
+    nav ul li {
+      display: inline;
     }
 
-    .profile-icon {
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .profile img {
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      cursor: pointer;
+      object-fit: cover;
     }
 
-    .dropdown {
-      position: absolute;
-      top: 60px;
-      right: 1rem;
-      background: #fff;
-      border: 1px solid #ccc;
-      display: none;
-      flex-direction: column;
-      z-index: 99;
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+        flex-direction: column;
+        background: black;
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        left: 0;
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      .menu {
+        display: flex;
+      }
     }
 
-    .dropdown a {
-      padding: 0.7rem 1rem;
-      text-decoration: none;
-      color: #000;
-      font-size: 0.9rem;
-      border-bottom: 1px solid #eee;
-    }
-
-    .dropdown a:hover {
-      background-color: #f0f0f0;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 3rem auto;
+    main {
       padding: 2rem;
-      background-color: #f9f9f9;
-      border-radius: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      max-width: 600px;
+      margin: auto;
     }
 
     h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.2rem;
-      margin-bottom: 1rem;
       text-align: center;
+      color: #333;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
     }
 
     label {
-      display: block;
       margin-top: 1rem;
       font-weight: bold;
     }
 
     input, textarea {
-      width: 100%;
-      padding: 0.7rem;
-      margin-top: 0.5rem;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
       border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 1rem;
+      border-radius: 4px;
     }
 
     button {
-      margin-top: 2rem;
-      padding: 0.7rem 2rem;
+      margin-top: 1.5rem;
       background-color: black;
       color: white;
+      padding: 0.75rem;
       border: none;
-      border-radius: 8px;
       cursor: pointer;
-      font-size: 1rem;
     }
 
     button:hover {
       background-color: #333;
     }
-
-    footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      padding: 1rem 0;
-      margin-top: 3rem;
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        display: none;
-      }
-
-      .menu-icon {
-        display: flex;
-      }
-
-      .mobile-menu.show {
-        display: flex;
-      }
-    }
   </style>
 </head>
 <body>
-
-  <!-- Header -->
   <header>
     <div class="logo">Vandals Fashion</div>
+    <div class="menu" onclick="toggleMenu()">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
-      <a href="explore.html">Explore</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="custom-order.html">Custom</a>
-      <a href="cart.html">🛒</a>
-      <a href="orders.html">Orders</a>
-      <a href="auth.html">Login</a>
+      <ul id="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="custom-order.html">Custom Order</a></li>
+        <li><a href="cart.html">Cart</a></li>
+      </ul>
     </nav>
-    <div class="menu-icon" onclick="toggleMobileMenu()">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-    <img src="https://placehold.co/32x32" alt="Profile" class="profile-icon" id="profileIcon" onclick="toggleDropdown()" />
-    <div class="dropdown" id="profileDropdown">
-      <a href="#">Manage Account</a>
-      <a href="#" onclick="logout()">Logout</a>
-    </div>
-    <div class="mobile-menu" id="mobileMenu">
-      <a href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
-      <a href="explore.html">Explore</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="custom-order.html">Custom</a>
-      <a href="cart.html">🛒</a>
-      <a href="orders.html">Orders</a>
-      <a href="auth.html">Login</a>
+    <div class="profile" id="profileSection" style="display: none;">
+      <img id="profilePic" src="images/default-profile.png" alt="Profile" />
+      <div id="profileDropdown" style="display: none;">
+        <a href="#">Manage Account</a>
+        <a href="#" onclick="logout()">Logout</a>
+      </div>
     </div>
   </header>
 
-  <!-- Form -->
-  <div class="container">
+  <main>
     <h1>Custom Order</h1>
     <form id="customOrderForm">
-      <label for="name">Name</label>
-      <input type="text" id="name" required>
+      <label for="name">Your Name</label>
+      <input type="text" id="name" required />
 
-      <label for="email">Email</label>
-      <input type="email" id="email" required>
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" required />
 
-      <label for="phone">Phone Number:</label>
-<input type="tel" id="phone" name="phone" required />
+      <label for="description">Order Description</label>
+      <textarea id="description" rows="4" required></textarea>
 
-
-      <label for="design">Describe your custom design</label>
-      <textarea id="design" rows="5" required></textarea>
-
-      <label for="size">Size </label>
-      <input type="text" id="size">
-       
-<label for="image">Upload Reference Image (required):</label>
-<input type="file"  id="referenceImage" name="referenceImage" accept="image/*" required />
-<p id="image-status" style="font-size: 12px; color: gray;"></p>
-<input type="hidden" name="image_url" id="imageURLField">
+      <label for="referenceImage">Upload Reference Image (optional)</label>
+      <input type="file" id="referenceImage" accept="image/*" />
 
       <button type="submit">Submit Request</button>
     </form>
-  </div>
+  </main>
 
-  <footer>
-    &copy; 2025 Vandals Fashion. All rights reserved.
-  </footer>
-
-  <!-- Firebase + Script -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import { auth, db } from './firebase-config.js';
+    import { doc, setDoc, collection, addDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 
-    const firebaseConfig = {
-  apiKey: "AIzaSyDvAGbIoZDjI5gFRsCEXXXF4Me2B0pj8Xw",
-  authDomain: "vandals-fashion.firebaseapp.com",
-  projectId: "vandals-fashion",
-  storageBucket: "vandals-fashion.appspot.com",
-  messagingSenderId: "861421435889",
-  appId: "1:861421435889:web:640cdf13f99dbe7fef61fb"
-};
+    const profileSection = document.getElementById('profileSection');
+    const profilePic = document.getElementById('profilePic');
 
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
-
-    const profileIcon = document.getElementById('profileIcon');
-    const dropdown = document.getElementById('profileDropdown');
-
-    onAuthStateChanged(auth, (user) => {
-      if (user && user.photoURL) {
-        profileIcon.src = user.photoURL;
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        profileSection.style.display = 'flex';
+        if (user.photoURL) {
+          profilePic.src = user.photoURL;
+        }
       }
     });
 
-    window.toggleDropdown = function () {
-      dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
-    };
+    function toggleMenu() {
+      document.querySelector('nav ul').classList.toggle('active');
+    }
 
-    window.logout = function () {
-      signOut(auth).then(() => {
-        window.location.href = "index.html";
-      });
-    };
+    document.getElementById("customOrderForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    window.toggleMobileMenu = function () {
-      const mobileMenu = document.getElementById("mobileMenu");
-      mobileMenu.classList.toggle("show");
-    };
-const refImg = document.getElementById('referenceImage').files[0];
-const imgbbKey = 'bbfd6eceec416726284963eb08f78632';
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const description = document.getElementById("description").value.trim();
+      const imageInput = document.getElementById("referenceImage");
+      const imageFile = imageInput.files[0];
 
-if (refImg) {
-  const formData = new FormData();
-  formData.append('image', refImg);
+      let imageUrl = "";
 
-  fetch(`https://api.imgbb.com/1/upload?key=${imgbbKey}`, {
-    method: 'POST',
-    body: formData
-  })
-  .then(res => res.json())
-  .then(data => {
-    const imageUrl = data.data.url;
-    sendEmail(imageUrl); // Send with image
-  })
-  .catch(err => {
-    alert("Image upload failed. Sending without image.");
-    sendEmail("No image provided."); // Fallback
-  });
-} else {
-  sendEmail("No image provided.");
-}
+      if (imageFile) {
+        const formData = new FormData();
+        formData.append("image", imageFile);
 
-function sendEmail(imageUrl) {
-  const templateParams = {
-    name: document.getElementById('name').value,
-    phone: document.getElementById('phone').value,
-    address: document.getElementById('address').value,
-    pincode: document.getElementById('pincode').value,
-    payment: document.querySelector('input[name="payment"]:checked')?.value || "Not selected",
-    total: document.getElementById('total').innerText,
-    order_id: generateOrderId(),
-    reference_image: imageUrl
-  };
+        const res = await fetch("https://api.imgbb.com/1/upload?key=bbfd6eceec416726284963eb08f78632", {
+          method: "POST",
+          body: formData
+        });
 
-  emailjs.send("service_byyvwjh", "template_z8lkhwp", templateParams)
-    .then(() => alert("Order placed successfully!"))
-    .catch((err) => console.error("Email error:", err));
-}
+        const data = await res.json();
+        imageUrl = data.data.url;
+      }
 
+      const item = {
+        name,
+        phone,
+        description,
+        imageUrl,
+        isCustom: true,
+        quantity: 1,
+        price: 0,
+      };
 
-  </script>
-  <script>
-document.getElementById("customOrderForm").addEventListener("submit", function(e) {
-  e.preventDefault();
+      localStorage.setItem('cart', JSON.stringify([...(JSON.parse(localStorage.getItem('cart') || "[]")), item]));
 
-  // Save form details
-  const details = {
-    name: document.getElementById("name").value,
-    phone: document.getElementById("phone").value,
-    address: document.getElementById("address").value,
-    pincode: document.getElementById("pincode").value,
-    payment: document.getElementById("payment").value,
-  };
-  localStorage.setItem("customOrderDetails", JSON.stringify(details));
-
-  // Save image
-  const fileInput = document.getElementById("image").files[0];
-  if (fileInput) {
-    const reader = new FileReader();
-    reader.onload = function () {
-      localStorage.setItem("customOrderImage", reader.result);
-      addToCartAndRedirect();
-    };
-    reader.readAsDataURL(fileInput);
-  } else {
-    addToCartAndRedirect();
-  }
-
-  function addToCartAndRedirect() {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    cart.push({
-      name: "Custom Order",
-      price: 0,
-      quantity: 1,
-      image: "", // optional, or you can use uploaded image here
-      isCustom: true,
+      window.location.href = "cart.html";
     });
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-    window.location.href = "cart.html";
-  }
-});
-</script>
-
-
+    window.logout = () => signOut(auth);
+  </script>
 </body>
 </html>
-
-
