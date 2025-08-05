@@ -5,15 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contact – Vandals Fashion</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
+  <script type="module" src="./firebase-config.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
       font-family: 'Poppins', sans-serif;
       background-color: #fff;
       color: #222;
     }
-
     header {
       background-color: black;
       color: white;
@@ -21,56 +20,80 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
+      position: relative;
     }
-
+    .brand { font-weight: bold; font-size: 1.2rem; }
     nav {
       display: flex;
       align-items: center;
+      gap: 1rem;
     }
-
     nav a {
       color: white;
-      margin-left: 1.2rem;
       text-decoration: none;
+      font-size: 0.9rem;
     }
-
-    .profile-container {
-      position: relative;
-      display: inline-block;
-    }
-
-    .profile-img {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-left: 1.2rem;
+    .hamburger {
+      display: none;
+      flex-direction: column;
       cursor: pointer;
     }
-
+    .hamburger div {
+      width: 20px;
+      height: 2px;
+      background: white;
+      margin: 3px 0;
+    }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .profile-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      object-fit: cover;
+      margin-left: 1rem;
+    }
     .dropdown {
       display: none;
       position: absolute;
-      right: 0;
-      background-color: white;
-      color: black;
-      min-width: 140px;
+      right: 2rem;
+      top: 70px;
+      background: white;
       border: 1px solid #ccc;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border-radius: 6px;
       z-index: 1000;
     }
-
     .dropdown a {
       display: block;
       padding: 10px;
       color: black;
       text-decoration: none;
     }
-
     .dropdown a:hover {
       background-color: #f0f0f0;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+      .nav-links {
+        display: none;
+        position: absolute;
+        background-color: black;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+      }
+      .nav-links a {
+        margin: 0.5rem 0;
+      }
     }
 
     .container {
@@ -142,8 +165,13 @@
 
   <!-- Header -->
   <header>
-    <div><strong>Vandals Fashion</strong></div>
-    <nav>
+    <div class="brand">Vandals Fashion</div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <nav class="nav-links" id="navLinks">
       <a href="index.html">Home</a>
       <a href="shop.html">Shop</a>
       <a href="explore.html">Explore</a>
@@ -152,22 +180,19 @@
       <a href="custom-order.html">Custom</a>
       <a href="cart.html">🛒</a>
       <a href="orders.html">Orders</a>
-      <a href="auth.html" id="loginLink">Login</a>
-      <div class="profile-container" id="profileContainer" style="display:none;">
-        <img src="" alt="Profile" class="profile-img" id="profileImage">
-        <div class="dropdown" id="profileDropdown">
-          <a href="auth.html">Manage Account</a>
-          <a href="#" id="logoutBtn">Logout</a>
-        </div>
-      </div>
+      <a href="auth.html" id="authLink">Login</a>
     </nav>
+    <img id="profilePic" class="profile-icon" style="display:none;" />
+    <div class="dropdown" id="dropdownMenu">
+      <a href="manage.html">Manage Account</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
   </header>
 
   <!-- Main Content -->
   <div class="container">
     <h1>Contact Us</h1>
     <p>We’d love to hear from you! Whether you have a custom design in mind or want to know more about our latest collection, feel free to reach out to us anytime.</p>
-
     <div class="info">
       <p><strong>📞 Phone / WhatsApp:</strong> <a class="contact-link" href="https://wa.me/917837498898" target="_blank">+91 78374 98898</a></p>
       <p><strong>📍 Address:</strong> #60, Dashmesh Nagar A, Street No 3, Behind Central Jail, Patiala, Punjab, India</p>
@@ -186,39 +211,47 @@
     &copy; 2025 Vandals Fashion. All rights reserved.
   </footer>
 
-  <!-- Firebase Config + Profile Script -->
+  <!-- Auth + Hamburger Script -->
   <script type="module">
     import { auth } from './firebase-config.js';
     import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 
-    const loginLink = document.getElementById('loginLink');
-    const profileContainer = document.getElementById('profileContainer');
-    const profileImage = document.getElementById('profileImage');
-    const profileDropdown = document.getElementById('profileDropdown');
-    const logoutBtn = document.getElementById('logoutBtn');
+    const profilePic = document.getElementById("profilePic");
+    const dropdown = document.getElementById("dropdownMenu");
+    const authLink = document.getElementById("authLink");
 
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, user => {
       if (user) {
-        loginLink.style.display = 'none';
-        profileContainer.style.display = 'inline-block';
-        profileImage.src = user.photoURL || 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
+        authLink.style.display = "none";
+        profilePic.style.display = "block";
+        profilePic.src = user.photoURL || "https://cdn-icons-png.flaticon.com/512/847/847969.png";
+        profilePic.onclick = () => dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+      } else {
+        authLink.style.display = "inline";
+        profilePic.style.display = "none";
+        dropdown.style.display = "none";
       }
     });
 
-    profileImage.onclick = () => {
-      profileDropdown.style.display = profileDropdown.style.display === 'block' ? 'none' : 'block';
-    };
-
-    logoutBtn.onclick = async () => {
+    window.logout = async () => {
       await signOut(auth);
-      location.reload();
+      window.location.href = "auth.html";
     };
+  </script>
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById("navLinks");
+      nav.style.display = nav.style.display === "flex" ? "none" : "flex";
+    }
 
-    window.onclick = function(event) {
-      if (!event.target.matches('.profile-img')) {
-        profileDropdown.style.display = "none";
+    // Close dropdown when clicking outside
+    document.addEventListener("click", function(event) {
+      const dropdown = document.getElementById("dropdownMenu");
+      const profile = document.getElementById("profilePic");
+      if (dropdown && !dropdown.contains(event.target) && !profile.contains(event.target)) {
+        dropdown.style.display = "none";
       }
-    };
+    });
   </script>
 
 </body>
