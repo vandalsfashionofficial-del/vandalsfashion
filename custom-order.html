@@ -3,378 +3,231 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Custom Order – Vandals Fashion</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
-  <script type="module" src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
-
+  <title>Custom Order</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
-      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #fff;
-      color: #222;
     }
 
     header {
       background-color: black;
       color: white;
-      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 14px 20px;
       position: relative;
     }
 
     .brand {
-      font-weight: bold;
+      font-size: 1.5em;
     }
 
-    nav {
+    .nav-links {
       display: flex;
-      gap: 1rem;
+      gap: 15px;
     }
 
-    nav a {
+    .nav-links a {
       color: white;
       text-decoration: none;
-      font-weight: 500;
     }
 
     .hamburger {
       display: none;
       flex-direction: column;
-      cursor: pointer;
       gap: 5px;
+      cursor: pointer;
     }
 
     .hamburger div {
       width: 25px;
       height: 3px;
-      background-color: white;
+      background: white;
     }
 
-    .nav-links {
+    .profile-dropdown {
+      position: relative;
       display: flex;
-      gap: 1.2rem;
       align-items: center;
     }
 
-    .profile-icon {
-      width: 30px;
-      height: 30px;
+    .profile-dropdown img {
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 48px;
+      right: 0;
       background-color: white;
       color: black;
-      text-align: center;
-      line-height: 30px;
-      font-weight: bold;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .dropdown {
-      display: none;
-      position: absolute;
-      right: 2rem;
-      top: 60px;
-      background: white;
-      color: black;
-      border: 1px solid #ccc;
+      border: 1px solid #ddd;
       border-radius: 5px;
-      overflow: hidden;
-      z-index: 100;
+      display: none;
+      flex-direction: column;
+      min-width: 150px;
+      z-index: 1000;
     }
 
-    .dropdown a {
-      display: block;
-      padding: 0.7rem 1rem;
+    .dropdown-menu a {
+      padding: 10px;
       text-decoration: none;
       color: black;
-      font-size: 0.9rem;
+      border-bottom: 1px solid #eee;
     }
 
-    .dropdown a:hover {
-      background-color: #f0f0f0;
+    .dropdown-menu a:hover {
+      background-color: #f5f5f5;
     }
 
     @media (max-width: 768px) {
       .nav-links {
         display: none;
         flex-direction: column;
-        background: black;
         position: absolute;
-        top: 60px;
-        right: 0;
+        top: 65px;
+        left: 0;
+        background-color: black;
         width: 100%;
-        padding: 1rem 0;
+        padding: 10px;
       }
 
-      .nav-links.show {
-        display: flex;
+      .nav-links a {
+        padding: 10px 0;
       }
 
       .hamburger {
         display: flex;
       }
-
-      .profile-icon {
-        position: absolute;
-        right: 3rem;
-      }
-    }
-
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      margin: 2rem 0;
-      text-align: center;
-    }
-
-    .form-container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-
-    .form-group {
-      margin-bottom: 1rem;
-    }
-
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 0.3rem;
-    }
-
-    input, textarea, select {
-      width: 100%;
-      padding: 0.6rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-    }
-
-    button {
-      background-color: black;
-      color: white;
-      border: none;
-      padding: 0.8rem 2rem;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: bold;
-      display: block;
-      margin: 1rem auto 0;
-    }
-
-    button:hover {
-      background-color: #FFD700;
-      color: black;
-    }
-
-    .marquee {
-      background-color: black;
-      color: white;
-      font-weight: bold;
-      padding: 0.7rem 0;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-
-    .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll 20s linear infinite;
-    }
-
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-
-    footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      padding: 1rem 0;
-      background-color: #f9f9f9;
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header>
-    <div class="brand">Vandals Fashion</div>
+<header>
+  <div class="brand">Vandals Fashion</div>
 
-    <div class="hamburger" onclick="toggleMenu()">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-
-    <nav class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
-      <a href="explore.html">Explore</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="custom-order.html">Custom</a>
-      <a href="cart.html">🛒</a>
-      <a href="orders.html">Orders</a>
-      <a href="auth.html">Login</a>
-    </nav>
-
-    <div class="profile-icon" onclick="toggleDropdown()">👤</div>
-
-   <div class="profile-dropdown">
-  <img id="userProfilePic" src="" alt="Profile" style="width: 36px; height: 36px; border-radius: 50%; cursor: pointer;" />
-  <div id="dropdownMenu" class="dropdown-menu" style="display: none;">
-    <a href="auth.html">Manage Account</a>
-    <a href="#" id="logoutBtn">Logout</a>
+  <div class="hamburger" onclick="toggleMenu()">
+    <div></div>
+    <div></div>
+    <div></div>
   </div>
-</div>
 
+  <nav class="nav-links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="explore.html">Explore</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="custom-order.html">Custom</a>
+    <a href="cart.html">🛒</a>
+    <a href="orders.html">Orders</a>
+    <a href="auth.html">Login</a>
+  </nav>
 
-  <h1>Place a Custom Order</h1>
+  <div id="profileDropdown" class="profile-dropdown">
+    <img id="userProfilePic" src="" alt="Profile" />
+    <div id="dropdownMenu" class="dropdown-menu">
+      <a href="auth.html">Manage Account</a>
+      <a href="#" id="logoutBtn">Logout</a>
+    </div>
+  </div>
+</header>
+
+<!-- You can insert your custom order content here -->
+<main style="padding: 20px;">
+  <h2>Custom Order Page</h2>
+
 
   <div class="form-container">
-    <div class="form-group">
-      <label>Your Name</label>
-      <input type="text" id="name" required />
-    </div>
+<div class="form-group">
+<label>Your Name</label>
+<input type="text" id="name" required />
+</div>
 
-    <div class="form-group">
-      <label>Phone Number</label>
-      <input type="tel" id="phone" required />
-    </div>
+<div class="form-group">
+<label>Phone Number</label>
+<input type="tel" id="phone" required />
+</div>
 
-    <div class="form-group">
-      <label>Preferred Style</label>
-      <input type="text" id="style" required />
-    </div>
+<div class="form-group">
+<label>Preferred Style</label>
+<input type="text" id="style" required />
+</div>
 
-    <div class="form-group">
-      <label>Size / Measurements</label>
-      <input type="text" id="size" required />
-    </div>
+<div class="form-group">
+<label>Size / Measurements</label>
+<input type="text" id="size" required />
+</div>
 
-    <div class="form-group">
-      <label>Color Preference</label>
-      <input type="text" id="color" required />
-    </div>
+<div class="form-group">
+<label>Color Preference</label>
+<input type="text" id="color" required />
+</div>
 
-    <div class="form-group">
-      <label>Notes / Special Instructions (Optional)</label>
-      <textarea id="notes" rows="3"></textarea>
-    </div>
+<div class="form-group">
+<label>Notes / Special Instructions (Optional)</label>
+<textarea id="notes" rows="3"></textarea>
+</div>
 
-    <div class="form-group">
-      <label>Upload Inspiration Image (Optional)</label>
-      <input type="file" id="inspirationImage" accept="image/*" />
-    </div>
+<div class="form-group">
+<label>Upload Inspiration Image (Optional)</label>
+<input type="file" id="inspirationImage" accept="image/*" />
+</div>
+  <!-- Add form or content below -->
+</main>
 
-    <button onclick="submitCustomOrder()">Submit Custom Order</button>
-  </div>
+<script>
+  function toggleMenu() {
+    const navLinks = document.getElementById("navLinks");
+    navLinks.style.display = navLinks.style.display === "flex" ? "none" : "flex";
+  }
 
-  <!-- Marquee -->
-  <div class="marquee">
-    <span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION • </span>
-  </div>
+  function toggleDropdown() {
+    const dropdown = document.getElementById("dropdownMenu");
+    dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
+  }
 
-  <!-- Footer -->
-  <footer>
-    &copy; 2025 Vandals Fashion. All rights reserved.
-  </footer>
-
-  <!-- JS -->
-  <script>
-    function toggleMenu() {
-      const nav = document.getElementById("navLinks");
-      nav.classList.toggle("show");
+  // Close dropdown when clicking outside
+  document.addEventListener("click", (e) => {
+    const pic = document.getElementById("userProfilePic");
+    const dropdown = document.getElementById("dropdownMenu");
+    if (!pic.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.style.display = "none";
     }
-
-    function toggleDropdown() {
-      const dropdown = document.getElementById("profileDropdown");
-      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-    }
-
-    function logout() {
-      alert("Logging out...");
-      // Add your Firebase logout code here
-    }
-
-    function handleImageUpload(callback) {
-      const fileInput = document.getElementById("inspirationImage");
-      const file = fileInput.files[0];
-      if (!file) return callback(null);
-
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        callback(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function submitCustomOrder() {
-      const name = document.getElementById("name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const style = document.getElementById("style").value.trim();
-      const size = document.getElementById("size").value.trim();
-      const color = document.getElementById("color").value.trim();
-      const notes = document.getElementById("notes").value.trim();
-
-      if (!name || !phone || !style || !size || !color) {
-        alert("Please fill in all required fields.");
-        return;
-      }
-
-      handleImageUpload(function (imageData) {
-        const customOrder = {
-          name,
-          phone,
-          style,
-          size,
-          color,
-          notes,
-          inspirationImage: imageData || null
-        };
-
-        localStorage.setItem("customOrder", JSON.stringify(customOrder));
-        window.location.href = "cart.html";
-      });
-    }
-  </script>
-    <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  import { firebaseConfig } from './firebase-config.js'; // make sure path is correct
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  const profilePic = document.getElementById('userProfilePic');
-  const dropdownMenu = document.getElementById('dropdownMenu');
-
-  profilePic.addEventListener('click', () => {
-    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
   });
+</script>
 
-  onAuthStateChanged(auth, user => {
-    if (user && user.photoURL) {
-      profilePic.src = user.photoURL;
+<script type="module">
+  import { auth } from './firebase-config.js';
+  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+
+  const profilePic = document.getElementById("userProfilePic");
+  const dropdown = document.getElementById("dropdownMenu");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  profilePic.addEventListener("click", toggleDropdown);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const photoURL = user.photoURL || "https://cdn-icons-png.flaticon.com/512/847/847969.png";
+      profilePic.src = photoURL;
     } else {
-      profilePic.src = 'default-icon.png'; // optional fallback image
+      profilePic.src = "https://cdn-icons-png.flaticon.com/512/847/847969.png";
     }
   });
 
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    signOut(auth).then(() => {
-      window.location.href = "auth.html";
-    });
+  logoutBtn.addEventListener("click", async () => {
+    await signOut(auth);
+    window.location.href = "auth.html";
   });
 </script>
 
 </body>
 </html>
-
