@@ -21,12 +21,61 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
     }
 
     nav a {
       color: white;
-      margin-left: 1.5rem;
       text-decoration: none;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+    }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: black;
+      width: 100%;
+      padding: 1rem 2rem;
+    }
+
+    .mobile-menu a {
+      margin: 0.5rem 0;
+      color: white;
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .mobile-menu.show {
+        display: flex;
+      }
     }
 
     h1 {
@@ -112,16 +161,32 @@
   <header>
     <div><strong>Vandals Fashion</strong></div>
     <nav>
-     <a href="index.html">Home</a>
-  <a href="shop.html">Shop</a>
-  <a href="explore.html">Explore</a>
-  <a href="about.html">About</a>
-  <a href="contact.html">Contact</a>
-  <a href="custom-order.html">Custom</a>
-  <a href="cart.html">🛒</a>
-  <a href="orders.html">Orders</a>
-  <a href="auth.html">Login</a> 
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="explore.html">Explore</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="custom-order.html">Custom</a>
+      <a href="cart.html">🛒</a>
+      <a href="orders.html">Orders</a>
+      <a href="auth.html">Login</a> 
     </nav>
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="explore.html">Explore</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="custom-order.html">Custom</a>
+      <a href="cart.html">🛒</a>
+      <a href="orders.html">Orders</a>
+      <a href="auth.html">Login</a> 
+    </div>
   </header>
 
   <h1>Place a Custom Order</h1>
@@ -177,6 +242,10 @@
 
   <!-- JS Logic -->
   <script>
+    function toggleMenu() {
+      document.getElementById('mobileMenu').classList.toggle('show');
+    }
+
     function handleImageUpload(callback) {
       const fileInput = document.getElementById("inspirationImage");
       const file = fileInput.files[0];
