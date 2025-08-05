@@ -3,106 +3,166 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Custom Order</title>
+  <title>Custom Order – Vandals Fashion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Poppins', sans-serif;
       background-color: #fff;
+      color: #222;
     }
 
     header {
       background-color: black;
       color: white;
+      padding: 1rem 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 20px;
       position: relative;
     }
 
-    .brand {
-      font-size: 1.5em;
+    .logo {
+      font-weight: bold;
     }
 
-    .nav-links {
+    nav {
       display: flex;
-      gap: 15px;
+      align-items: center;
+      gap: 1.2rem;
     }
 
-    .nav-links a {
+    nav a {
       color: white;
       text-decoration: none;
+      font-size: 0.95rem;
     }
 
-    .hamburger {
+    .menu-icon {
       display: none;
       flex-direction: column;
-      gap: 5px;
       cursor: pointer;
     }
 
-    .hamburger div {
+    .menu-icon div {
       width: 25px;
       height: 3px;
-      background: white;
+      background-color: white;
+      margin: 4px 0;
     }
 
-    .profile-dropdown {
-      position: relative;
-      display: flex;
-      align-items: center;
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background-color: black;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      width: 200px;
+      z-index: 10;
     }
 
-    .profile-dropdown img {
-      width: 36px;
-      height: 36px;
+    .mobile-menu a {
+      padding: 0.8rem 1rem;
+      border-top: 1px solid #333;
+    }
+
+    .profile-icon {
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       cursor: pointer;
     }
 
-    .dropdown-menu {
+    .dropdown {
       position: absolute;
-      top: 48px;
-      right: 0;
-      background-color: white;
-      color: black;
-      border: 1px solid #ddd;
-      border-radius: 5px;
+      top: 60px;
+      right: 1rem;
+      background: #fff;
+      border: 1px solid #ccc;
       display: none;
       flex-direction: column;
-      min-width: 150px;
-      z-index: 1000;
+      z-index: 99;
     }
 
-    .dropdown-menu a {
-      padding: 10px;
+    .dropdown a {
+      padding: 0.7rem 1rem;
       text-decoration: none;
-      color: black;
+      color: #000;
+      font-size: 0.9rem;
       border-bottom: 1px solid #eee;
     }
 
-    .dropdown-menu a:hover {
-      background-color: #f5f5f5;
+    .dropdown a:hover {
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background-color: #f9f9f9;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 2rem;
+      padding: 0.7rem 2rem;
+      background-color: black;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    button:hover {
+      background-color: #333;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      padding: 1rem 0;
+      margin-top: 3rem;
     }
 
     @media (max-width: 768px) {
-      .nav-links {
+      nav {
         display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 65px;
-        left: 0;
-        background-color: black;
-        width: 100%;
-        padding: 10px;
       }
 
-      .nav-links a {
-        padding: 10px 0;
+      .menu-icon {
+        display: flex;
       }
 
-      .hamburger {
+      .mobile-menu.show {
         display: flex;
       }
     }
@@ -110,124 +170,156 @@
 </head>
 <body>
 
-<header>
-  <div class="brand">Vandals Fashion</div>
-
-  <div class="hamburger" onclick="toggleMenu()">
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
-
-  <nav class="nav-links" id="navLinks">
-    <a href="index.html">Home</a>
-    <a href="shop.html">Shop</a>
-    <a href="explore.html">Explore</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="custom-order.html">Custom</a>
-    <a href="cart.html">🛒</a>
-    <a href="orders.html">Orders</a>
-    <a href="auth.html">Login</a>
-  </nav>
-
-  <div id="profileDropdown" class="profile-dropdown">
-    <img id="userProfilePic" src="" alt="Profile" />
-    <div id="dropdownMenu" class="dropdown-menu">
-      <a href="auth.html">Manage Account</a>
-      <a href="#" id="logoutBtn">Logout</a>
+  <!-- Header -->
+  <header>
+    <div class="logo">Vandals Fashion</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="explore.html">Explore</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="custom-order.html">Custom</a>
+      <a href="cart.html">🛒</a>
+      <a href="orders.html">Orders</a>
+      <a href="auth.html">Login</a>
+    </nav>
+    <div class="menu-icon" onclick="toggleMobileMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
+    <img src="https://placehold.co/32x32" alt="Profile" class="profile-icon" id="profileIcon" onclick="toggleDropdown()" />
+    <div class="dropdown" id="profileDropdown">
+      <a href="#">Manage Account</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="explore.html">Explore</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="custom-order.html">Custom</a>
+      <a href="cart.html">🛒</a>
+      <a href="orders.html">Orders</a>
+      <a href="auth.html">Login</a>
+    </div>
+  </header>
+
+  <!-- Form -->
+  <div class="container">
+    <h1>Custom Order</h1>
+    <form id="customOrderForm">
+      <label for="name">Name</label>
+      <input type="text" id="name" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" required>
+
+      <label for="design">Describe your custom design</label>
+      <textarea id="design" rows="5" required></textarea>
+
+      <label for="size">Size </label>
+      <input type="text" id="size">
+       
+<label for="image">Upload Reference Image (required):</label>
+<input type="file"  id="referenceImage" name="referenceImage" accept="image/*" required />
+<p id="image-status" style="font-size: 12px; color: gray;"></p>
+<input type="hidden" name="image_url" id="imageURLField">
+
+      <button type="submit">Submit Request</button>
+    </form>
   </div>
-</header>
 
-<!-- You can insert your custom order content here -->
-<main style="padding: 20px;">
-  <h2>Custom Order Page</h2>
+  <footer>
+    &copy; 2025 Vandals Fashion. All rights reserved.
+  </footer>
+
+  <!-- Firebase + Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+    const firebaseConfig = {
+  apiKey: "AIzaSyDvAGbIoZDjI5gFRsCEXXXF4Me2B0pj8Xw",
+  authDomain: "vandals-fashion.firebaseapp.com",
+  projectId: "vandals-fashion",
+  storageBucket: "vandals-fashion.appspot.com",
+  messagingSenderId: "861421435889",
+  appId: "1:861421435889:web:640cdf13f99dbe7fef61fb"
+};
 
 
-  <div class="form-container">
-<div class="form-group">
-<label>Your Name</label>
-<input type="text" id="name" required />
-</div>
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
 
-<div class="form-group">
-<label>Phone Number</label>
-<input type="tel" id="phone" required />
-</div>
+    const profileIcon = document.getElementById('profileIcon');
+    const dropdown = document.getElementById('profileDropdown');
 
-<div class="form-group">
-<label>Preferred Style</label>
-<input type="text" id="style" required />
-</div>
+    onAuthStateChanged(auth, (user) => {
+      if (user && user.photoURL) {
+        profileIcon.src = user.photoURL;
+      }
+    });
 
-<div class="form-group">
-<label>Size / Measurements</label>
-<input type="text" id="size" required />
-</div>
+    window.toggleDropdown = function () {
+      dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+    };
 
-<div class="form-group">
-<label>Color Preference</label>
-<input type="text" id="color" required />
-</div>
+    window.logout = function () {
+      signOut(auth).then(() => {
+        window.location.href = "index.html";
+      });
+    };
 
-<div class="form-group">
-<label>Notes / Special Instructions (Optional)</label>
-<textarea id="notes" rows="3"></textarea>
-</div>
+    window.toggleMobileMenu = function () {
+      const mobileMenu = document.getElementById("mobileMenu");
+      mobileMenu.classList.toggle("show");
+    };
+const refImg = document.getElementById('referenceImage').files[0];
+const imgbbKey = 'bbfd6eceec416726284963eb08f78632';
 
-<div class="form-group">
-<label>Upload Inspiration Image (Optional)</label>
-<input type="file" id="inspirationImage" accept="image/*" />
-</div>
-  <!-- Add form or content below -->
-</main>
+if (refImg) {
+  const formData = new FormData();
+  formData.append('image', refImg);
 
-<script>
-  function toggleMenu() {
-    const navLinks = document.getElementById("navLinks");
-    navLinks.style.display = navLinks.style.display === "flex" ? "none" : "flex";
-  }
-
-  function toggleDropdown() {
-    const dropdown = document.getElementById("dropdownMenu");
-    dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
-  }
-
-  // Close dropdown when clicking outside
-  document.addEventListener("click", (e) => {
-    const pic = document.getElementById("userProfilePic");
-    const dropdown = document.getElementById("dropdownMenu");
-    if (!pic.contains(e.target) && !dropdown.contains(e.target)) {
-      dropdown.style.display = "none";
-    }
+  fetch(`https://api.imgbb.com/1/upload?key=${imgbbKey}`, {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    const imageUrl = data.data.url;
+    sendEmail(imageUrl); // Send with image
+  })
+  .catch(err => {
+    alert("Image upload failed. Sending without image.");
+    sendEmail("No image provided."); // Fallback
   });
-</script>
+} else {
+  sendEmail("No image provided.");
+}
 
-<script type="module">
-  import { auth } from './firebase-config.js';
-  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+function sendEmail(imageUrl) {
+  const templateParams = {
+    name: document.getElementById('name').value,
+    phone: document.getElementById('phone').value,
+    address: document.getElementById('address').value,
+    pincode: document.getElementById('pincode').value,
+    payment: document.querySelector('input[name="payment"]:checked')?.value || "Not selected",
+    total: document.getElementById('total').innerText,
+    order_id: generateOrderId(),
+    reference_image: imageUrl
+  };
 
-  const profilePic = document.getElementById("userProfilePic");
-  const dropdown = document.getElementById("dropdownMenu");
-  const logoutBtn = document.getElementById("logoutBtn");
+  emailjs.send("service_byyvwjh", "template_z8lkhwp", templateParams)
+    .then(() => alert("Order placed successfully!"))
+    .catch((err) => console.error("Email error:", err));
+}
 
-  profilePic.addEventListener("click", toggleDropdown);
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const photoURL = user.photoURL || "https://cdn-icons-png.flaticon.com/512/847/847969.png";
-      profilePic.src = photoURL;
-    } else {
-      profilePic.src = "https://cdn-icons-png.flaticon.com/512/847/847969.png";
-    }
-  });
-
-  logoutBtn.addEventListener("click", async () => {
-    await signOut(auth);
-    window.location.href = "auth.html";
-  });
-</script>
+  </script>
 
 </body>
 </html>
