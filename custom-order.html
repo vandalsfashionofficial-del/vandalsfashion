@@ -324,7 +324,52 @@ function sendEmail(imageUrl) {
 
 
   </script>
+  <script>
+document.getElementById("customOrderForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  // Save form details
+  const details = {
+    name: document.getElementById("name").value,
+    phone: document.getElementById("phone").value,
+    address: document.getElementById("address").value,
+    pincode: document.getElementById("pincode").value,
+    payment: document.getElementById("payment").value,
+  };
+  localStorage.setItem("customOrderDetails", JSON.stringify(details));
+
+  // Save image
+  const fileInput = document.getElementById("image").files[0];
+  if (fileInput) {
+    const reader = new FileReader();
+    reader.onload = function () {
+      localStorage.setItem("customOrderImage", reader.result);
+      addToCartAndRedirect();
+    };
+    reader.readAsDataURL(fileInput);
+  } else {
+    addToCartAndRedirect();
+  }
+
+  function addToCartAndRedirect() {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart.push({
+      name: "Custom Order",
+      price: 0,
+      quantity: 1,
+      image: "", // optional, or you can use uploaded image here
+      isCustom: true,
+    });
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    window.location.href = "cart.html";
+  }
+});
+</script>
+
 
 </body>
 </html>
+
 
