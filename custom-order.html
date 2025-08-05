@@ -24,341 +24,204 @@
       position: relative;
     }
 
-    .logo {
+    .brand {
       font-weight: bold;
       font-size: 1.2rem;
     }
 
     nav {
       display: flex;
-      align-items: center;
-      gap: 1rem;
+      gap: 1.2rem;
     }
 
     nav a {
       color: white;
       text-decoration: none;
-      font-size: 0.95rem;
     }
 
     .hamburger {
       display: none;
       flex-direction: column;
       cursor: pointer;
-      gap: 4px;
     }
 
     .hamburger div {
       width: 25px;
       height: 3px;
       background-color: white;
+      margin: 4px 0;
     }
 
-    .nav-links {
-      display: flex;
-      gap: 1rem;
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background-color: black;
+      padding: 1rem;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      z-index: 99;
+    }
+
+    .mobile-nav a {
+      padding: 0.5rem 0;
+      color: white;
+      text-decoration: none;
     }
 
     .profile {
       position: relative;
+      cursor: pointer;
     }
 
     .profile img {
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      cursor: pointer;
     }
 
     .dropdown {
-      position: absolute;
-      right: 0;
-      top: 40px;
-      background: white;
-      color: black;
-      border: 1px solid #ccc;
-      border-radius: 6px;
       display: none;
-      flex-direction: column;
-      min-width: 150px;
-      z-index: 999;
+      position: absolute;
+      top: 110%;
+      right: 0;
+      background-color: white;
+      color: black;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      overflow: hidden;
     }
 
     .dropdown a {
-      padding: 0.7rem 1rem;
+      display: block;
+      padding: 0.8rem 1rem;
       text-decoration: none;
       color: black;
     }
 
     .dropdown a:hover {
-      background-color: #f0f0f0;
+      background-color: #eee;
     }
 
     @media (max-width: 768px) {
       nav {
         display: none;
-        flex-direction: column;
-        background-color: black;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        padding: 1rem 0;
-      }
-
-      nav.active {
-        display: flex;
       }
 
       .hamburger {
         display: flex;
       }
 
-      .profile {
-        margin-left: auto;
+      .mobile-nav.show {
+        display: flex;
       }
+    }
+
+    main {
+      max-width: 600px;
+      margin: 3rem auto;
+      padding: 2rem;
     }
 
     h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      margin: 2rem 0;
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
       text-align: center;
     }
 
-    .form-container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-
-    .form-group {
-      margin-bottom: 1rem;
-    }
-
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 0.3rem;
-    }
-
-    input, textarea {
+    form input, form textarea, form button {
       width: 100%;
-      padding: 0.6rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
       font-size: 1rem;
     }
 
-    button {
+    form button {
       background-color: black;
       color: white;
       border: none;
-      padding: 0.8rem 2rem;
-      border-radius: 30px;
       cursor: pointer;
-      font-weight: bold;
-      display: block;
-      margin: 1rem auto 0;
-    }
-
-    button:hover {
-      background-color: #FFD700;
-      color: black;
-    }
-
-    .marquee {
-      background-color: black;
-      color: white;
-      font-weight: bold;
-      padding: 0.7rem 0;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-
-    .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll 20s linear infinite;
-    }
-
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-
-    footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      padding: 1rem 0;
-      background-color: #f9f9f9;
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
   <header>
-    <div class="logo">Vandals Fashion</div>
-    
+    <div class="brand">Vandals Fashion</div>
     <div class="hamburger" onclick="toggleMenu()">
       <div></div><div></div><div></div>
     </div>
 
-    <nav id="nav">
-      <a href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
-      <a href="explore.html">Explore</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="custom-order.html">Custom</a>
-      <a href="cart.html">🛒</a>
-      <a href="orders.html">Orders</a>
-      <a href="auth.html" id="authLink">Login</a>
-    </nav>
-
-    <div class="profile" id="profileContainer" style="display: none;">
-      <img id="profilePic" src="" onclick="toggleDropdown()" />
+    <div class="profile" onclick="toggleDropdown()">
+      <img id="profilePic" src="https://www.svgrepo.com/show/384674/account-avatar-profile-user-11.svg" alt="profile" />
       <div class="dropdown" id="dropdownMenu">
-        <a href="auth.html">Manage Account</a>
+        <a href="manage-account.html">Manage Account</a>
         <a href="#" onclick="logout()">Logout</a>
       </div>
     </div>
   </header>
 
-  <h1>Place a Custom Order</h1>
-
-  <div class="form-container">
-    <div class="form-group">
-      <label>Your Name</label>
-      <input type="text" id="name" required />
-    </div>
-
-    <div class="form-group">
-      <label>Phone Number</label>
-      <input type="tel" id="phone" required />
-    </div>
-
-    <div class="form-group">
-      <label>Preferred Style</label>
-      <input type="text" id="style" required />
-    </div>
-
-    <div class="form-group">
-      <label>Size / Measurements</label>
-      <input type="text" id="size" required />
-    </div>
-
-    <div class="form-group">
-      <label>Color Preference</label>
-      <input type="text" id="color" required />
-    </div>
-
-    <div class="form-group">
-      <label>Notes / Special Instructions (Optional)</label>
-      <textarea id="notes" rows="3"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Upload Inspiration Image (Optional)</label>
-      <input type="file" id="inspirationImage" accept="image/*" />
-    </div>
-
-    <button onclick="submitCustomOrder()">Submit Custom Order</button>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="explore.html">Explore</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="custom-order.html">Custom</a>
+    <a href="cart.html">🛒</a>
+    <a href="orders.html">Orders</a>
+    <a href="auth.html">Login</a>
   </div>
 
-  <div class="marquee">
-    <span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION • </span>
-  </div>
+  <main>
+    <h1>Custom Order</h1>
+    <form id="customOrderForm">
+      <input type="text" placeholder="Name" required />
+      <input type="email" placeholder="Email" required />
+      <textarea rows="5" placeholder="Tell us your design ideas..." required></textarea>
+      <button type="submit">Submit Request</button>
+    </form>
+  </main>
 
-  <footer>
-    &copy; 2025 Vandals Fashion. All rights reserved.
-  </footer>
-
-  <!-- Firebase Auth -->
   <script type="module">
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { app } from './firebase-config.js';
+    import { auth } from './firebase-config.js';
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 
-    const auth = getAuth(app);
+    const profilePic = document.getElementById('profilePic');
+    const dropdownMenu = document.getElementById('dropdownMenu');
 
-    const profilePic = document.getElementById("profilePic");
-    const profileContainer = document.getElementById("profileContainer");
-    const authLink = document.getElementById("authLink");
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        profileContainer.style.display = "block";
-        authLink.style.display = "none";
-        if (user.photoURL) {
-          profilePic.src = user.photoURL;
-        } else {
-          profilePic.src = "https://www.gravatar.com/avatar/?d=mp";
-        }
-      } else {
-        profileContainer.style.display = "none";
-        authLink.style.display = "inline";
+    onAuthStateChanged(auth, user => {
+      if (user && user.photoURL) {
+        profilePic.src = user.photoURL;
       }
     });
 
+    window.toggleDropdown = function () {
+      dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    }
+
     window.logout = function () {
       signOut(auth).then(() => {
-        location.reload();
+        window.location.href = "auth.html";
       });
-    };
-
-    window.toggleDropdown = function () {
-      const dropdown = document.getElementById("dropdownMenu");
-      dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
-    };
+    }
   </script>
 
   <script>
     function toggleMenu() {
-      document.getElementById("nav").classList.toggle("active");
+      const mobileNav = document.getElementById("mobileNav");
+      mobileNav.classList.toggle("show");
     }
 
-    function handleImageUpload(callback) {
-      const fileInput = document.getElementById("inspirationImage");
-      const file = fileInput.files[0];
-      if (!file) return callback(null);
-
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        callback(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function submitCustomOrder() {
-      const name = document.getElementById("name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const style = document.getElementById("style").value.trim();
-      const size = document.getElementById("size").value.trim();
-      const color = document.getElementById("color").value.trim();
-      const notes = document.getElementById("notes").value.trim();
-
-      if (!name || !phone || !style || !size || !color) {
-        alert("Please fill in all required fields.");
-        return;
+    window.addEventListener('click', function(e) {
+      const dropdown = document.getElementById('dropdownMenu');
+      const profile = document.querySelector('.profile');
+      if (!profile.contains(e.target)) {
+        dropdown.style.display = 'none';
       }
-
-      handleImageUpload(function (imageData) {
-        const customOrder = {
-          name,
-          phone,
-          style,
-          size,
-          color,
-          notes,
-          inspirationImage: imageData || null
-        };
-
-        localStorage.setItem("customOrder", JSON.stringify(customOrder));
-        window.location.href = "cart.html";
-      });
-    }
+    });
   </script>
 
 </body>
