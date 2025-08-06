@@ -11,9 +11,14 @@
     body { font-family: 'Poppins', sans-serif; background-color: #fff; color: #222; }
 
     header {
-      background-color: black; color: white;
-      padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+      background-color: black;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       position: relative;
+      z-index: 999;
     }
 
     nav {
@@ -24,7 +29,9 @@
     }
 
     nav a {
-      color: white; text-decoration: none; font-size: 0.9rem;
+      color: white;
+      text-decoration: none;
+      font-size: 0.9rem;
     }
 
     .profile-pic {
@@ -57,6 +64,42 @@
 
     #userDropdown a:hover {
       background-color: #f2f2f2;
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      margin: 4px 0;
+      transition: 0.4s;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        background-color: black;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        padding: 1rem;
+      }
+
+      nav.show {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
     }
 
     h1 {
@@ -156,7 +199,14 @@
 
   <header>
     <div><strong>Vandals Fashion</strong></div>
-    <nav>
+
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <nav id="navLinks">
       <a href="index.html">Home</a>
       <a href="shop.html">Shop</a>
       <a href="explore.html">Explore</a>
@@ -168,6 +218,7 @@
       <a href="auth.html" id="authLink">Login</a>
       <img id="profilePic" class="profile-pic" style="display:none;" />
     </nav>
+
     <div id="userDropdown">
       <a href="https://myaccount.google.com" target="_blank">Manage Account</a>
       <a href="#" onclick="logout()">Logout</a>
@@ -193,7 +244,28 @@
   <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"></script>
   <script src="./firebase-config.js"></script>
   <script type="module" src="shop.js"></script>
+
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById("navLinks");
+      nav.classList.toggle("show");
+    }
+
+    const profilePic = document.getElementById("profilePic");
+    const userDropdown = document.getElementById("userDropdown");
+
+    profilePic?.addEventListener("click", () => {
+      userDropdown.style.display = userDropdown.style.display === "block" ? "none" : "block";
+    });
+
+    function logout() {
+      import("https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js").then(({ getAuth, signOut }) => {
+        const auth = getAuth();
+        signOut(auth).then(() => {
+          window.location.href = "auth.html";
+        });
+      });
+    }
+  </script>
 </body>
 </html>
-
-
