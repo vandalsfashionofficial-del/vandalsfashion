@@ -199,7 +199,24 @@
         margin: 0.5rem 0;
       }
     }
-  </style>
+
+  /* Add this fix to your existing styles */
+  .navbar {
+    position: relative;
+    z-index: 1000;
+  }
+
+  .dropdown-menu {
+    position: relative;
+    z-index: 1001;
+  }
+
+  .category-box {
+    position: relative;
+    z-index: 1;
+  }
+</style>
+
 </head>
 <body>
 
@@ -258,5 +275,6 @@
 
 </body>
 </html>
+
 
 
