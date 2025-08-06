@@ -23,12 +23,24 @@
       justify-content: space-between;
       align-items: center;
       position: relative;
+      flex-wrap: wrap;
+    }
+
+    .logo-text {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
     }
 
     nav a {
       color: white;
       text-decoration: none;
       margin-left: 1rem;
+      font-size: 0.95rem;
     }
 
     .profile-pic {
@@ -61,6 +73,49 @@
       background-color: #f2f2f2;
     }
 
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      margin: 4px 0;
+    }
+
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background-color: black;
+      width: 100%;
+    }
+
+    .mobile-nav a {
+      padding: 0.75rem 1.5rem;
+      border-top: 1px solid #444;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .mobile-nav {
+        display: none;
+      }
+
+      .mobile-nav.show {
+        display: flex;
+      }
+    }
+
     h1 {
       text-align: center;
       font-size: 2.5rem;
@@ -78,61 +133,51 @@
       margin: 0 auto;
     }
 
-  .category-box {
-    position: relative;
-    width: 90%;
-    max-width: 700px;
-    padding: 2rem;
-    border-radius: 20px;
-    font-size: 1.8rem;
-    font-family: 'Playfair Display', serif;
-    background: white;
-    color: black;
-    cursor: pointer;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    overflow: hidden;
-    transition: background 0.4s ease;
-    margin-bottom: 2rem;
-  }
+    .category-box {
+      position: relative;
+      width: 90%;
+      max-width: 700px;
+      padding: 2rem;
+      border-radius: 20px;
+      font-size: 1.8rem;
+      font-family: 'Playfair Display', serif;
+      background: white;
+      color: black;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: hidden;
+      transition: background 0.4s ease;
+      margin-bottom: 2rem;
+    }
 
-  .category-box::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: -100%;
-    width: 60%;
-    height: 100%;
-    background: url("https://i.ibb.co/RkDkLcNj/images.jpg") no-repeat center center;
-    background-size: cover;
-    transition: right 0.5s ease;
-    z-index: 1;
-    opacity: 1;
-  }
+    .category-box::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: -100%;
+      width: 60%;
+      height: 100%;
+      background: url("https://i.ibb.co/RkDkLcNj/images.jpg") no-repeat center center;
+      background-size: cover;
+      transition: right 0.5s ease;
+      z-index: 1;
+      opacity: 1;
+    }
 
-  .category-box:hover {
-    background: linear-gradient(to right, #f9d3ec, #e0c9ff);
-  }
+    .category-box:hover {
+      background: linear-gradient(to right, #f9d3ec, #e0c9ff);
+    }
 
-  .category-box:hover::before {
-    right: 0;
-  }
+    .category-box:hover::before {
+      right: 0;
+    }
 
-  .category-box span {
-    position: relative;
-    z-index: 2;
-  }
-
-
-
-    footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      padding: 2rem 0 1rem;
-      background-color: #f9f9f9;
+    .category-box span {
+      position: relative;
+      z-index: 2;
     }
 
     .marquee {
@@ -154,12 +199,27 @@
       0% { transform: translateX(0); }
       100% { transform: translateX(-100%); }
     }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      padding: 2rem 0 1rem;
+      background-color: #f9f9f9;
+    }
   </style>
 </head>
 <body>
 
   <header>
-    <div><strong>Vandals Fashion</strong></div>
+    <div class="logo-text">Vandals Fashion</div>
+
+    <div class="hamburger" onclick="toggleMobileNav()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
     <nav>
       <a href="index.html">Home</a>
       <a href="shop.html">Shop</a>
@@ -171,6 +231,18 @@
       <a href="auth.html" id="authLink">Login</a>
       <img id="profilePic" class="profile-pic" style="display:none;" />
     </nav>
+
+    <div class="mobile-nav" id="mobileNav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="explore.html">Explore</a>
+      <a href="contact.html">Contact</a>
+      <a href="custom-order.html">Custom</a>
+      <a href="cart.html">🛒</a>
+      <a href="orders.html">Orders</a>
+      <a href="auth.html" id="authLinkMobile">Login</a>
+    </div>
+
     <div id="userDropdown">
       <a href="https://myaccount.google.com" target="_blank">Manage Account</a>
       <a href="#" onclick="logout()">Logout</a>
@@ -197,8 +269,30 @@
   <script type="module" src="./firebase-config.js"></script>
   <script type="module" src="explore.js"></script>
 
+  <script>
+    function toggleMobileNav() {
+      const nav = document.getElementById("mobileNav");
+      nav.classList.toggle("show");
+    }
+
+    const profilePic = document.getElementById("profilePic");
+    const userDropdown = document.getElementById("userDropdown");
+
+    profilePic?.addEventListener("click", () => {
+      userDropdown.style.display = userDropdown.style.display === "block" ? "none" : "block";
+    });
+
+    function logout() {
+      import('https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js').then(({ getAuth, signOut }) => {
+        const auth = getAuth();
+        signOut(auth).then(() => {
+          window.location.href = "auth.html";
+        });
+      });
+    }
+  </script>
+
 </body>
 </html>
-
 
 
