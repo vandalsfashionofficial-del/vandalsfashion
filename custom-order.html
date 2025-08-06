@@ -172,6 +172,9 @@
 
       <label for="description">Order Description</label>
       <textarea id="description" rows="4" required></textarea>
+    
+      <label for="size">Size </label>
+      <input type="text" id="size">
 
       <label for="referenceImage">Upload Reference Image (optional)</label>
       <input type="file" id="referenceImage" accept="image/*" />
@@ -179,7 +182,6 @@
       <button type="submit">Submit Request</button>
     </form>
   </main>
-
   <script type="module">
     import { auth, db } from './firebase-config.js';
     import { doc, setDoc, collection, addDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
@@ -244,3 +246,4 @@
   </script>
 </body>
 </html>
+
