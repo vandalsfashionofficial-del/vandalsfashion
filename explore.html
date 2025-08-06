@@ -175,29 +175,33 @@
       background-color: white;
     }
 
-    @media (max-width: 768px) {
-      nav {
-        display: none;
-        flex-direction: column;
-        background-color: black;
-        position: absolute;
-        top: 60px;
-        right: 0;
-        width: 100%;
-        padding: 1rem;
-      }
+   @media (max-width: 768px) {
+  nav {
+    display: none;
+    flex-direction: column;
+    background-color: black;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    z-index: 9999;
+  }
 
-      nav.show {
-        display: flex;
-      }
+  nav.show {
+    display: flex;
+  }
 
-      .hamburger {
-        display: flex;
-      }
+  .hamburger {
+    display: flex;
+    z-index: 10000;
+  }
 
-      nav a {
-        margin: 0.5rem 0;
-      }
+  nav a {
+    margin: 0.5rem 0;
+  }
+}
+
     }
 
   /* Add this fix to your existing styles */
@@ -275,6 +279,7 @@
 
 </body>
 </html>
+
 
 
 
