@@ -11,27 +11,23 @@
     body { font-family: 'Poppins', sans-serif; background-color: #fff; color: #222; }
 
     header {
-      background-color: black;
-      color: white;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: relative;
-      z-index: 999;
+      background-color: black; color: white;
+      padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
+      position: relative; flex-wrap: wrap;
+    }
+
+    .logo-title {
+      font-weight: bold;
     }
 
     nav {
       display: flex;
-      flex-wrap: wrap;
       gap: 1rem;
       align-items: center;
     }
 
     nav a {
-      color: white;
-      text-decoration: none;
-      font-size: 0.9rem;
+      color: white; text-decoration: none; font-size: 0.9rem;
     }
 
     .profile-pic {
@@ -66,40 +62,20 @@
       background-color: #f2f2f2;
     }
 
-    /* Hamburger */
     .hamburger {
       display: none;
-      flex-direction: column;
+      font-size: 1.5rem;
       cursor: pointer;
+      color: white;
+      background: none;
+      border: none;
     }
 
-    .hamburger div {
-      width: 25px;
-      height: 3px;
-      background-color: white;
-      margin: 4px 0;
-      transition: 0.4s;
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        display: none;
-        flex-direction: column;
-        background-color: black;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        width: 100%;
-        padding: 1rem;
-      }
-
-      nav.show {
-        display: flex;
-      }
-
-      .hamburger {
-        display: flex;
-      }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
     }
 
     h1 {
@@ -193,20 +169,37 @@
       padding: 1rem 0;
       background-color: #f9f9f9;
     }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+
+      nav {
+        width: 100%;
+        flex-direction: column;
+        display: none;
+        background-color: black;
+        padding: 1rem 0;
+      }
+
+      nav.active {
+        display: flex;
+      }
+
+      nav a {
+        padding: 0.5rem 0;
+      }
+    }
   </style>
 </head>
 <body>
 
   <header>
-    <div><strong>Vandals Fashion</strong></div>
-
-    <div class="hamburger" onclick="toggleMenu()">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-
-    <nav id="navLinks">
+    <div class="logo-title">Vandals Fashion</div>
+    <button class="hamburger" id="hamburgerBtn">☰</button>
+    <nav id="navMenu">
       <a href="index.html">Home</a>
       <a href="shop.html">Shop</a>
       <a href="explore.html">Explore</a>
@@ -218,7 +211,6 @@
       <a href="auth.html" id="authLink">Login</a>
       <img id="profilePic" class="profile-pic" style="display:none;" />
     </nav>
-
     <div id="userDropdown">
       <a href="https://myaccount.google.com" target="_blank">Manage Account</a>
       <a href="#" onclick="logout()">Logout</a>
@@ -246,24 +238,24 @@
   <script type="module" src="shop.js"></script>
 
   <script>
-    function toggleMenu() {
-      const nav = document.getElementById("navLinks");
-      nav.classList.toggle("show");
-    }
+    // Hamburger toggle
+    document.getElementById('hamburgerBtn').addEventListener('click', () => {
+      document.getElementById('navMenu').classList.toggle('active');
+    });
 
+    // Profile dropdown toggle
     const profilePic = document.getElementById("profilePic");
     const userDropdown = document.getElementById("userDropdown");
 
-    profilePic?.addEventListener("click", () => {
-      userDropdown.style.display = userDropdown.style.display === "block" ? "none" : "block";
-    });
+    if (profilePic) {
+      profilePic.addEventListener("click", () => {
+        userDropdown.style.display = userDropdown.style.display === "block" ? "none" : "block";
+      });
 
-    function logout() {
-      import("https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js").then(({ getAuth, signOut }) => {
-        const auth = getAuth();
-        signOut(auth).then(() => {
-          window.location.href = "auth.html";
-        });
+      window.addEventListener("click", (e) => {
+        if (!profilePic.contains(e.target) && !userDropdown.contains(e.target)) {
+          userDropdown.style.display = "none";
+        }
       });
     }
   </script>
