@@ -139,7 +139,7 @@
       background-color: #f9f9f9;
     }
   </style>
-  <style>
+<style>
   .hamburger {
     display: none;
     cursor: pointer;
@@ -152,28 +152,27 @@
     height: 3px;
     background-color: white;
   }
-@media (max-width: 768px) {
-  .navbar ul {
-    display: none; /* default hidden on mobile */
-    flex-direction: column;
-    background-color: black;
-    position: absolute;
-    top: 60px;
-    right: 10px;
-    width: 200px;
-    padding: 10px;
-    border-radius: 8px;
-  }
 
-  .navbar ul.show {
-    display: flex; /* only show when toggled */
-  }
+  @media (max-width: 768px) {
+    .navbar ul {
+      display: none; /* default hidden on mobile */
+      flex-direction: column;
+      background-color: black;
+      position: absolute;
+      top: 60px;
+      right: 10px;
+      width: 200px;
+      padding: 10px;
+      border-radius: 8px;
+    }
 
-  .hamburger {
-    display: flex;
-  }
-}
+    .navbar ul.show {
+      display: flex; /* only show when toggled */
+    }
 
+    .hamburger {
+      display: flex;
+    }
   }
 </style>
 
@@ -314,6 +313,7 @@
 
 </body>
 </html>
+
 
 
 
