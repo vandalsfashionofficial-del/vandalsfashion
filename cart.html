@@ -3,259 +3,307 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cart – Vandals Fashion</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
+  <title>Cart - Vandals Fashion</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-auth-compat.js"></script>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #fff;
-      color: #222;
-    }
+body {
+font-family: 'Poppins', sans-serif;
+background-color: #fff;
+color: #222;
+}
 
-    header {
-      background-color: black;
-      color: white;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+header {
+background-color: black;
+color: white;
+padding: 1rem 2rem;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
 
-    nav a {
-      color: white;
-      margin-left: 1.5rem;
-      text-decoration: none;
-    }
+nav a {
+color: white;
+margin-left: 1.5rem;
+text-decoration: none;
+}
 
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      margin: 2rem 0;
-      text-align: center;
-    }
+h1 {
+font-family: 'Playfair Display', serif;
+font-size: 2.5rem;
+margin: 2rem 0;
+text-align: center;
+}
 
-    .cart-container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
+.cart-container {
+max-width: 900px;
+margin: 0 auto;
+padding: 2rem;
+}
 
-    .item {
-      border-bottom: 1px solid #eee;
-      padding: 1rem 0;
-      display: flex;
-      gap: 1rem;
-      align-items: flex-start;
-    }
+.item {
+border-bottom: 1px solid #eee;
+padding: 1rem 0;
+display: flex;
+gap: 1rem;
+align-items: flex-start;
+}
 
-    .item img {
-      width: 120px;
-      height: auto;
-      border-radius: 10px;
-    }
+.item img {
+width: 120px;
+height: auto;
+border-radius: 10px;
+}
 
-    .item-details {
-      flex: 1;
-    }
+.item-details {
+flex: 1;
+}
 
-    .item h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.3rem;
-    }
+.item h3 {
+font-size: 1.2rem;
+margin-bottom: 0.3rem;
+}
 
-    .item-details p {
-      margin: 0.3rem 0;
-    }
+.item-details p {
+margin: 0.3rem 0;
+}
 
-    .item button {
-      background-color: black;
-      color: white;
-      border: none;
-      padding: 0.4rem 1rem;
-      border-radius: 20px;
-      cursor: pointer;
-      margin-top: 0.5rem;
-    }
+.item button {
+background-color: black;
+color: white;
+border: none;
+padding: 0.4rem 1rem;
+border-radius: 20px;
+cursor: pointer;
+margin-top: 0.5rem;
+}
 
-    .item button:hover {
-      background-color: #FFD700;
-      color: black;
-    }
+.item button:hover {
+background-color: #FFD700;
+color: black;
+}
 
-    .total {
-      text-align: right;
-      font-size: 1.3rem;
-      font-weight: bold;
-      margin-top: 2rem;
-    }
+.total {
+text-align: right;
+font-size: 1.3rem;
+font-weight: bold;
+margin-top: 2rem;
+}
 
-    .buy-now {
-      text-align: right;
-      margin-top: 1rem;
-    }
+.buy-now {
+text-align: right;
+margin-top: 1rem;
+}
 
-    .buy-now a {
-      background-color: black;
-      color: white;
-      text-decoration: none;
-      padding: 0.6rem 1.5rem;
-      border-radius: 30px;
-      font-weight: bold;
-      transition: 0.3s;
-    }
+.buy-now a {
+background-color: black;
+color: white;
+text-decoration: none;
+padding: 0.6rem 1.5rem;
+border-radius: 30px;
+font-weight: bold;
+transition: 0.3s;
+}
 
-    .buy-now a:hover {
-      background-color: #FFD700;
-      color: black;
-    }
+.buy-now a:hover {
+background-color: #FFD700;
+color: black;
+}
 
-    .marquee {
-      background-color: black;
-      color: white;
-      font-weight: bold;
-      padding: 0.7rem 0;
-      overflow: hidden;
-      white-space: nowrap;
-    }
+.marquee {
+background-color: black;
+color: white;
+font-weight: bold;
+padding: 0.7rem 0;
+overflow: hidden;
+white-space: nowrap;
+}
 
-    .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll 20s linear infinite;
-    }
+.marquee span {
+display: inline-block;
+padding-left: 100%;
+animation: scroll 20s linear infinite;
+}
 
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
+@keyframes scroll {
+0% { transform: translateX(0); }
+100% { transform: translateX(-100%); }
+}
 
-    footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      padding: 1rem 0;
-      background-color: #f9f9f9;
-    }
-  </style>
+footer {
+text-align: center;
+font-size: 0.9rem;
+color: #777;
+padding: 1rem 0;
+background-color: #f9f9f9;
+}
+</style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header>
-    <div><strong>Vandals Fashion</strong></div>
-    <nav>
+  <!-- Navbar Start -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <a href="index.html" class="logo">Vandals Fashion</a>
+    </div>
+    <div class="nav-right" id="desktop-menu">
       <a href="index.html">Home</a>
       <a href="shop.html">Shop</a>
       <a href="explore.html">Explore</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="custom-order.html">Custom</a>
-      <a href="cart.html">🛒</a>
-      <a href="orders.html">Orders</a>
-      <a href="auth.html">Login</a> 
-    </nav>
-  </header>
+      <a href="custom-order.html">Custom Order</a>
+      <a href="cart.html">Cart</a>
+    </div>
+    <div class="nav-icons">
+      <img src="menu-icon.png" id="hamburger-icon" class="hamburger-icon" />
+      <div id="profile-icon-container"></div>
+    </div>
+    <div id="mobile-menu" class="mobile-menu hidden">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="explore.html">Explore</a>
+      <a href="custom-order.html">Custom Order</a>
+      <a href="cart.html">Cart</a>
+      <div id="mobile-user-menu"></div>
+    </div>
+  </nav>
+  <!-- Navbar End -->
 
-  <!-- Page Title -->
-  <h1>Your Cart</h1>
+  <main>
+    <h1>Your Cart</h1>
+    <div id="cart-items"></div>
+    <div id="cart-total"></div>
+    <button id="checkout-button">Proceed to Checkout</button>
+  </main>
 
-  <div class="cart-container" id="cartItems"></div>
-  <div class="total" id="cartTotal">Total: ₹0</div>
-
-  <!-- Buy Now Button -->
-  <div class="buy-now">
-    <a href="checkout.html">Buy Now</a>
-  </div>
-
-  <!-- Marquee -->
-  <div class="marquee">
-    <span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION • </span>
-  </div>
-
-  <!-- Footer -->
-  <footer>
-    &copy; 2025 Vandals Fashion. All rights reserved.
-  </footer>
-
-  <!-- Cart Logic -->
+  <script type="module" src="firebase-config.js"></script>
   <script>
-    const cartContainer = document.getElementById("cartItems");
-    const cartTotal = document.getElementById("cartTotal");
+    const hamburger = document.getElementById("hamburger-icon");
+    const mobileMenu = document.getElementById("mobile-menu");
+    hamburger.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
 
-    function updateCart() {
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const customOrder = JSON.parse(localStorage.getItem("customOrder"));
-      cartContainer.innerHTML = "";
-      let total = 0;
+    firebase.auth().onAuthStateChanged(async (user) => {
+      if (user) {
+        const profileContainer = document.getElementById("profile-icon-container");
+        const mobileUserMenu = document.getElementById("mobile-user-menu");
 
-      if (cart.length === 0 && !customOrder) {
-        cartContainer.innerHTML = "<p style='text-align:center; color:#888; font-weight:bold;'>Your cart is empty.</p>";
-        cartTotal.style.display = "none";
-        document.querySelector(".buy-now").style.display = "none";
-        return;
-      }
-
-      cart.forEach((item, index) => {
-        total += item.price;
-
-        const div = document.createElement("div");
-        div.className = "item";
-        div.innerHTML = `
-          <img src="${item.imageUrl}" alt="${item.name}">
-          <div class="item-details">
-            <h3>${item.name}</h3>
-            <p><strong>Price:</strong> ₹${item.price}</p>
-            <p><strong>Size:</strong> ${item.size}</p>
-            ${item.customSizes ? `
-              <p><strong>Custom:</strong> Waist: ${item.customSizes.waist}", Hip: ${item.customSizes.hip}", Chest: ${item.customSizes.chest}"</p>
-            ` : ""}
-            ${item.colorPreference ? `<p><strong>Color Preference:</strong> ${item.colorPreference}</p>` : ""}
-            <button onclick="removeItem(${index})">Remove</button>
+        const userPic = user.photoURL || "default-user.png";
+        profileContainer.innerHTML = `
+          <img src="${userPic}" class="profile-icon" id="profile-icon">
+          <div id="user-dropdown" class="dropdown hidden">
+            <a href="#">Manage Account</a>
+            <a href="#" id="logout">Logout</a>
           </div>
         `;
-        cartContainer.appendChild(div);
-      });
 
-      if (customOrder) {
-        const div = document.createElement("div");
-        div.className = "item";
-        div.innerHTML = `
-          <h3>🧵 Custom Order #1</h3>
-          <div class="item-details">
-            <p><strong>Name:</strong> ${customOrder.name}</p>
-            <p><strong>Style:</strong> ${customOrder.style}</p>
-            <p><strong>Size:</strong> ${customOrder.size}</p>
-            <p><strong>Color:</strong> ${customOrder.color}</p>
-            <p><strong>Notes:</strong> ${customOrder.notes}</p>
-            <p style="color: darkred; font-weight: bold;">💰 Price is variable based on design & fabric.</p>
-            <p style="color: darkred; font-weight: bold;">⏳ Delivery time will be confirmed personally.</p>
-            <button onclick="removeCustomOrder()">Remove</button>
-          </div>
+        mobileUserMenu.innerHTML = `
+          <a href="#">Manage Account</a>
+          <a href="#" id="logout-mobile">Logout</a>
         `;
-        cartContainer.appendChild(div);
+
+        document.getElementById("profile-icon").addEventListener("click", () => {
+          document.getElementById("user-dropdown").classList.toggle("hidden");
+        });
+
+        document.getElementById("logout").addEventListener("click", () => {
+          firebase.auth().signOut().then(() => location.reload());
+        });
+
+        document.getElementById("logout-mobile").addEventListener("click", () => {
+          firebase.auth().signOut().then(() => location.reload());
+        });
+
+      } else {
+        document.getElementById("profile-icon-container").innerHTML = `<a href="login.html">Login</a>`;
       }
-
-      cartTotal.textContent = "Total: ₹" + total;
-      cartTotal.style.display = "block";
-      document.querySelector(".buy-now").style.display = "block";
-    }
-
-    function removeItem(index) {
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      cart.splice(index, 1);
-      localStorage.setItem("cart", JSON.stringify(cart));
-      updateCart();
-    }
-
-    function removeCustomOrder() {
-      localStorage.removeItem("customOrder");
-      updateCart();
-    }
-
-    updateCart();
+    });
   </script>
 
+  <style>
+    .navbar {
+      background: black;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+    .nav-left .logo {
+      font-size: 1.4em;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+    }
+    .nav-right a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    .nav-icons {
+      display: flex;
+      align-items: center;
+    }
+    .hamburger-icon {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      margin-left: 15px;
+    }
+    .profile-icon {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .mobile-menu {
+      display: flex;
+      flex-direction: column;
+      background-color: black;
+      padding: 10px;
+      position: absolute;
+      top: 60px;
+      width: 100%;
+      left: 0;
+    }
+    .mobile-menu a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 0;
+    }
+    .hidden {
+      display: none;
+    }
+    .dropdown {
+      position: absolute;
+      background: white;
+      color: black;
+      right: 10px;
+      top: 60px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .dropdown a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: black;
+    }
+    @media (max-width: 768px) {
+      #desktop-menu {
+        display: none;
+      }
+      .mobile-menu {
+        display: flex;
+      }
+    }
+  </style>
+
+  <script src="cart.js"></script>
 </body>
 </html>
