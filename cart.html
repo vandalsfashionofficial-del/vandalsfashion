@@ -152,27 +152,28 @@
     height: 3px;
     background-color: white;
   }
+@media (max-width: 768px) {
+  .navbar ul {
+    display: none; /* default hidden on mobile */
+    flex-direction: column;
+    background-color: black;
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    width: 200px;
+    padding: 10px;
+    border-radius: 8px;
+  }
 
-  @media (max-width: 768px) {
-    .navbar ul {
-      display: none;
-      flex-direction: column;
-      background-color: black;
-      position: absolute;
-      top: 60px;
-      right: 10px;
-      width: 200px;
-      padding: 10px;
-      border-radius: 8px;
-    }
+  .navbar ul.show {
+    display: flex; /* only show when toggled */
+  }
 
-    .navbar ul.show {
-      display: flex;
-    }
+  .hamburger {
+    display: flex;
+  }
+}
 
-    .hamburger {
-      display: flex;
-    }
   }
 </style>
 
@@ -184,7 +185,6 @@
     <div><strong>Vandals Fashion</strong></div>
     <nav>
 <nav class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background-color: black; color: white;">
-  <div class="logo" style="font-weight: bold; font-size: 20px;">Vandals Fashion</div>
   <div class="hamburger" onclick="toggleMenu()">
     <div></div>
     <div></div>
@@ -314,6 +314,7 @@
 
 </body>
 </html>
+
 
 
 
