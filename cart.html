@@ -138,8 +138,7 @@
       padding: 1rem 0;
       background-color: #f9f9f9;
     }
-  </style>
-<style>
+  
   .hamburger {
     display: none;
     cursor: pointer;
@@ -154,8 +153,8 @@
   }
 
   @media (max-width: 768px) {
-    .navbar ul {
-      display: none; /* default hidden on mobile */
+    .nav-links {
+      display: none; /* Hidden by default */
       flex-direction: column;
       background-color: black;
       position: absolute;
@@ -166,8 +165,8 @@
       border-radius: 8px;
     }
 
-    .navbar ul.show {
-      display: flex; /* only show when toggled */
+    .nav-links.show {
+      display: flex; /* Show only when toggled */
     }
 
     .hamburger {
@@ -175,6 +174,7 @@
     }
   }
 </style>
+
 
 </head>
 <body>
@@ -306,7 +306,7 @@
 
     updateCart();
   </script>
- <script>
+<script>
   function toggleMenu() {
     const menu = document.querySelector('.nav-links');
     menu.classList.toggle('show');
@@ -315,8 +315,10 @@
 
 
 
+
 </body>
 </html>
+
 
 
 
