@@ -22,12 +22,53 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
+      position: relative; /* for mobile menu positioning */
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
     }
 
     nav a {
       color: white;
       margin-left: 1.5rem;
       text-decoration: none;
+    }
+
+    /* 🔥 Hamburger styles from cart.html */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: white;
+    }
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+      nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: black;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        padding: 1rem 0;
+      }
+      nav a {
+        margin: 0.5rem 0;
+        text-align: center;
+      }
+      nav.active {
+        display: flex;
+      }
     }
 
     h1 {
@@ -151,16 +192,6 @@
     }
 
     @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      nav a {
-        display: block;
-        margin: 0.5rem 0;
-      }
-
       .checkout-container {
         padding: 1rem;
       }
@@ -180,6 +211,11 @@
   <!-- Header -->
   <header>
     <div><strong>Vandals Fashion</strong></div>
+    <div class="hamburger" onclick="document.querySelector('nav').classList.toggle('active')">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
     <nav>
       <a href="index.html">Home</a>
       <a href="shop.html">Shop</a>
@@ -317,37 +353,32 @@
     const totalText = cartTotalBox.textContent || "Custom Order";
     const order_id = generateOrderID();
 
-    // Save to localStorage for thankyou.html
     localStorage.setItem("vf_order_id", order_id);
     localStorage.setItem("lastOrderId", order_id);
 
-   const orderData = {
-  name,
-  phone,
-  address,
-  pincode,
-  payment,
-  total: totalText,
-  orderId: order_id,
-  items: cartItems,
-  timestamp: Date.now()
-};
+    const orderData = {
+      name,
+      phone,
+      address,
+      pincode,
+      payment,
+      total: totalText,
+      orderId: order_id,
+      items: cartItems,
+      timestamp: Date.now()
+    };
 
-if (customOrder) {
-  orderData.custom = true;
-  orderData.customDetails = customOrder;
-}
+    if (customOrder) {
+      orderData.custom = true;
+      orderData.customDetails = customOrder;
+    }
 
-// 🔥 THIS is the fix 👇
-localStorage.setItem("orderData", JSON.stringify(orderData)); // ✅ So thankyou.html can show summary
+    localStorage.setItem("orderData", JSON.stringify(orderData));
 
-// Save to full order history
-let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
-allOrders.push(orderData);
-localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
+    let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
+    allOrders.push(orderData);
+    localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
 
-
-    // Send order email
     emailjs.send("service_byyvwjh", "template_z8lkhwp", orderData)
       .then(() => {
         localStorage.removeItem("cart");
@@ -360,14 +391,10 @@ localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
         window.location.href = "thankyou.html";
       });
   }
-
-
-  </script>
+</script>
 
 </body>
 </html>
-
-
 
 
 
