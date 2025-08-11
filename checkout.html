@@ -345,67 +345,14 @@
   }
 
   function placeOrder() {
-    const name = document.getElementById("name").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const address = document.getElementById("address").value.trim();
-    const pincode = document.getElementById("pincode").value.trim();
-    const payment = document.getElementById("payment").value;
-
-    if (!name || !phone || !address || !pincode) {
-      alert("Please fill in all details.");
-      return;
-    }
-
-    const totalText = cartTotalBox.textContent || "Custom Order";
-    const order_id = generateOrderID();
-
-    localStorage.setItem("vf_order_id", order_id);
-    localStorage.setItem("lastOrderId", order_id);
-
-    const orderData = {
-      name,
-      phone,
-      address,
-      pincode,
-      payment,
-      total: totalText,
-      orderId: order_id,
-      items: cartItems,
-      timestamp: Date.now()
-    };
-
-    if (customOrder) {
-      orderData.custom = true;
-      orderData.customDetails = customOrder;
-    }
-
-    localStorage.setItem("orderData", JSON.stringify(orderData));
-
-    let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
-    allOrders.push(orderData);
-    localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
-
-    emailjs.send("service_byyvwjh", "template_z8lkhwp", orderData)
-      .then(() => {
-        localStorage.removeItem("cart");
-        localStorage.removeItem("customOrder");
-        window.location.href = "thankyou.html";
-      })
-      .catch(error => {
-        console.error("EmailJS Error:", error);
-        alert("Order placed, but email failed.");
-        window.location.href = "thankyou.html";
-      });
-  }
-  function placeOrder() {
+  const orderFor = document.getElementById("orderFor").value.trim();
   const name = document.getElementById("name").value.trim();
-  const orderFor = document.getElementById("orderFor").value.trim(); // new
   const phone = document.getElementById("phone").value.trim();
   const address = document.getElementById("address").value.trim();
   const pincode = document.getElementById("pincode").value.trim();
   const payment = document.getElementById("payment").value;
 
-  if (!name || !orderFor || !phone || !address || !pincode) {
+  if (!name || !phone || !address || !pincode) {
     alert("Please fill in all details.");
     return;
   }
@@ -417,8 +364,8 @@
   localStorage.setItem("lastOrderId", order_id);
 
   const orderData = {
+    orderFor, // ✅ added here
     name,
-    orderFor, // new
     phone,
     address,
     pincode,
@@ -453,10 +400,12 @@
     });
 }
 
+
 </script>
 
 </body>
 </html>
+
 
 
 
