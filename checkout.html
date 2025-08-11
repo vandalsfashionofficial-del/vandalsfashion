@@ -402,9 +402,50 @@
 
 
 </script>
+  <!-- Your existing checkout.html with everything untouched except the added "Order For" email field -->
+
+<script>
+  document.getElementById("checkoutForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    // Existing customer fields
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
+    const address = document.getElementById("address").value;
+    const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+
+    // ✅ New: Collect order details from cart
+    let orderDetails = "";
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    if (cart.length > 0) {
+      orderDetails = cart.map(item => `${item.name} (x${item.quantity})`).join(", ");
+    } else {
+      orderDetails = "No items found in cart.";
+    }
+
+    // EmailJS send
+    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+      name: name,
+      email: email,
+      phone: phone,
+      address: address,
+      payment: paymentMethod,
+      order_for: orderDetails // ✅ Added this
+    }).then(function(response) {
+      console.log("SUCCESS!", response.status, response.text);
+      window.location.href = "thankyou.html";
+    }, function(error) {
+      console.log("FAILED...", error);
+      alert("Something went wrong. Please try again.");
+    });
+  });
+</script>
+
 
 </body>
 </html>
+
 
 
 
