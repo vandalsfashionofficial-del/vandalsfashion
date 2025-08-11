@@ -14,6 +14,7 @@
       color: #222;
     }
 
+    /* Hamburger Menu Styles (copied from cart.html) */
     header {
       background-color: black;
       color: white;
@@ -21,12 +22,49 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
     }
 
     nav a {
       color: white;
-      margin-left: 1.5rem;
       text-decoration: none;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      margin: 4px 0;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        background-color: black;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 200px;
+        padding: 1rem;
+      }
+      nav.active {
+        display: flex;
+      }
+      .hamburger {
+        display: flex;
+      }
     }
 
     h1 {
@@ -109,20 +147,25 @@
 </head>
 <body>
 
-  <!-- Header -->
+  <!-- Header with Hamburger -->
   <header>
     <div><strong>Vandals Fashion</strong></div>
     <nav>
-     <a href="index.html">Home</a>
-  <a href="shop.html">Shop</a>
-  <a href="explore.html">Explore</a>
-  <a href="about.html">About</a>
-  <a href="contact.html">Contact</a>
-  <a href="custom-order.html">Custom</a>
-  <a href="cart.html">🛒</a>
-  <a href="orders.html">Orders</a>
-  <a href="auth.html">Login</a> 
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="explore.html">Explore</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="custom-order.html">Custom</a>
+      <a href="cart.html">🛒</a>
+      <a href="orders.html">Orders</a>
+      <a href="auth.html">Login</a>
     </nav>
+    <div class="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
   </header>
 
   <!-- Thank You Message -->
@@ -130,13 +173,10 @@
 
   <div class="thankyou-container">
     <p>Your order has been placed successfully.</p>
-
     <div class="order-id-box">
-    <p>Your Order ID: <strong id="orderIdText">Loading...</strong></p>
+      <p>Your Order ID: <strong id="orderIdText">Loading...</strong></p>
     </div>
-
     <button class="btn-copy" onclick="copyOrderID()">📋 Copy Order ID</button>
-
     <div class="info">
       Please save this Order ID. It will be needed for cancellation within 1–2 days of placing the order.
     </div>
@@ -152,32 +192,31 @@
     &copy; 2025 Vandals Fashion. All rights reserved.
   </footer>
 
-  <!-- Script -->
   <script>
     const orderId = localStorage.getItem("vf_order_id");
-  const orderIdElement = document.getElementById("orderIdText");
-  if (orderId) {
-    orderIdElement.textContent = orderId;
-  } else {
-    orderIdElement.textContent = "Not available";
-  }
-
-  // Optional: Clear it so it doesn't persist forever
-  localStorage.removeItem("vf_order_id");
-
-    document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("orderIdDisplay").textContent = orderID;
-    });
+    const orderIdElement = document.getElementById("orderIdText");
+    if (orderId) {
+      orderIdElement.textContent = orderId;
+    } else {
+      orderIdElement.textContent = "Not available";
+    }
+    localStorage.removeItem("vf_order_id");
 
     function copyOrderID() {
-      navigator.clipboard.writeText(orderID).then(() => {
-        alert("Order ID copied: " + orderID);
+      navigator.clipboard.writeText(orderIdElement.textContent).then(() => {
+        alert("Order ID copied: " + orderIdElement.textContent);
       }).catch(() => {
         alert("Failed to copy. Please copy it manually.");
       });
     }
-  </script>
 
+    // Hamburger menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.querySelector('header nav');
+
+    hamburger.addEventListener('click', () => {
+      nav.classList.toggle('active');
+    });
+  </script>
 </body>
 </html>
-
