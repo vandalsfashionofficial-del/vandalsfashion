@@ -284,6 +284,7 @@
   <script>
   emailjs.init("CB8hwx-xnlGQcO9aL");
 
+  // ✅ Make sure cartItems loads from localStorage
   const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
   const customOrder = JSON.parse(localStorage.getItem("customOrder"));
   const cartTotalBox = document.getElementById("cartTotal");
@@ -294,6 +295,7 @@
   let total = 0;
   let hasItems = false;
 
+  // ✅ Populate checkout list from saved cart
   if (Array.isArray(cartItems) && cartItems.length > 0) {
     cartItems.forEach(item => {
       const li = document.createElement("li");
@@ -304,6 +306,7 @@
     hasItems = true;
   }
 
+  // ✅ Handle custom order display
   if (customOrder) {
     const li = document.createElement("li");
     li.textContent = "Custom Order – Price to be discussed";
@@ -312,6 +315,7 @@
     hasItems = true;
   }
 
+  // ✅ Show totals or hide section
   if (hasItems) {
     deliveryNote.style.display = "block";
     if (total > 0 && customOrder) {
@@ -366,6 +370,7 @@
       orderFor,
       orderId: order_id,
       items: cartItems,
+      itemsList: orderFor, // ✅ This sends "Order For" to EmailJS
       timestamp: Date.now()
     };
 
@@ -380,9 +385,6 @@
     allOrders.push(orderData);
     localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
 
-    const itemsList = cartItems.map(i => `${i.name} – ₹${i.price}`).join(", ");
-    orderData.itemsList = itemsList;
-
     emailjs.send("service_byyvwjh", "template_z8lkhwp", orderData)
       .then(() => {
         localStorage.removeItem("cart");
@@ -396,13 +398,16 @@
       });
   }
 
-  // ✅ Attach event listener once
-  document.getElementById("placeOrderBtn").addEventListener("click", placeOrder);
+  // ✅ Make sure the button exists and works
+  const placeOrderBtn = document.getElementById("placeOrderBtn");
+  if (placeOrderBtn) {
+    placeOrderBtn.addEventListener("click", placeOrder);
+  }
 </script>
-
 
 </body>
 </html>
+
 
 
 
