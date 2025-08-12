@@ -267,7 +267,7 @@
       </select>
     </div>
 
-    <button onclick="placeOrder()">Place Order</button>
+   <button id="placeOrderBtn">Place Order</button>
   </div>
 
   <!-- Marquee -->
@@ -344,6 +344,8 @@
     const address = document.getElementById("address").value.trim();
     const pincode = document.getElementById("pincode").value.trim();
     const payment = document.getElementById("payment").value;
+    document.getElementById("placeOrderBtn").addEventListener("click", placeOrder);
+
 
     if (!name || !phone || !address || !pincode) {
       alert("Please fill in all details.");
@@ -401,6 +403,7 @@ orderData.itemsList = itemsList;
 
 </body>
 </html>
+
 
 
 
