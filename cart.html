@@ -218,7 +218,7 @@
 
   <!-- Buy Now Button -->
   <div class="buy-now">
-   <a href="#" onclick="goToCheckout()">Buy Now</a>  
+  <button onclick="goToCheckout()">Buy Now</button>
   </div>
 
   <!-- Marquee -->
@@ -313,22 +313,27 @@
     }
     function goToCheckout() {
   let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-  let customOrder = localStorage.getItem("customOrder");
+  let customOrder = JSON.parse(localStorage.getItem("customOrder") || "null");
 
-  // Make sure cart stays in localStorage
-  localStorage.setItem("cart", JSON.stringify(cart));
-
-  if (customOrder) {
-    localStorage.setItem("customOrder", customOrder);
+  if (cart.length === 0 && !customOrder) {
+    alert("Your cart is empty!");
+    return;
   }
 
-  // Redirect to checkout
+  // Ensure data is stored correctly
+  localStorage.setItem("cart", JSON.stringify(cart));
+  if (customOrder) {
+    localStorage.setItem("customOrder", JSON.stringify(customOrder));
+  }
+
   window.location.href = "checkout.html";
 }
+
 
   </script>
 </body>
 </html>
+
 
 
 
