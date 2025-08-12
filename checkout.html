@@ -382,6 +382,9 @@
     allOrders.push(orderData);
     localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
 
+    const itemsList = cartItems.map(i => `${i.name} – ₹${i.price}`).join(", ");
+orderData.itemsList = itemsList;
+
     emailjs.send("service_byyvwjh", "template_z8lkhwp", orderData)
       .then(() => {
         localStorage.removeItem("cart");
@@ -398,6 +401,7 @@
 
 </body>
 </html>
+
 
 
 
