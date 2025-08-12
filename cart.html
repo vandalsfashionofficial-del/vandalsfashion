@@ -218,7 +218,7 @@
 
   <!-- Buy Now Button -->
   <div class="buy-now">
-    <a href="checkout.html">Buy Now</a>
+   <a href="#" onclick="goToCheckout()">Buy Now</a>  
   </div>
 
   <!-- Marquee -->
@@ -311,9 +311,25 @@
     function toggleMenu() {
       document.querySelector('.nav-links').classList.toggle('show');
     }
+    function goToCheckout() {
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  let customOrder = localStorage.getItem("customOrder");
+
+  // Make sure cart stays in localStorage
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  if (customOrder) {
+    localStorage.setItem("customOrder", customOrder);
+  }
+
+  // Redirect to checkout
+  window.location.href = "checkout.html";
+}
+
   </script>
 </body>
 </html>
+
 
 
 
