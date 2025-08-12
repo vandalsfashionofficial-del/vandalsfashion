@@ -281,8 +281,7 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<script>
+  <script>
   emailjs.init("CB8hwx-xnlGQcO9aL");
 
   const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -298,7 +297,7 @@
   if (Array.isArray(cartItems) && cartItems.length > 0) {
     cartItems.forEach(item => {
       const li = document.createElement("li");
-     li.textContent = `${item.name} – ₹${item.price}`;
+      li.textContent = `${item.name} – ₹${item.price}`;
       orderSummaryList.appendChild(li);
       total += item.price;
     });
@@ -316,11 +315,11 @@
   if (hasItems) {
     deliveryNote.style.display = "block";
     if (total > 0 && customOrder) {
-      cartTotalBox.textContent = Total: ₹${total} + Custom Order;
+      cartTotalBox.textContent = `Total: ₹${total} + Custom Order`;
     } else if (total > 0) {
-      cartTotalBox.textContent = Total: ₹${total};
+      cartTotalBox.textContent = `Total: ₹${total}`;
     } else {
-      cartTotalBox.textContent = Total: Custom Order;
+      cartTotalBox.textContent = `Total: Custom Order`;
     }
   } else {
     document.getElementById("orderSummary").style.display = "none";
@@ -344,8 +343,6 @@
     const address = document.getElementById("address").value.trim();
     const pincode = document.getElementById("pincode").value.trim();
     const payment = document.getElementById("payment").value;
-    document.getElementById("placeOrderBtn").addEventListener("click", placeOrder);
-
 
     if (!name || !phone || !address || !pincode) {
       alert("Please fill in all details.");
@@ -360,18 +357,17 @@
     localStorage.setItem("lastOrderId", order_id);
 
     const orderData = {
-  name,
-  phone,
-  address,
-  pincode,
-  payment,
-  total: totalText,
-  orderFor,
-  orderId: order_id,
-  items: cartItems,
-  timestamp: Date.now()
-};
-
+      name,
+      phone,
+      address,
+      pincode,
+      payment,
+      total: totalText,
+      orderFor,
+      orderId: order_id,
+      items: cartItems,
+      timestamp: Date.now()
+    };
 
     if (customOrder) {
       orderData.custom = true;
@@ -385,7 +381,7 @@
     localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
 
     const itemsList = cartItems.map(i => `${i.name} – ₹${i.price}`).join(", ");
-orderData.itemsList = itemsList;
+    orderData.itemsList = itemsList;
 
     emailjs.send("service_byyvwjh", "template_z8lkhwp", orderData)
       .then(() => {
@@ -399,10 +395,15 @@ orderData.itemsList = itemsList;
         window.location.href = "thankyou.html";
       });
   }
+
+  // ✅ Attach event listener once
+  document.getElementById("placeOrderBtn").addEventListener("click", placeOrder);
 </script>
+
 
 </body>
 </html>
+
 
 
 
