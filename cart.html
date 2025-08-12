@@ -312,27 +312,39 @@
       document.querySelector('.nav-links').classList.toggle('show');
     }
     function goToCheckout() {
-  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-  let customOrder = JSON.parse(localStorage.getItem("customOrder") || "null");
+  // parse safely
+  let cart;
+  try { cart = JSON.parse(localStorage.getItem("cart") || "[]"); } catch(e) { cart = []; }
+  let customOrder;
+  try { customOrder = JSON.parse(localStorage.getItem("customOrder") || "null"); } catch(e) { customOrder = null; }
 
-  if (cart.length === 0 && !customOrder) {
-    alert("Your cart is empty!");
+  if ((!Array.isArray(cart) || cart.length === 0) && !customOrder) {
+    alert("Your cart is empty.");
     return;
   }
 
-  // Ensure data is stored correctly
+  // re-save to ensure consistent stringified format
   localStorage.setItem("cart", JSON.stringify(cart));
-  if (customOrder) {
-    localStorage.setItem("customOrder", JSON.stringify(customOrder));
-  }
+  if (customOrder) localStorage.setItem("customOrder", JSON.stringify(customOrder));
 
+  // navigate (keeps <a> styling)
   window.location.href = "checkout.html";
 }
 
-
+/* Attach listener to the existing anchor so appearance doesn't change */
+document.addEventListener("DOMContentLoaded", () => {
+  const buyAnchor = document.querySelector(".buy-now a");
+  if (buyAnchor) {
+    buyAnchor.addEventListener("click", function(ev){
+      ev.preventDefault(); // run our save first
+      goToCheckout();
+    });
+  }
+});
   </script>
 </body>
 </html>
+
 
 
 
