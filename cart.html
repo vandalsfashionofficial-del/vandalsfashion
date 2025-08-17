@@ -78,6 +78,7 @@
       border-radius: 20px;
       cursor: pointer;
       margin-top: 0.5rem;
+      transition: 0.3s;
     }
 
     .item button:hover {
@@ -97,17 +98,20 @@
       margin-top: 1rem;
     }
 
-    .buy-now a {
+    /* ✅ Fixed Buy Now button styling */
+    .buy-now button {
       background-color: black;
       color: white;
-      text-decoration: none;
-      padding: 0.6rem 1.5rem;
+      border: none;
+      padding: 0.7rem 1.8rem;
       border-radius: 30px;
       font-weight: bold;
+      cursor: pointer;
       transition: 0.3s;
+      font-size: 1rem;
     }
 
-    .buy-now a:hover {
+    .buy-now button:hover {
       background-color: #FFD700;
       color: black;
     }
@@ -153,14 +157,13 @@
       background-color: white;
     }
   
-.nav-links {
-  display: flex;
-  gap: 20px;
-  list-style: none;
-  margin: 0;
-  align-items: center;
-}
-
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      margin: 0;
+      align-items: center;
+    }
 
     @media (max-width: 768px) {
       .nav-links {
@@ -199,14 +202,14 @@
     </div>
 
     <ul class="nav-links">
-      <li><a href="index.html" style="color: white; text-decoration: none;">Home</a></li>
-      <li><a href="shop.html" style="color: white; text-decoration: none;">Shop</a></li>
-      <li><a href="explore.html" style="color: white; text-decoration: none;">Explore</a></li>
-      <li><a href="about.html" style="color: white; text-decoration: none;">About</a></li>
-      <li><a href="contact.html" style="color: white; text-decoration: none;">Contact</a></li>
-      <li><a href="custom-order.html" style="color: white; text-decoration: none;">Custom Order</a></li>
-      <li><a href="cart.html" style="color: white; text-decoration: none;">Cart</a></li>
-      <li><a href="orders.html" style="color: white; text-decoration: none;">Orders</a></li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="explore.html">Explore</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="custom-order.html">Custom Order</a></li>
+      <li><a href="cart.html">Cart</a></li>
+      <li><a href="orders.html">Orders</a></li>
     </ul>
   </header>
 
@@ -218,7 +221,7 @@
 
   <!-- Buy Now Button -->
   <div class="buy-now">
-  <button id="buyNowBtn">Buy Now</button>
+    <button id="buyNowBtn">Buy Now</button>
   </div>
 
   <!-- Marquee -->
@@ -312,29 +315,22 @@
     document.querySelector('.nav-links').classList.toggle('show');
   }
 
-  // ✅ Fix: Buy Now button sends cart + customOrder to checkout
+  // ✅ Buy Now button saves items and goes to checkout
   document.getElementById("buyNowBtn").addEventListener("click", function () {
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
     const customOrder = JSON.parse(localStorage.getItem("customOrder"));
 
-    // Re-save them cleanly to localStorage
     localStorage.setItem("cart", JSON.stringify(cart));
     if (customOrder) {
       localStorage.setItem("customOrder", JSON.stringify(customOrder));
     }
 
-    // Go to checkout
     window.location.href = "checkout.html";
   });
 </script>
 
 </body>
 </html>
-
-
-
-
-
 
 
 
