@@ -308,38 +308,29 @@
   </script>
 
   <script>
-    function toggleMenu() {
-      document.querySelector('.nav-links').classList.toggle('show');
-    }
-document.getElementById("buyNowBtn").addEventListener("click", function () {
-  // Save the cart to localStorage before checkout
-  localStorage.setItem("cart", JSON.stringify(cartItems));
-
-  // Redirect to checkout
-  window.location.href = "checkout.html";
-});
-
-  // re-save to ensure consistent stringified format
-  localStorage.setItem("cart", JSON.stringify(cart));
-  if (customOrder) localStorage.setItem("customOrder", JSON.stringify(customOrder));
-
-  // navigate (keeps <a> styling)
-  window.location.href = "checkout.html";
-}
-
-/* Attach listener to the existing anchor so appearance doesn't change */
-document.addEventListener("DOMContentLoaded", () => {
-  const buyAnchor = document.querySelector(".buy-now a");
-  if (buyAnchor) {
-    buyAnchor.addEventListener("click", function(ev){
-      ev.preventDefault(); // run our save first
-      goToCheckout();
-    });
+  function toggleMenu() {
+    document.querySelector('.nav-links').classList.toggle('show');
   }
-});
-  </script>
+
+  // ✅ Fix: Buy Now button sends cart + customOrder to checkout
+  document.getElementById("buyNowBtn").addEventListener("click", function () {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const customOrder = JSON.parse(localStorage.getItem("customOrder"));
+
+    // Re-save them cleanly to localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+    if (customOrder) {
+      localStorage.setItem("customOrder", JSON.stringify(customOrder));
+    }
+
+    // Go to checkout
+    window.location.href = "checkout.html";
+  });
+</script>
+
 </body>
 </html>
+
 
 
 
