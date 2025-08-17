@@ -408,6 +408,7 @@ function placeOrder() {
 
   // Send via EmailJS if available
   if (window.emailjs && typeof emailjs.send === "function") {
+     emailjs.init("CB8hwx-xnlGQcO9aL");
     emailjs.send("service_byyvwjh", "template_z8lkhwp", orderData)
       .then(() => {
         localStorage.removeItem("cart");
@@ -433,6 +434,7 @@ function placeOrder() {
 
 </body>
 </html>
+
 
 
 
