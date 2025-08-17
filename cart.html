@@ -316,8 +316,12 @@
   }
 
   // ✅ Buy Now button saves items and goes to checkout
-  document.getElementById("buyNowBtn").addEventListener("click", function () {
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+ // inside your Buy Now button click handler
+document.getElementById("buyNowBtn").addEventListener("click", () => {
+  localStorage.setItem("checkoutCart", JSON.stringify(cartItems));
+  window.location.href = "checkout.html";
+});
+
     const customOrder = JSON.parse(localStorage.getItem("customOrder"));
 
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -331,6 +335,7 @@
 
 </body>
 </html>
+
 
 
 
