@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -35,6 +35,8 @@
       margin-left: 1.5rem;
       text-decoration: none;
     }
+    /* keep nav links white even after visiting */
+    nav a:visited { color: white; }
 
     /* 🔥 Hamburger styles from cart.html */
     .hamburger {
@@ -205,6 +207,8 @@
       }
     }
   </style>
+  <!-- ✅ Load EmailJS SDK (required before calling emailjs.init) -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
 </head>
 <body>
 
@@ -267,7 +271,7 @@
       </select>
     </div>
 
-   <button id="placeOrderBtn">Place Order</button>
+    <button id="placeOrderBtn">Place Order</button>
   </div>
 
   <!-- Marquee -->
@@ -282,133 +286,141 @@
 
   <!-- Scripts -->
   <script>
-  emailjs.init("CB8hwx-xnlGQcO9aL");
-
-  // ✅ Make sure cartItems loads from localStorage
-  const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
-  const customOrder = JSON.parse(localStorage.getItem("customOrder"));
-  const cartTotalBox = document.getElementById("cartTotal");
-  const orderSummaryList = document.querySelector("#orderSummary ul");
-  const customNote = document.getElementById("customNote");
-  const deliveryNote = document.querySelector(".delivery-note");
-
-  let total = 0;
-  let hasItems = false;
-
-  // ✅ Populate checkout list from saved cart
-  if (Array.isArray(cartItems) && cartItems.length > 0) {
-    cartItems.forEach(item => {
-      const li = document.createElement("li");
-      li.textContent = `${item.name} – ₹${item.price}`;
-      orderSummaryList.appendChild(li);
-      total += item.price;
-    });
-    hasItems = true;
-  }
-
-  // ✅ Handle custom order display
-  if (customOrder) {
-    const li = document.createElement("li");
-    li.textContent = "Custom Order – Price to be discussed";
-    orderSummaryList.appendChild(li);
-    customNote.style.display = "block";
-    hasItems = true;
-  }
-
-  // ✅ Show totals or hide section
-  if (hasItems) {
-    deliveryNote.style.display = "block";
-    if (total > 0 && customOrder) {
-      cartTotalBox.textContent = `Total: ₹${total} + Custom Order`;
-    } else if (total > 0) {
-      cartTotalBox.textContent = `Total: ₹${total}`;
+    // ✅ Only init EmailJS if SDK is loaded (prevents a blocking error)
+    if (window.emailjs && typeof emailjs.init === "function") {
+      emailjs.init("CB8hwx-xnlGQcO9aL");
     } else {
-      cartTotalBox.textContent = `Total: Custom Order`;
-    }
-  } else {
-    document.getElementById("orderSummary").style.display = "none";
-    cartTotalBox.style.display = "none";
-    customNote.style.display = "none";
-    deliveryNote.style.display = "none";
-
-    const msg = document.createElement("p");
-    msg.textContent = "No items in cart to checkout.";
-    msg.className = "empty-msg";
-    document.querySelector(".checkout-container").prepend(msg);
-  }
-
-  function generateOrderID() {
-    return "VF-" + Math.floor(1000 + Math.random() * 9000);
-  }
-
-  function placeOrder() {
-    const name = document.getElementById("name").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const address = document.getElementById("address").value.trim();
-    const pincode = document.getElementById("pincode").value.trim();
-    const payment = document.getElementById("payment").value;
-
-    if (!name || !phone || !address || !pincode) {
-      alert("Please fill in all details.");
-      return;
+      console.warn("EmailJS SDK not loaded yet; order email will be skipped if unavailable.");
     }
 
-    const totalText = cartTotalBox.textContent || "Custom Order";  
-    const orderFor = cartItems.map(item => `${item.name} – ₹${item.price}`).join(", ") || "Custom Order";
-    const order_id = generateOrderID();
+    // Load cart from localStorage
+    const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
+    const customOrder = JSON.parse(localStorage.getItem("customOrder") || "null");
+    const cartTotalBox = document.getElementById("cartTotal");
+    const orderSummaryList = document.querySelector("#orderSummary ul");
+    const customNote = document.getElementById("customNote");
+    const deliveryNote = document.querySelector(".delivery-note");
 
-    localStorage.setItem("vf_order_id", order_id);
-    localStorage.setItem("lastOrderId", order_id);
+    let total = 0;
+    let hasItems = false;
 
-    const orderData = {
-      name,
-      phone,
-      address,
-      pincode,
-      payment,
-      total: totalText,
-      orderFor,
-      orderId: order_id,
-      items: cartItems,
-      itemsList: orderFor,
-      timestamp: Date.now()
-    };
+    // Populate checkout list
+    if (Array.isArray(cartItems) && cartItems.length > 0) {
+      cartItems.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.name} – ₹${item.price}`;
+        orderSummaryList.appendChild(li);
+        total += Number(item.price) || 0; // coerce to number
+      });
+      hasItems = true;
+    }
 
+    // Custom order (if any)
     if (customOrder) {
-      orderData.custom = true;
-      orderData.customDetails = customOrder;
+      const li = document.createElement("li");
+      li.textContent = "Custom Order – Price to be discussed";
+      orderSummaryList.appendChild(li);
+      customNote.style.display = "block";
+      hasItems = true;
     }
 
-    localStorage.setItem("orderData", JSON.stringify(orderData));
+    // Totals / empty state
+    if (hasItems) {
+      deliveryNote.style.display = "block";
+      if (total > 0 && customOrder) {
+        cartTotalBox.textContent = `Total: ₹${total} + Custom Order`;
+      } else if (total > 0) {
+        cartTotalBox.textContent = `Total: ₹${total}`;
+      } else {
+        cartTotalBox.textContent = `Total: Custom Order`;
+      }
+    } else {
+      document.getElementById("orderSummary").style.display = "none";
+      cartTotalBox.style.display = "none";
+      customNote.style.display = "none";
+      deliveryNote.style.display = "none";
 
-    let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
-    allOrders.push(orderData);
-    localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
+      const msg = document.createElement("p");
+      msg.textContent = "No items in cart to checkout.";
+      msg.className = "empty-msg";
+      document.querySelector(".checkout-container").prepend(msg);
+    }
 
-    emailjs.send("service_byyvwjh", "template_z8lkhwp", orderData)
-      .then(() => {
+    function generateOrderID() {
+      return "VF-" + Math.floor(1000 + Math.random() * 9000);
+    }
+
+    function placeOrder() {
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const address = document.getElementById("address").value.trim();
+      const pincode = document.getElementById("pincode").value.trim();
+      const payment = document.getElementById("payment").value;
+
+      if (!name || !phone || !address || !pincode) {
+        alert("Please fill in all details.");
+        return;
+      }
+
+      const totalText = cartTotalBox.textContent || "Custom Order";
+      const orderFor = cartItems.length
+        ? cartItems.map(item => `${item.name} – ₹${item.price}`).join(", ")
+        : "Custom Order";
+      const order_id = generateOrderID();
+
+      localStorage.setItem("vf_order_id", order_id);
+      localStorage.setItem("lastOrderId", order_id);
+
+      const orderData = {
+        name,
+        phone,
+        address,
+        pincode,
+        payment,
+        total: totalText,
+        orderFor,
+        orderId: order_id,
+        items: cartItems,
+        itemsList: orderFor,
+        timestamp: Date.now(),
+        ...(customOrder ? { custom: true, customDetails: customOrder } : {})
+      };
+
+      localStorage.setItem("orderData", JSON.stringify(orderData));
+
+      const allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
+      allOrders.push(orderData);
+      localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
+
+      // Try to send email if EmailJS is available
+      if (window.emailjs && typeof emailjs.send === "function") {
+        emailjs.send("service_byyvwjh", "template_z8lkhwp", orderData)
+          .then(() => {
+            localStorage.removeItem("cart");
+            localStorage.removeItem("customOrder");
+            window.location.href = "thankyou.html";
+          })
+          .catch(error => {
+            console.error("EmailJS Error:", error);
+            alert("Order placed, but email failed.");
+            window.location.href = "thankyou.html";
+          });
+      } else {
+        // Fallback: proceed without email
         localStorage.removeItem("cart");
         localStorage.removeItem("customOrder");
         window.location.href = "thankyou.html";
-      })
-      .catch(error => {
-        console.error("EmailJS Error:", error);
-        alert("Order placed, but email failed.");
-        window.location.href = "thankyou.html";
-      });
-  }
+      }
+    }
 
-  // ✅ Make sure the button exists and works
-  const placeOrderBtn = document.getElementById("placeOrderBtn");
-  if (placeOrderBtn) {
-    placeOrderBtn.addEventListener("click", placeOrder);
-  }
-</script>
+    const placeOrderBtn = document.getElementById("placeOrderBtn");
+    if (placeOrderBtn) {
+      placeOrderBtn.addEventListener("click", placeOrder);
+    }
+  </script>
 
 </body>
 </html>
-
-
 
 
 
