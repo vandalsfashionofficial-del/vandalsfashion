@@ -234,107 +234,106 @@
     &copy; 2025 Vandals Fashion. All rights reserved.
   </footer>
 
-  <!-- Cart Logic -->
-  <script>
-    const cartContainer = document.getElementById("cartItems");
-    const cartTotal = document.getElementById("cartTotal");
+ <!-- Cart Logic -->
+<script>
+  const cartContainer = document.getElementById("cartItems");
+  const cartTotal = document.getElementById("cartTotal");
+  let cartItems = []; // keep global so Buy Now can use it
 
-    function updateCart() {
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const customOrder = JSON.parse(localStorage.getItem("customOrder"));
-      cartContainer.innerHTML = "";
-      let total = 0;
+  function updateCart() {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    cartItems = cart; // save to global
+    const customOrder = JSON.parse(localStorage.getItem("customOrder"));
+    cartContainer.innerHTML = "";
+    let total = 0;
 
-      if (cart.length === 0 && !customOrder) {
-        cartContainer.innerHTML = "<p style='text-align:center; color:#888; font-weight:bold;'>Your cart is empty.</p>";
-        cartTotal.style.display = "none";
-        document.querySelector(".buy-now").style.display = "none";
-        return;
-      }
-
-      cart.forEach((item, index) => {
-        total += item.price;
-
-        const div = document.createElement("div");
-        div.className = "item";
-        div.innerHTML = 
-          `<img src="${item.imageUrl}" alt="${item.name}">
-          <div class="item-details">
-            <h3>${item.name}</h3>
-            <p><strong>Price:</strong> ₹${item.price}</p>
-            <p><strong>Size:</strong> ${item.size}</p>
-            ${item.customSizes ? 
-              `<p><strong>Custom:</strong> Waist: ${item.customSizes.waist}", Hip: ${item.customSizes.hip}", Chest: ${item.customSizes.chest}"</p>` 
-             : ""}
-            ${item.colorPreference ? `<p><strong>Color Preference:</strong> ${item.colorPreference}</p>` : ""}
-            <button onclick="removeItem(${index})">Remove</button>
-          </div>`;
-        cartContainer.appendChild(div);
-      });
-
-      if (customOrder) {
-        const div = document.createElement("div");
-        div.className = "item";
-        div.innerHTML = 
-          `<h3>🧵 Custom Order #1</h3>
-          <div class="item-details">
-            <p><strong>Name:</strong> ${customOrder.name}</p>
-            <p><strong>Style:</strong> ${customOrder.style}</p>
-            <p><strong>Size:</strong> ${customOrder.size}</p>
-            <p><strong>Color:</strong> ${customOrder.color}</p>
-            <p><strong>Notes:</strong> ${customOrder.notes}</p>
-            <p style="color: darkred; font-weight: bold;">💰 Price is variable based on design & fabric.</p>
-            <p style="color: darkred; font-weight: bold;">⏳ Delivery time will be confirmed personally.</p>
-            <button onclick="removeCustomOrder()">Remove</button>
-          </div>`;
-        cartContainer.appendChild(div);
-      }
-
-      cartTotal.textContent = "Total: ₹" + total;
-      cartTotal.style.display = "block";
-      document.querySelector(".buy-now").style.display = "block";
+    if (cart.length === 0 && !customOrder) {
+      cartContainer.innerHTML = "<p style='text-align:center; color:#888; font-weight:bold;'>Your cart is empty.</p>";
+      cartTotal.style.display = "none";
+      document.querySelector(".buy-now").style.display = "none";
+      return;
     }
 
-    function removeItem(index) {
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      cart.splice(index, 1);
-      localStorage.setItem("cart", JSON.stringify(cart));
-      updateCart();
+    cart.forEach((item, index) => {
+      total += item.price;
+
+      const div = document.createElement("div");
+      div.className = "item";
+      div.innerHTML = 
+        `<img src="${item.imageUrl}" alt="${item.name}">
+        <div class="item-details">
+          <h3>${item.name}</h3>
+          <p><strong>Price:</strong> ₹${item.price}</p>
+          <p><strong>Size:</strong> ${item.size}</p>
+          ${item.customSizes ? 
+            `<p><strong>Custom:</strong> Waist: ${item.customSizes.waist}", Hip: ${item.customSizes.hip}", Chest: ${item.customSizes.chest}"</p>` 
+           : ""}
+          ${item.colorPreference ? `<p><strong>Color Preference:</strong> ${item.colorPreference}</p>` : ""}
+          <button onclick="removeItem(${index})">Remove</button>
+        </div>`;
+      cartContainer.appendChild(div);
+    });
+
+    if (customOrder) {
+      const div = document.createElement("div");
+      div.className = "item";
+      div.innerHTML = 
+        `<h3>🧵 Custom Order #1</h3>
+        <div class="item-details">
+          <p><strong>Name:</strong> ${customOrder.name}</p>
+          <p><strong>Style:</strong> ${customOrder.style}</p>
+          <p><strong>Size:</strong> ${customOrder.size}</p>
+          <p><strong>Color:</strong> ${customOrder.color}</p>
+          <p><strong>Notes:</strong> ${customOrder.notes}</p>
+          <p style="color: darkred; font-weight: bold;">💰 Price is variable based on design & fabric.</p>
+          <p style="color: darkred; font-weight: bold;">⏳ Delivery time will be confirmed personally.</p>
+          <button onclick="removeCustomOrder()">Remove</button>
+        </div>`;
+      cartContainer.appendChild(div);
     }
 
-    function removeCustomOrder() {
-      localStorage.removeItem("customOrder");
-      updateCart();
-    }
+    cartTotal.textContent = "Total: ₹" + total;
+    cartTotal.style.display = "block";
+    document.querySelector(".buy-now").style.display = "block";
+  }
 
+  function removeItem(index) {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
     updateCart();
-  </script>
+  }
 
-  <script>
+  function removeCustomOrder() {
+    localStorage.removeItem("customOrder");
+    updateCart();
+  }
+
+  updateCart();
+</script>
+
+<script>
   function toggleMenu() {
     document.querySelector('.nav-links').classList.toggle('show');
   }
 
-  // ✅ Buy Now button saves items and goes to checkout
- // inside your Buy Now button click handler
-document.getElementById("buyNowBtn").addEventListener("click", () => {
-  localStorage.setItem("checkoutCart", JSON.stringify(cartItems));
-  window.location.href = "checkout.html";
-});
+  // ✅ Single clean Buy Now handler
+  document.getElementById("buyNowBtn").addEventListener("click", () => {
+    localStorage.setItem("checkoutCart", JSON.stringify(cartItems));
 
     const customOrder = JSON.parse(localStorage.getItem("customOrder"));
-
-    localStorage.setItem("cart", JSON.stringify(cart));
     if (customOrder) {
-      localStorage.setItem("customOrder", JSON.stringify(customOrder));
+      localStorage.setItem("checkoutCustomOrder", JSON.stringify(customOrder));
     }
 
     window.location.href = "checkout.html";
   });
 </script>
 
+
 </body>
 </html>
+
 
 
 
