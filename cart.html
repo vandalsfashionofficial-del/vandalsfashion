@@ -218,7 +218,7 @@
 
   <!-- Buy Now Button -->
   <div class="buy-now">
-  <button onclick="goToCheckout()">Buy Now</button>
+  <button id="buyNowBtn">Buy Now</button>
   </div>
 
   <!-- Marquee -->
@@ -311,17 +311,13 @@
     function toggleMenu() {
       document.querySelector('.nav-links').classList.toggle('show');
     }
-    function goToCheckout() {
-  // parse safely
-  let cart;
-  try { cart = JSON.parse(localStorage.getItem("cart") || "[]"); } catch(e) { cart = []; }
-  let customOrder;
-  try { customOrder = JSON.parse(localStorage.getItem("customOrder") || "null"); } catch(e) { customOrder = null; }
+document.getElementById("buyNowBtn").addEventListener("click", function () {
+  // Save the cart to localStorage before checkout
+  localStorage.setItem("cart", JSON.stringify(cartItems));
 
-  if ((!Array.isArray(cart) || cart.length === 0) && !customOrder) {
-    alert("Your cart is empty.");
-    return;
-  }
+  // Redirect to checkout
+  window.location.href = "checkout.html";
+});
 
   // re-save to ensure consistent stringified format
   localStorage.setItem("cart", JSON.stringify(cart));
@@ -344,6 +340,7 @@ document.addEventListener("DOMContentLoaded", () => {
   </script>
 </body>
 </html>
+
 
 
 
