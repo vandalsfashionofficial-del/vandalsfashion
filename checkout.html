@@ -271,7 +271,9 @@
       </select>
     </div>
 
-    <button id="placeOrderBtn">Place Order</button>
+   <button type="button" id="placeOrderBtn" onclick="placeOrder()">Place Order</button>
+
+
   </div>
 
   <!-- Marquee -->
@@ -350,18 +352,50 @@
       return "VF-" + Math.floor(1000 + Math.random() * 9000);
     }
 
-    function placeOrder() {
-      const name = document.getElementById("name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const address = document.getElementById("address").value.trim();
-      const pincode = document.getElementById("pincode").value.trim();
-      const payment = document.getElementById("payment").value;
+   function placeOrder() {
+    // Get cart items from localStorage
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    if (cart.length === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
 
-      if (!name || !phone || !address || !pincode) {
-        alert("Please fill in all details.");
-        return;
+    // Build "Order For" field (name + price, or custom order)
+    const orderDetails = cart.map(item => {
+      if (item.custom) {
+        return `Custom Order: ${item.custom}`;
+      } else {
+        return `${item.name} – ₹${item.price}`;
       }
+    }).join(", ");
 
+    // Collect form values
+    const name = document.getElementById("name").value;
+    const address = document.getElementById("address").value;
+    const phone = document.getElementById("phone").value;
+  const payment = document.getElementById("payment").value; || "Not selected";
+
+    if (!name || !address || !phone) {
+      alert("Please fill all required fields.");
+      return;
+    }
+
+    // Send via EmailJS
+    emailjs.send("service_byyvwjh", "template_z8lkhwp", {
+      name: name,
+      address: address,
+      phone: phone,
+      payment: payment,
+      order_for: orderDetails // 👈 added
+    }).then(() => {
+      alert("Order placed successfully!");
+      localStorage.removeItem("cart"); // Clear cart
+      window.location.href = "index.html"; // Redirect if you want
+    }).catch(err => {
+      console.error("EmailJS error:", err);
+      alert("Failed to place order. Please try again.");
+    });
+  }
       const totalText = cartTotalBox.textContent || "Custom Order";
       const orderFor = cartItems.length
         ? cartItems.map(item => `${item.name} – ₹${item.price}`).join(", ")
@@ -421,6 +455,7 @@
 
 </body>
 </html>
+
 
 
 
