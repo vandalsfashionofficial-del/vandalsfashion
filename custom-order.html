@@ -343,18 +343,14 @@
       }
     }
 
-    // Now build the image HTML **after the loop**
-    const image_html = uploadedUrls.length > 0
-      ? uploadedUrls.map(url => `<p><img src="${url}" alt="Uploaded Image" style="max-width:200px; display:block; margin-bottom:10px;" /></p>`).join('')
-      : '<p>No images uploaded</p>';
-
+    
     // Prepare EmailJS params
     const emailParams = {
       name: name,
       phone: phone,
       description: description,
       size: size,
-      image_html, // pass the generated HTML here
+      imageGallery, // pass the generated HTML here
       timestamp: new Date().toLocaleString()
     };
 
@@ -398,6 +394,7 @@
   </script>
 </body>
 </html>
+
 
 
 
