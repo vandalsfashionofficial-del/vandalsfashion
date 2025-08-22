@@ -382,6 +382,32 @@ const emailParams = {
             image_urls: uploadedUrls.length ? uploadedUrls.join(", ") : "None",
             timestamp: new Date().toLocaleString()
           };
+            
+          
+          // Suppose you have an array of uploaded image URLs:
+const uploadedImages = ['https://i.ibb.co/image1.jpg', 'https://i.ibb.co/image2.jpg'];
+
+// Generate HTML for all images
+const imagesHTML = uploadedImages
+  .map(url => `<p><img src="${url}" alt="Uploaded Image" style="max-width:200px;"/></p>`)
+  .join('');
+
+// Add this into emailParams
+const emailParams = {
+  name: userName,
+  phone: userPhone,
+  address: userAddress,
+  pincode: userPincode,
+  payment: paymentMethod,
+  total: orderTotal,
+  order_Id: orderId,
+  itemsList: orderItems,
+  image_html: imagesHTML // NEW FIELD
+};
+
+// Send email
+await emailjs.send('service_id', 'template_id', emailParams);
+
 
           // Send email with EmailJS (if available)
           if (window.emailjs && typeof emailjs.send === "function") {
@@ -420,6 +446,7 @@ const emailParams = {
   </script>
 </body>
 </html>
+
 
 
 
