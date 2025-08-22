@@ -318,134 +318,87 @@
         return json.data.url;
       }
 
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        submitBtn.disabled = true;
-        loadingDiv.style.display = 'block';
+     form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  submitBtn.disabled = true;
+  loadingDiv.style.display = 'block';
 
-        try {
-          const name = document.getElementById('name').value.trim();
-          const phone = document.getElementById('phone').value.trim();
-          const description = document.getElementById('description').value.trim();
-          const size = document.getElementById('size').value.trim();
-const emailParams = {
-  name: name,
-  phone: phone,
-  description: description,
-  size: size,
-  custom_image: uploadedUrls.length > 0 ? uploadedUrls[0] : '', // first image
-  custom_images_all: uploadedUrls.join(', '), // optional: all images
-};
+  try {
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const description = document.getElementById('description').value.trim();
+    const size = document.getElementById('size').value.trim();
 
+    // gather image files (can be zero)
+    const files = Array.from(imageInput.files || []);
+    const uploadedUrls = [];
 
-          // gather image files (can be zero)
-          const files = Array.from(imageInput.files || []);
-          const uploadedUrls = [];
+    // Upload images sequentially
+    for (let i = 0; i < files.length; i++) {
+      try {
+        const url = await uploadToImgbb(files[i]);
+        uploadedUrls.push(url);
+      } catch (err) {
+        console.error('Image upload failed for file', files[i].name, err);
+      }
+    }
 
-          // Upload images sequentially (safer memory-wise). If you prefer parallel, use Promise.all.
-          for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            try {
-              const url = await uploadToImgbb(file);
-              uploadedUrls.push(url);
-            } catch (err) {
-              console.error('Image upload failed for file', file.name, err);
-              // continue: we don't want a single failed image to block the whole order.
-            }
-          }
+    // Build HTML string for images
+    const imageGalleryHTML = uploadedUrls
+      .map(url => `<p><img src="${url}" alt="Uploaded Image" style="max-width:200px;"/></p>`)
+      .join('');
 
-          // Build item consistent with your cart structure. Use first URL for thumbnail, keep array as imageUrls
-          const item = {
-            name,
-            phone,
-            description,
-            size,
-            imageUrls: uploadedUrls, // array of uploaded image URLs (may be empty)
-            imageUrl: uploadedUrls[0] || "", // legacy single image field for sites expecting single image
-            isCustom: true,
-            quantity: 1,
-            price: 0
-          };
+    // Prepare EmailJS params
+    const emailParams = {
+      name: name,
+      phone: phone,
+      description: description,
+      size: size,
+      imageGallery: imageGalleryHTML,
+      timestamp: new Date().toLocaleString()
+    };
 
-          // Add item to cart in localStorage (preserve existing cart)
-          const currentCart = JSON.parse(localStorage.getItem('cart') || "[]");
-          currentCart.push(item);
-          localStorage.setItem('cart', JSON.stringify(currentCart));
+    // Add to cart (localStorage)
+    const item = {
+      name,
+      phone,
+      description,
+      size,
+      imageUrls: uploadedUrls,
+      imageUrl: uploadedUrls[0] || "",
+      isCustom: true,
+      quantity: 1,
+      price: 0
+    };
+    const currentCart = JSON.parse(localStorage.getItem('cart') || "[]");
+    currentCart.push(item);
+    localStorage.setItem('cart', JSON.stringify(currentCart));
 
-          // Prepare email data for EmailJS
-          const orderData = {
-            name,
-            phone,
-            description,
-            size,
-            // Provide a comma-separated list for template use
-            image_urls: uploadedUrls.length ? uploadedUrls.join(", ") : "None",
-            timestamp: new Date().toLocaleString()
-          };
-            
-          
-          // Suppose you have an array of uploaded image URLs:
-const uploadedImages = ['https://i.ibb.co/image1.jpg', 'https://i.ibb.co/image2.jpg'];
+    // Send EmailJS
+    if (window.emailjs && typeof emailjs.send === "function") {
+      await emailjs.send('service_byyvwjh', 'template_z8lkhwp', emailParams);
+      console.log('Custom order email sent via EmailJS');
+    } else {
+      console.warn('EmailJS not available; skipping email send.');
+    }
 
-// Generate HTML for all images
-const imagesHTML = uploadedImages
-  .map(url => `<p><img src="${url}" alt="Uploaded Image" style="max-width:200px;"/></p>`)
-  .join('');
-
-// Add this into emailParams
-const emailParams = {
-  name: userName,
-  phone: userPhone,
-  address: userAddress,
-  pincode: userPincode,
-  payment: paymentMethod,
-  total: orderTotal,
-  order_Id: orderId,
-  itemsList: orderItems,
-  image_html: imagesHTML // NEW FIELD
-};
-
-// Send email
-await emailjs.send('service_id', 'template_id', emailParams);
-
-
-          // Send email with EmailJS (if available)
-          if (window.emailjs && typeof emailjs.send === "function") {
-            try {
-             await emailjs.send('service_byyvwjh", "template_z8lkhwp', {
-    name,
-    phone,
-    description,
-    size,
-    custom_image: uploadedUrls.length > 0 ? uploadedUrls[0] : '',
-    image_urls: uploadedUrls.join(', '), // if you want all image URLs as text
-    timestamp: new Date().toLocaleString()
+    // Redirect to cart
+    window.location.href = 'cart.html';
+  } catch (err) {
+    console.error('Custom order error:', err);
+    alert('Failed to submit custom order. Please try again.');
+  } finally {
+    loadingDiv.style.display = 'none';
+    submitBtn.disabled = false;
+  }
 });
 
-              // optional: console message
-              console.log('Custom order email sent via EmailJS');
-            } catch (emailErr) {
-              console.error('EmailJS error:', emailErr);
-              // continue anyway; we saved to cart
-            }
-          } else {
-            console.warn('EmailJS not available; skipping email send.');
-          }
-
-          // Done: redirect to cart
-          window.location.href = 'cart.html';
-        } catch (err) {
-          console.error('Custom order error:', err);
-          alert('Failed to submit custom order. Please try again.');
-        } finally {
-          loadingDiv.style.display = 'none';
-          submitBtn.disabled = false;
-        }
       });
     })();
   </script>
 </body>
 </html>
+
 
 
 
