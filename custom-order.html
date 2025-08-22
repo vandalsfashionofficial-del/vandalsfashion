@@ -341,6 +341,11 @@
       } catch (err) {
         console.error('Image upload failed for file', files[i].name, err);
       }
+      // uploadedUrls is the array of URLs returned from ImgBB
+const image_html = uploadedUrls.length > 0
+  ? uploadedUrls.map(url => `<p><img src="${url}" alt="Uploaded Image" style="max-width:200px; display:block; margin-bottom:10px;" /></p>`).join('')
+  : '<p>No images uploaded</p>';
+
     }
 
     // Build HTML string for images
@@ -354,7 +359,7 @@
       phone: phone,
       description: description,
       size: size,
-      imageGallery: imageGalleryHTML,
+      image_html // ✅ pass the generated HTML
       timestamp: new Date().toLocaleString()
     };
 
@@ -376,7 +381,7 @@
 
     // Send EmailJS
     if (window.emailjs && typeof emailjs.send === "function") {
-      await emailjs.send('service_byyvwjh', 'template_z8lkhwp', emailParams);
+     await emailjs.send('service_byyvwjh', 'template_z8lkhwp', emailParams);
       console.log('Custom order email sent via EmailJS');
     } else {
       console.warn('EmailJS not available; skipping email send.');
@@ -398,6 +403,7 @@
   </script>
 </body>
 </html>
+
 
 
 
