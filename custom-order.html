@@ -6,14 +6,24 @@
   <title>Custom Order - Vandals Fashion</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="images/favicon.png" />
+
+  <!-- keep your firebase import -->
   <script type="module" src="firebase-config.js"></script>
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
+  <!-- EmailJS browser SDK (defer so DOM loads first) -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
+
   <script>
-    (function() {
-      emailjs.init("CB8hwx-xnlGQcO9aL");
-    })();
+    // init EmailJS after script loads (we'll also call init again in script safety-check)
+    document.addEventListener("DOMContentLoaded", () => {
+      if (window.emailjs && typeof emailjs.init === "function") {
+        emailjs.init("CB8hwx-xnlGQcO9aL"); // replace if your public key is different
+      }
+    });
   </script>
+
   <style>
+    /* Your existing styles retained + small additions for uploader/preview */
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -96,7 +106,7 @@
 
     main {
       padding: 2rem;
-      max-width: 600px;
+      max-width: 760px;
       margin: auto;
     }
 
@@ -115,11 +125,19 @@
       font-weight: bold;
     }
 
-    input, textarea {
+    input[type="text"],
+    input[type="tel"],
+    textarea {
       padding: 0.5rem;
       margin-top: 0.25rem;
       border: 1px solid #ccc;
       border-radius: 4px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    input[type="file"] {
+      margin-top: 0.5rem;
     }
 
     button {
@@ -129,10 +147,41 @@
       padding: 0.75rem;
       border: none;
       cursor: pointer;
+      border-radius: 6px;
     }
 
     button:hover {
       background-color: #333;
+    }
+
+    /* uploader UI */
+    #loading {
+      display: none;
+      margin-top: 10px;
+      text-align: center;
+      font-weight: bold;
+      color: #222;
+    }
+
+    #imagePreview {
+      margin-top: 12px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .preview-thumb {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .small-muted {
+      font-size: 13px;
+      color: #666;
+      margin-top: 6px;
     }
   </style>
 </head>
@@ -145,14 +194,14 @@
       <div class="bar"></div>
     </div>
     <nav>
-     <ul id="nav-list">
+      <ul id="nav-list">
         <li><a href="index.html">Home</a></li>
         <li><a href="shop.html">Shop</a></li>
-        <li><a href="explore.html">Explore</a>
-        <li><a href="about.html">About us</a>
-        <li><a href="contact.html">Contact</a>
-        <li><a href="cart.html">Cart🛒</a>
-        <li><a href="orders.html">Orders</a>
+        <li><a href="explore.html">Explore</a></li>
+        <li><a href="about.html">About us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="cart.html">Cart🛒</a></li>
+        <li><a href="orders.html">Orders</a></li>
       </ul>
     </nav>
     <div class="profile" id="profileSection" style="display: none;">
@@ -166,9 +215,10 @@
 
   <main>
     <h1>Custom Order</h1>
+
     <div id="loading" style="display:none;text-align:center;color:#333;font-weight:bold;">
-  Uploading image... please wait
-</div>
+      Uploading image(s)... please wait
+    </div>
 
     <form id="customOrderForm">
       <label for="name">Your Name</label>
@@ -179,20 +229,25 @@
 
       <label for="description">Order Description</label>
       <textarea id="description" rows="4" required></textarea>
-    
-      <label for="size">Size </label>
-      <input type="text" id="size">
 
-      <label for="referenceImage">Upload Reference Image </label>
-      <input type="file" id="referenceImage" accept="image/* required
-      " />
+      <label for="size">Size</label>
+      <input type="text" id="size" />
 
-      <button type="submit">Submit Request</button>
+      <label for="referenceImage">Upload Reference Image(s) (optional)</label>
+      <!-- multiple allowed, not required -->
+      <input type="file" id="referenceImage" accept="image/*" multiple />
+
+      <div class="small-muted">You can upload multiple images. They are optional.</div>
+
+      <div id="imagePreview" aria-live="polite"></div>
+
+      <button type="submit" id="submitBtn">Submit Request</button>
     </form>
   </main>
+
+  <!-- keep your firebase auth usage -->
   <script type="module">
-    import { auth, db } from './firebase-config.js';
-    import { doc, setDoc, collection, addDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+    import { auth } from './firebase-config.js';
     import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 
     const profileSection = document.getElementById('profileSection');
@@ -201,85 +256,152 @@
     onAuthStateChanged(auth, user => {
       if (user) {
         profileSection.style.display = 'flex';
-        if (user.photoURL) {
-          profilePic.src = user.photoURL;
-        }
+        if (user.photoURL) profilePic.src = user.photoURL;
       }
-    });
-
-    function toggleMenu() {
-      document.querySelector('nav ul').classList.toggle('active');
-    }
-
-    document.getElementById("customOrderForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const description = document.getElementById("description").value.trim();
-  const imageInput = document.getElementById("referenceImage");
-  const imageFile = imageInput.files[0];
-
-  let imageUrl = "";
-  const loadingDiv = document.getElementById("loading");
-  loadingDiv.style.display = "block"; // ✅ Show loading message
-
-  if (imageFile) {
-    const formData = new FormData();
-    formData.append("image", imageFile);
-
-    const res = await fetch("https://api.imgbb.com/1/upload?key=bbfd6eceec416726284963eb08f78632", {
-      method: "POST",
-      body: formData
-    });
-
-    const data = await res.json();
-    imageUrl = data.data.url;
-  }
-
-  loadingDiv.style.display = "none"; // ✅ Hide loading message
-
-
-      const item = {
-        name,
-        phone,
-        description,
-        imageUrl,
-        isCustom: true,
-        quantity: 1,
-        price: 0,
-      };
-      const orderData = {
-  name,
-  phone,
-  description,
-  imageUrl
-};
-
-emailjs.send("service_byyvwjh", "template_z8lkhwp", orderData)
-  .then(() => {
-    console.log("Custom order email sent");
-  })
-  .catch(error => console.error("EmailJS Error:", error));
-
-
-      localStorage.setItem('cart', JSON.stringify([...(JSON.parse(localStorage.getItem('cart') || "[]")), item]));
-
-      window.location.href = "cart.html";
     });
 
     window.logout = () => signOut(auth);
   </script>
-  <script>
-  function toggleMenu() {
-    document.querySelector('nav ul').classList.toggle('active');
-  }
-</script>
 
+  <script>
+    // toggle menu (keeps your original behavior)
+    function toggleMenu() {
+      document.querySelector('nav ul').classList.toggle('active');
+    }
+  </script>
+
+  <!-- Main custom-order logic -->
+  <script>
+    (function() {
+      const form = document.getElementById('customOrderForm');
+      const imageInput = document.getElementById('referenceImage');
+      const imagePreview = document.getElementById('imagePreview');
+      const loadingDiv = document.getElementById('loading');
+      const submitBtn = document.getElementById('submitBtn');
+
+      // Imgbb key you provided:
+      const IMGBB_KEY = 'bbfd6eceec416726284963eb08f78632';
+
+      // Ensure EmailJS is initialized (safeguard if the SDK was deferred)
+      function ensureEmailJsInit() {
+        if (window.emailjs && typeof emailjs.init === "function") {
+          try { emailjs.init("CB8hwx-xnlGQcO9aL"); } catch (e) { /* ignore re-init errors */ }
+        }
+      }
+      ensureEmailJsInit();
+
+      // preview selected images locally before upload
+      imageInput.addEventListener('change', () => {
+        imagePreview.innerHTML = '';
+        const files = Array.from(imageInput.files || []);
+        files.forEach(file => {
+          const url = URL.createObjectURL(file);
+          const img = document.createElement('img');
+          img.src = url;
+          img.className = 'preview-thumb';
+          imagePreview.appendChild(img);
+        });
+      });
+
+      // helper: upload single File to ImgBB, returns uploaded url
+      async function uploadToImgbb(file) {
+        const fd = new FormData();
+        fd.append('image', file);
+        const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, {
+          method: 'POST',
+          body: fd
+        });
+        const json = await res.json();
+        if (!json || !json.data || !json.data.url) {
+          throw new Error('ImgBB upload failed');
+        }
+        return json.data.url;
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        submitBtn.disabled = true;
+        loadingDiv.style.display = 'block';
+
+        try {
+          const name = document.getElementById('name').value.trim();
+          const phone = document.getElementById('phone').value.trim();
+          const description = document.getElementById('description').value.trim();
+          const size = document.getElementById('size').value.trim();
+
+          // gather image files (can be zero)
+          const files = Array.from(imageInput.files || []);
+          const uploadedUrls = [];
+
+          // Upload images sequentially (safer memory-wise). If you prefer parallel, use Promise.all.
+          for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            try {
+              const url = await uploadToImgbb(file);
+              uploadedUrls.push(url);
+            } catch (err) {
+              console.error('Image upload failed for file', file.name, err);
+              // continue: we don't want a single failed image to block the whole order.
+            }
+          }
+
+          // Build item consistent with your cart structure. Use first URL for thumbnail, keep array as imageUrls
+          const item = {
+            name,
+            phone,
+            description,
+            size,
+            imageUrls: uploadedUrls, // array of uploaded image URLs (may be empty)
+            imageUrl: uploadedUrls[0] || "", // legacy single image field for sites expecting single image
+            isCustom: true,
+            quantity: 1,
+            price: 0
+          };
+
+          // Add item to cart in localStorage (preserve existing cart)
+          const currentCart = JSON.parse(localStorage.getItem('cart') || "[]");
+          currentCart.push(item);
+          localStorage.setItem('cart', JSON.stringify(currentCart));
+
+          // Prepare email data for EmailJS
+          const orderData = {
+            name,
+            phone,
+            description,
+            size,
+            // Provide a comma-separated list for template use
+            image_urls: uploadedUrls.length ? uploadedUrls.join(", ") : "None",
+            timestamp: new Date().toLocaleString()
+          };
+
+          // Send email with EmailJS (if available)
+          if (window.emailjs && typeof emailjs.send === "function") {
+            try {
+              await emailjs.send("service_byyvwjh", "template_z8lkhwp", orderData);
+              // optional: console message
+              console.log('Custom order email sent via EmailJS');
+            } catch (emailErr) {
+              console.error('EmailJS error:', emailErr);
+              // continue anyway; we saved to cart
+            }
+          } else {
+            console.warn('EmailJS not available; skipping email send.');
+          }
+
+          // Done: redirect to cart
+          window.location.href = 'cart.html';
+        } catch (err) {
+          console.error('Custom order error:', err);
+          alert('Failed to submit custom order. Please try again.');
+        } finally {
+          loadingDiv.style.display = 'none';
+          submitBtn.disabled = false;
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
-
-
 
 
 
