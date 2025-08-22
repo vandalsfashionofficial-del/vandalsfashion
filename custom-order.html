@@ -166,6 +166,10 @@
 
   <main>
     <h1>Custom Order</h1>
+    <div id="loading" style="display:none;text-align:center;color:#333;font-weight:bold;">
+  Uploading image... please wait
+</div>
+
     <form id="customOrderForm">
       <label for="name">Your Name</label>
       <input type="text" id="name" required />
@@ -208,28 +212,33 @@
     }
 
     document.getElementById("customOrderForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
+  e.preventDefault();
 
-      const name = document.getElementById("name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const description = document.getElementById("description").value.trim();
-      const imageInput = document.getElementById("referenceImage");
-      const imageFile = imageInput.files[0];
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const description = document.getElementById("description").value.trim();
+  const imageInput = document.getElementById("referenceImage");
+  const imageFile = imageInput.files[0];
 
-      let imageUrl = "";
+  let imageUrl = "";
+  const loadingDiv = document.getElementById("loading");
+  loadingDiv.style.display = "block"; // ✅ Show loading message
 
-      if (imageFile) {
-        const formData = new FormData();
-        formData.append("image", imageFile);
+  if (imageFile) {
+    const formData = new FormData();
+    formData.append("image", imageFile);
 
-        const res = await fetch("https://api.imgbb.com/1/upload?key=bbfd6eceec416726284963eb08f78632", {
-          method: "POST",
-          body: formData
-        });
+    const res = await fetch("https://api.imgbb.com/1/upload?key=bbfd6eceec416726284963eb08f78632", {
+      method: "POST",
+      body: formData
+    });
 
-        const data = await res.json();
-        imageUrl = data.data.url;
-      }
+    const data = await res.json();
+    imageUrl = data.data.url;
+  }
+
+  loadingDiv.style.display = "none"; // ✅ Hide loading message
+
 
       const item = {
         name,
@@ -240,6 +249,19 @@
         quantity: 1,
         price: 0,
       };
+      const orderData = {
+  name,
+  phone,
+  description,
+  imageUrl
+};
+
+emailjs.send("service_byyvwjh", "template_z8lkhwp", orderData)
+  .then(() => {
+    console.log("Custom order email sent");
+  })
+  .catch(error => console.error("EmailJS Error:", error));
+
 
       localStorage.setItem('cart', JSON.stringify([...(JSON.parse(localStorage.getItem('cart') || "[]")), item]));
 
@@ -256,6 +278,7 @@
 
 </body>
 </html>
+
 
 
 
