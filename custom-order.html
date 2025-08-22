@@ -328,6 +328,15 @@
           const phone = document.getElementById('phone').value.trim();
           const description = document.getElementById('description').value.trim();
           const size = document.getElementById('size').value.trim();
+const emailParams = {
+  name: name,
+  phone: phone,
+  description: description,
+  size: size,
+  custom_image: uploadedUrls.length > 0 ? uploadedUrls[0] : '', // first image
+  custom_images_all: uploadedUrls.join(', '), // optional: all images
+};
+
 
           // gather image files (can be zero)
           const files = Array.from(imageInput.files || []);
@@ -377,7 +386,16 @@
           // Send email with EmailJS (if available)
           if (window.emailjs && typeof emailjs.send === "function") {
             try {
-              await emailjs.send("service_byyvwjh", "template_z8lkhwp", orderData);
+             await emailjs.send('service_byyvwjh", "template_z8lkhwp', {
+    name,
+    phone,
+    description,
+    size,
+    custom_image: uploadedUrls.length > 0 ? uploadedUrls[0] : '',
+    image_urls: uploadedUrls.join(', '), // if you want all image URLs as text
+    timestamp: new Date().toLocaleString()
+});
+
               // optional: console message
               console.log('Custom order email sent via EmailJS');
             } catch (emailErr) {
@@ -402,6 +420,7 @@
   </script>
 </body>
 </html>
+
 
 
 
