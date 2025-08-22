@@ -318,7 +318,7 @@
         return json.data.url;
       }
 
-     form.addEventListener('submit', async (e) => {
+    form.addEventListener('submit', async (e) => {
   e.preventDefault();
   submitBtn.disabled = true;
   loadingDiv.style.display = 'block';
@@ -341,17 +341,12 @@
       } catch (err) {
         console.error('Image upload failed for file', files[i].name, err);
       }
-      // uploadedUrls is the array of URLs returned from ImgBB
-const image_html = uploadedUrls.length > 0
-  ? uploadedUrls.map(url => `<p><img src="${url}" alt="Uploaded Image" style="max-width:200px; display:block; margin-bottom:10px;" /></p>`).join('')
-  : '<p>No images uploaded</p>';
-
     }
 
-    // Build HTML string for images
-    const imageGalleryHTML = uploadedUrls
-      .map(url => `<p><img src="${url}" alt="Uploaded Image" style="max-width:200px;"/></p>`)
-      .join('');
+    // Now build the image HTML **after the loop**
+    const image_html = uploadedUrls.length > 0
+      ? uploadedUrls.map(url => `<p><img src="${url}" alt="Uploaded Image" style="max-width:200px; display:block; margin-bottom:10px;" /></p>`).join('')
+      : '<p>No images uploaded</p>';
 
     // Prepare EmailJS params
     const emailParams = {
@@ -359,7 +354,7 @@ const image_html = uploadedUrls.length > 0
       phone: phone,
       description: description,
       size: size,
-      image_html // ✅ pass the generated HTML
+      image_html, // pass the generated HTML here
       timestamp: new Date().toLocaleString()
     };
 
@@ -381,7 +376,7 @@ const image_html = uploadedUrls.length > 0
 
     // Send EmailJS
     if (window.emailjs && typeof emailjs.send === "function") {
-     await emailjs.send('service_byyvwjh', 'template_z8lkhwp', emailParams);
+      await emailjs.send('service_byyvwjh', 'template_z8lkhwp', emailParams);
       console.log('Custom order email sent via EmailJS');
     } else {
       console.warn('EmailJS not available; skipping email send.');
@@ -403,6 +398,7 @@ const image_html = uploadedUrls.length > 0
   </script>
 </body>
 </html>
+
 
 
 
