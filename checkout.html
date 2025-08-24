@@ -367,6 +367,36 @@ function placeOrder() {
     item.custom ? `Custom Order: ${item.custom}` : `${item.name} – ₹${item.price}`
   ).join(", ") || "Custom Order";
 
+  // Display items in checkout page
+const orderItemsDiv = document.getElementById("order-items"); // Make sure this ID exists in HTML
+if (orderItemsDiv) {
+  if (cart.length === 0 && !customOrder) {
+    orderItemsDiv.innerHTML = "<p>No items in your order.</p>";
+  } else {
+    let html = "";
+
+    if (cart.length > 0) {
+      html += cart.map(item => `
+        <div class="checkout-item" style="display:flex;align-items:center;margin-bottom:10px;">
+          <img src="${item.imageUrls && item.imageUrls[0] ? item.imageUrls[0] : 'default.jpg'}" 
+               alt="${item.name}" style="width:80px;height:auto;margin-right:10px;border-radius:8px;">
+          <p>${item.name} – ₹${item.price}</p>
+        </div>
+      `).join('');
+    }
+
+    if (customOrder) {
+      html += `
+        <div class="checkout-item" style="margin-top:10px;">
+          <p><strong>Custom Order:</strong> ${customOrder.details || 'Details not provided'}</p>
+        </div>
+      `;
+    }
+
+    orderItemsDiv.innerHTML = html;
+  }
+}
+
   // Collect form values
   const name = document.getElementById("name").value;
   const address = document.getElementById("address").value;
@@ -450,6 +480,7 @@ emailjs.send("service_byyvwjh", "template_z8lkhwp", {
 
 </body>
 </html>
+
 
 
 
