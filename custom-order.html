@@ -344,15 +344,21 @@
     }
 
     
-    // Prepare EmailJS params
-    const emailParams = {
-      name: name,
-      phone: phone,
-      description: description,
-      size: size,
-      imageGallery, // pass the generated HTML here
-      timestamp: new Date().toLocaleString()
-    };
+   // ✅ Now create HTML for EmailJS
+const image_html = uploadedUrls.length > 0
+  ? uploadedUrls.map(url => `<p><img src="${url}" style="max-width:200px; margin-bottom:10px;" /></p>`).join('')
+  : '<p>No images uploaded</p>';
+
+// ✅ Add to EmailJS params
+const templateParams = {
+  name: document.getElementById('name').value,
+  phone: document.getElementById('phone').value,
+  description: document.getElementById('description').value,
+  size: document.getElementById('size').value,
+  image_html, // here we use the generated HTML
+  timestamp: new Date().toLocaleString()
+};
+
 
     // Add to cart (localStorage)
     const item = {
@@ -394,6 +400,7 @@
   </script>
 </body>
 </html>
+
 
 
 
