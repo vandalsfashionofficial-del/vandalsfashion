@@ -406,18 +406,24 @@ function placeOrder() {
   allOrders.push(orderData);
   localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
 
-  // Send via EmailJS if available
-  if (window.emailjs && typeof emailjs.send === "function") {
-     emailjs.init("CB8hwx-xnlGQcO9aL");
- emailjs.send("service_byyvwjh", "template_z8lkhwp", {
+  // Generate HTML for images
+const image_html = cart.map(item =>
+  item.imageUrls && item.imageUrls.length > 0
+    ? item.imageUrls.map(url => `<p><img src="${url}" style="max-width:200px; margin-bottom:10px;" /></p>`).join('')
+    : ''
+).join('');
+
+// Then send email with image_html
+emailjs.send("service_byyvwjh", "template_z8lkhwp", {
   name: name,
   phone: phone,
   address: address,
   pincode: pincode,
   payment: payment,
   total: totalText,
-  order_Id: order_id, // match your template variable
-  itemsList: orderDetails // comma-separated items
+  order_Id: order_id,
+  itemsList: orderDetails,
+  image_html: image_html // <-- this is the key
 })
 
       .then(() => {
@@ -444,6 +450,7 @@ function placeOrder() {
 
 </body>
 </html>
+
 
 
 
