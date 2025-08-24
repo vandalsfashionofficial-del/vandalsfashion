@@ -349,6 +349,7 @@ const image_html = uploadedUrls.length > 0
   ? uploadedUrls.map(url => `<p><img src="${url}" style="max-width:200px; margin-bottom:10px;" /></p>`).join('')
   : '<p>No images uploaded</p>';
 
+
 // ✅ Add to EmailJS params
 const templateParams = {
   name: document.getElementById('name').value,
@@ -376,13 +377,7 @@ const templateParams = {
     currentCart.push(item);
     localStorage.setItem('cart', JSON.stringify(currentCart));
 
-    // Send EmailJS
-    if (window.emailjs && typeof emailjs.send === "function") {
-      await emailjs.send('service_byyvwjh', 'template_z8lkhwp', templateParams);
-      console.log('Custom order email sent via EmailJS');
-    } else {
-      console.warn('EmailJS not available; skipping email send.');
-    }
+    
 
     // Redirect to cart
     window.location.href = 'cart.html';
@@ -398,6 +393,7 @@ const templateParams = {
   </script>
 </body>
 </html>
+
 
 
 
