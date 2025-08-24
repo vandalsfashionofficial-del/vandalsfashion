@@ -378,7 +378,7 @@ const templateParams = {
 
     // Send EmailJS
     if (window.emailjs && typeof emailjs.send === "function") {
-      await emailjs.send('service_byyvwjh', 'template_z8lkhwp', emailParams);
+      await emailjs.send('service_byyvwjh', 'template_z8lkhwp', templateParams);
       console.log('Custom order email sent via EmailJS');
     } else {
       console.warn('EmailJS not available; skipping email send.');
@@ -400,6 +400,7 @@ const templateParams = {
   </script>
 </body>
 </html>
+
 
 
 
