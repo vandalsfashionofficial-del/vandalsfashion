@@ -296,8 +296,9 @@
     }
 
     // Load cart from localStorage
-    const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
-    const customOrder = JSON.parse(localStorage.getItem("customOrder") || "null");
+   // Load checkoutCart instead of cart
+const cartItems = JSON.parse(localStorage.getItem("checkoutCart") || "[]");
+const customOrder = JSON.parse(localStorage.getItem("checkoutCustomOrder") || "null");
     const cartTotalBox = document.getElementById("cartTotal");
     const orderSummaryList = document.querySelector("#orderSummary ul");
     const customNote = document.getElementById("customNote");
@@ -480,6 +481,7 @@ emailjs.send("service_byyvwjh", "template_z8lkhwp", {
 
 </body>
 </html>
+
 
 
 
