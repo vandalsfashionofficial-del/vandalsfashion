@@ -369,7 +369,7 @@ function placeOrder() {
   ).join(", ") || "Custom Order";
 
   // Display items in checkout page
-const orderItemsDiv = document.getElementById("order-items"); // Make sure this ID exists in HTML
+const orderItemsDiv = document.getElementById("order-summary"); // Make sure this ID exists in HTML
 if (orderItemsDiv) {
   if (cart.length === 0 && !customOrder) {
     orderItemsDiv.innerHTML = "<p>No items in your order.</p>";
@@ -469,18 +469,18 @@ emailjs.send("service_byyvwjh", "template_z8lkhwp", {
         localStorage.removeItem("customOrder");
         window.location.href = "thankyou.html";
       });
-  }  {
+  } else {
     // Fallback if EmailJS not loaded
     localStorage.removeItem("cart");
     localStorage.removeItem("customOrder");
     window.location.href = "thankyou.html";
   }
-
-
+}
   </script>
 
 </body>
 </html>
+
 
 
 
