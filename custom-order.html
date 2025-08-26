@@ -373,20 +373,9 @@ const templateParams = {
       quantity: 1,
       price: 0
     };
-    const currentCart = JSON.parse(localStorage.getItem('cart') || "[]");
-    currentCart.push(item);
-  
-
-// Assuming you have product details like:
-const item = {
-  name: productName,
-  price: productPrice,
-  imageUrls: [productImageURL] // <-- ADD THIS
-};
-
+   const currentCart = JSON.parse(localStorage.getItem('cart') || "[]");
 currentCart.push(item);
 localStorage.setItem("cart", JSON.stringify(currentCart));
-
 
     
 
@@ -404,6 +393,7 @@ localStorage.setItem("cart", JSON.stringify(currentCart));
   </script>
 </body>
 </html>
+
 
 
 
