@@ -369,7 +369,7 @@ function placeOrder() {
   ).join(", ") || "Custom Order";
 
   // Display items in checkout page
-const orderItemsDiv = document.getElementById("order-summary"); // Make sure this ID exists in HTML
+const orderItemsDiv = document.getElementById("orderSummary"); // Make sure this ID exists in HTML
 if (orderItemsDiv) {
   if (cart.length === 0 && !customOrder) {
     orderItemsDiv.innerHTML = "<p>No items in your order.</p>";
@@ -477,9 +477,35 @@ emailjs.send("service_byyvwjh", "template_z8lkhwp", {
   }
 }
   </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const orderSummary = document.getElementById("orderSummary"); // UL element
+    const totalPriceEl = document.getElementById("total-price"); // Span for total
+    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    if (cart.length === 0) {
+        orderSummary.innerHTML = "<li>No items in cart</li>";
+        totalPriceEl.textContent = "0";
+        return;
+    }
+
+    let total = 0;
+    orderSummary.innerHTML = ""; // Clear previous content
+
+    cart.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.name} - ₹${item.price}`;
+        orderSummary.appendChild(li);
+        total += parseFloat(item.price);
+    });
+
+    totalPriceEl.textContent = total.toFixed(2);
+});
+</script>
 
 </body>
 </html>
+
 
 
 
