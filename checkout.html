@@ -327,16 +327,20 @@ const customOrder = JSON.parse(localStorage.getItem("checkoutCustomOrder") || "n
       hasItems = true;
     }
 
-    // Totals / empty state
-    if (hasItems) {
-      deliveryNote.style.display = "block";
-      if (total > 0 && customOrder) {
-        cartTotalBox.textContent = `Total: ₹${total} + Custom Order`;
-      } else if (total > 0) {
-        cartTotalBox.textContent = `Total: ₹${total}`;
-      } else {
-        cartTotalBox.textContent = `Total: Custom Order`;
-      }
+   let totalText = "";
+
+if (total > 0 && customOrder) {
+  totalText = `₹${total} + Custom Order`;
+} else if (total > 0) {
+  totalText = `₹${total}`;
+} else if (customOrder) {
+  totalText = `Custom Order`;
+} else {
+  totalText = "₹0";
+}
+
+cartTotalBox.textContent = `Total: ${totalText}`;
+
     } else {
       document.getElementById("orderSummary").style.display = "none";
       cartTotalBox.style.display = "none";
@@ -469,18 +473,44 @@ emailjs.send("service_byyvwjh", "template_z8lkhwp", {
         localStorage.removeItem("customOrder");
         window.location.href = "thankyou.html";
       });
-  } else {
-    // Fallback if EmailJS not loaded
+if (window.emailjs && typeof emailjs.send === "function") {
+  emailjs.send("service_byyvwjh", "template_z8lkhwp", {
+    name: name,
+    phone: phone,
+    address: address,
+    pincode: pincode,
+    payment: payment,
+    total: totalText,
+    order_Id: order_id,
+    itemsList: orderDetails,
+    image_html: image_html
+  })
+  .then(() => {
     localStorage.removeItem("cart");
     localStorage.removeItem("customOrder");
     window.location.href = "thankyou.html";
-  }
+  })
+  .catch(error => {
+    console.error("EmailJS Error:", error);
+    alert("Order placed, but email failed.");
+    localStorage.removeItem("cart");
+    localStorage.removeItem("customOrder");
+    window.location.href = "thankyou.html";
+  });
+} else {
+  // fallback if EmailJS is not available
+  localStorage.removeItem("cart");
+  localStorage.removeItem("customOrder");
+  window.location.href = "thankyou.html";
+}
+
 }
   </script>
 
 
 </body>
 </html>
+
 
 
 
