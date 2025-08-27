@@ -304,36 +304,42 @@
   margin: 50px 0;
 }
 
-.carousel-container {
-  position: relative;
+ .carousel-container {
+  perspective: 1200px; /* gives depth for 3D effect */
+  overflow: visible;
   width: 90%;
   margin: 0 auto;
-  overflow: hidden;
 }
 
 .carousel {
   display: flex;
+  justify-content: center;
+  transform-style: preserve-3d; /* allow 3D transforms of children */
   transition: transform 0.5s ease;
 }
 
 .carousel img {
-  flex: 0 0 30%;
-  max-width: 30%;
-  margin: 0 1%;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: transform 0.5s ease;
+  width: 200px;
+  margin: 0 15px;
+  transition: transform 0.5s ease, filter 0.5s ease;
+  transform-origin: center center;
 }
 
 .carousel img.center {
-  transform: scale(1.2);
+  transform: rotateY(0deg) scale(1);
+  z-index: 3;
+}
+
+.carousel img.left {
+  transform: rotateY(30deg) scale(0.8); /* curved toward center */
   z-index: 2;
 }
 
-.carousel img.side {
-  transform: scale(1);
-  z-index: 1;
+.carousel img.right {
+  transform: rotateY(-30deg) scale(0.8); /* curved toward center */
+  z-index: 2;
 }
+
 
 @media (max-width: 768px) {
   .carousel img {
@@ -470,6 +476,7 @@ window.addEventListener('scroll', () => {
 
 </body>
 </html>
+
 
 
 
