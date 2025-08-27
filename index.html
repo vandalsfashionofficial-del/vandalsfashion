@@ -291,12 +291,7 @@
 <p class="fixed-phone">📞 +91-7837498898</p>
 
 
-  <!-- Place this where you want the slideshow on index.html -->
-<div id="homepage-slideshow" style="max-width:100%; overflow:hidden; position:relative;">
-  <img id="slide" src="" alt="Slideshow Image" style="width:100%; height:auto; border-radius:10px;">
-</div>
-
-<!-- Slideshow container -->
+<!-- Carousel Container -->
 <div class="carousel-container">
   <div class="carousel">
     <img src="https://i.ibb.co/0RqZqFsk/Whats-App-Image-2025-08-27-at-1-28-11-PM-1.jpg" alt="1">
@@ -313,57 +308,66 @@
   max-width: 900px;
   margin: 2rem auto;
   overflow: visible;
+  position: relative;
 }
 
 .carousel {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.5s;
+  transition: transform 0.5s ease;
 }
 
 .carousel img {
   width: 200px;
   margin: 0 10px;
-  transition: transform 0.5s, opacity 0.5s;
   border-radius: 10px;
+  transition: transform 0.5s ease, opacity 0.5s ease;
   cursor: pointer;
+  opacity: 0.5;
+  transform: scale(0.8);
 }
 
 .carousel img.center {
-  transform: scale(1.5);
+  transform: scale(1.4);
+  opacity: 1;
   z-index: 2;
 }
 
 .carousel img.left,
 .carousel img.right {
   transform: scale(1);
-  opacity: 0.6;
+  opacity: 0.7;
   z-index: 1;
 }
 </style>
 
 <script>
 const carousel = document.querySelector(".carousel");
-const images = carousel.querySelectorAll("img");
-let currentIndex = 1; // start from the second image as center
+const images = Array.from(carousel.querySelectorAll("img"));
+let centerIndex = 0;
 
 function updateCarousel() {
   images.forEach((img, i) => {
     img.classList.remove("left","center","right");
-    if(i === currentIndex) img.classList.add("center");
-    else if(i === currentIndex-1 || (currentIndex===0 && i===images.length-1)) img.classList.add("left");
-    else if(i === currentIndex+1 || (currentIndex===images.length-1 && i===0)) img.classList.add("right");
-    else img.style.opacity = "0"; // hide further images
+    img.style.opacity = "0.5";
+    img.style.zIndex = "0";
   });
+
+  const leftIndex = (centerIndex - 1 + images.length) % images.length;
+  const rightIndex = (centerIndex + 1) % images.length;
+
+  images[centerIndex].classList.add("center");
+  images[leftIndex].classList.add("left");
+  images[rightIndex].classList.add("right");
 }
 
 // Initial render
 updateCarousel();
 
-// Rotate every 3 seconds
+// Loop carousel every 3 seconds
 setInterval(() => {
-  currentIndex = (currentIndex + 1) % images.length;
+  centerIndex = (centerIndex + 1) % images.length;
   updateCarousel();
 }, 3000);
 </script>
@@ -450,6 +454,7 @@ window.addEventListener('scroll', () => {
 
 </body>
 </html>
+
 
 
 
