@@ -304,25 +304,26 @@
   margin: 50px 0;
 }
 
- .carousel-container {
-  perspective: 1200px; /* gives depth for 3D effect */
+.carousel-container {
+  perspective: 1500px; /* depth for 3D effect */
   overflow: visible;
-  width: 90%;
+  width: 80%;
   margin: 0 auto;
 }
 
 .carousel {
   display: flex;
   justify-content: center;
-  transform-style: preserve-3d; /* allow 3D transforms of children */
+  transform-style: preserve-3d; /* enable 3D transforms on children */
   transition: transform 0.5s ease;
 }
 
 .carousel img {
-  width: 200px;
+  width: 250px;
+  height: auto;
   margin: 0 15px;
-  transition: transform 0.5s ease, filter 0.5s ease;
-  transform-origin: center center;
+  transition: transform 0.5s ease;
+  border-radius: 15px; /* optional for slightly rounded edges */
 }
 
 .carousel img.center {
@@ -331,12 +332,12 @@
 }
 
 .carousel img.left {
-  transform: rotateY(30deg) scale(0.8); /* curved toward center */
+  transform: rotateY(25deg) scale(0.8);
   z-index: 2;
 }
 
 .carousel img.right {
-  transform: rotateY(-30deg) scale(0.8); /* curved toward center */
+  transform: rotateY(-25deg) scale(0.8);
   z-index: 2;
 }
 
@@ -476,6 +477,7 @@ window.addEventListener('scroll', () => {
 
 </body>
 </html>
+
 
 
 
