@@ -338,14 +338,14 @@ if (total > 0 && customOrder) {
 } else {
   totalText = "₹0";
 }
-      {
-cartTotalBox.textContent = `Total: ${totalText}`;
-
-    } else {
-      document.getElementById("orderSummary").style.display = "none";
-      cartTotalBox.style.display = "none";
-      customNote.style.display = "none";
-      deliveryNote.style.display = "none";
+  if (hasItems) {
+  cartTotalBox.textContent = `Total: ${totalText}`;
+} else {
+  document.getElementById("orderSummary").style.display = "none";
+  cartTotalBox.style.display = "none";
+  customNote.style.display = "none";
+  deliveryNote.style.display = "none";
+}
 
       const msg = document.createElement("p");
       msg.textContent = "No items in cart to checkout.";
@@ -510,6 +510,7 @@ if (window.emailjs && typeof emailjs.send === "function") {
 
 </body>
 </html>
+
 
 
 
