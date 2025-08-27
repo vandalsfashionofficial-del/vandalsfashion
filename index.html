@@ -241,18 +241,20 @@
       padding: 1rem 0;
       background-color: #f9f9f9;
     }
-    .fixed-phone {
-  position: fixed;     
-  bottom: 0;             
-  left: 0;               
+   .fixed-phone {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   margin: 0;
   background: transparent;
-  color: white;           
+  color: white; /* default color */
   padding: 0.5rem 1rem;
   font-weight: bold;
   font-family: 'Poppins', sans-serif;
-  z-index: 9999;        
+  z-index: 9999;
+  transition: color 0.3s ease;
 }
+
 
 
   </style>
@@ -286,9 +288,8 @@
     <a href="explore.html" class="btn">Explore Now</a>
   </div>
 </section>
-<div class="fixed-phone">
-  📞 +91-7837498898
-</div>
+<p class="fixed-phone">📞 +91-XXXXXXXXXX</p>
+
 
 <!-- Marquee -->
 <div class="marquee">
@@ -354,9 +355,25 @@
     });
   });
 </script>
+<script>
+const phone = document.querySelector('.fixed-phone');
+const footer = document.querySelector('footer');
+
+window.addEventListener('scroll', () => {
+  const phoneRect = phone.getBoundingClientRect();
+  const footerRect = footer.getBoundingClientRect();
+
+  if (phoneRect.bottom > footerRect.top) {
+    phone.style.color = 'black'; // near footer
+  } else {
+    phone.style.color = 'white'; // default
+  }
+});
+</script>
 
 </body>
 </html>
+
 
 
 
