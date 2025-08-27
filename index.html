@@ -296,28 +296,76 @@
   <img id="slide" src="" alt="Slideshow Image" style="width:100%; height:auto; border-radius:10px;">
 </div>
 
+<!-- Slideshow container -->
+<div class="carousel-container">
+  <div class="carousel">
+    <img src="https://i.ibb.co/0RqZqFsk/Whats-App-Image-2025-08-27-at-1-28-11-PM-1.jpg" alt="1">
+    <img src="https://i.ibb.co/Xr9d0vLH/Whats-App-Image-2025-08-27-at-1-28-11-PM-2.jpg" alt="2">
+    <img src="https://i.ibb.co/39SggtRK/Whats-App-Image-2025-08-27-at-1-28-11-PM-3.jpg" alt="3">
+    <img src="https://i.ibb.co/ccQS4M8B/Whats-App-Image-2025-08-27-at-1-28-11-PM-6.jpg" alt="4">
+  </div>
+</div>
+
+<style>
+.carousel-container {
+  perspective: 1000px;
+  width: 100%;
+  max-width: 900px;
+  margin: 2rem auto;
+  overflow: visible;
+}
+
+.carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.5s;
+}
+
+.carousel img {
+  width: 200px;
+  margin: 0 10px;
+  transition: transform 0.5s, opacity 0.5s;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.carousel img.center {
+  transform: scale(1.5);
+  z-index: 2;
+}
+
+.carousel img.left,
+.carousel img.right {
+  transform: scale(1);
+  opacity: 0.6;
+  z-index: 1;
+}
+</style>
+
 <script>
-  // Replace these URLs with your own uploaded images
-  const slideshowImages = [
-    "https://i.ibb.co/0RqZqFsk/Whats-App-Image-2025-08-27-at-1-28-11-PM-1.jpg",
-    "https://i.ibb.co/Xr9d0vLH/Whats-App-Image-2025-08-27-at-1-28-11-PM-2.jpg",
-    "https://i.ibb.co/39SggtRK/Whats-App-Image-2025-08-27-at-1-28-11-PM-3.jpg",
-    "https://i.ibb.co/ccQS4M8B/Whats-App-Image-2025-08-27-at-1-28-11-PM-6.jpg",
-  ];
+const carousel = document.querySelector(".carousel");
+const images = carousel.querySelectorAll("img");
+let currentIndex = 1; // start from the second image as center
 
-  let currentSlide = 0;
-  const slideEl = document.getElementById("slide");
+function updateCarousel() {
+  images.forEach((img, i) => {
+    img.classList.remove("left","center","right");
+    if(i === currentIndex) img.classList.add("center");
+    else if(i === currentIndex-1 || (currentIndex===0 && i===images.length-1)) img.classList.add("left");
+    else if(i === currentIndex+1 || (currentIndex===images.length-1 && i===0)) img.classList.add("right");
+    else img.style.opacity = "0"; // hide further images
+  });
+}
 
-  function showNextSlide() {
-    slideEl.src = slideshowImages[currentSlide];
-    currentSlide = (currentSlide + 1) % slideshowImages.length;
-  }
+// Initial render
+updateCarousel();
 
-  // Initial display
-  showNextSlide();
-
-  // Change slide every 4 seconds
-  setInterval(showNextSlide, 4000);
+// Rotate every 3 seconds
+setInterval(() => {
+  currentIndex = (currentIndex + 1) % images.length;
+  updateCarousel();
+}, 3000);
 </script>
 
 <!-- Marquee -->
@@ -402,6 +450,7 @@ window.addEventListener('scroll', () => {
 
 </body>
 </html>
+
 
 
 
