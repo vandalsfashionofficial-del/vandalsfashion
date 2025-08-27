@@ -452,6 +452,9 @@ const image_html = cart.map(item =>
     : ''
 ).join('');
 
+  // 🔹 QUICK DEBUG: check if image_html is actually generated
+console.log(image_html);  // <-- Add this line 
+  
 // Then send email with image_html
 emailjs.send("service_byyvwjh", "template_z8lkhwp", {
   name: name,
@@ -483,3 +486,4 @@ emailjs.send("service_byyvwjh", "template_z8lkhwp", {
 
 </body>
 </html>
+
