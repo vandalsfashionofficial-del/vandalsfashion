@@ -241,13 +241,20 @@
       padding: 1rem 0;
       background-color: #f9f9f9;
     }
-    .contact-number {
-  text-align: center;
+    .fixed-phone {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background-color: black;
+  color: #FFD700;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
   font-weight: bold;
-  margin: 0.5rem 0;
-  font-size: 1rem;
-  color: black;
+  font-family: 'Poppins', sans-serif;
+  z-index: 9999; /* ensures it stays above other elements */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
+
 
   </style>
 </head>
@@ -255,9 +262,7 @@
 
 <header>
   <div><strong>Vandals Fashion</strong></div>
-  <div class="contact-number">
-  📞 +91-7837498898
-</div>
+  
   <div class="hamburger" onclick="toggleMenu()">☰</div>
   <nav id="navbar">
     <a href="index.html">Home</a>
@@ -282,7 +287,9 @@
     <a href="explore.html" class="btn">Explore Now</a>
   </div>
 </section>
-
+<div class="contact-number">
+  📞 +91-7837498898
+</div>
 <!-- Marquee -->
 <div class="marquee">
   <span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION • </span>
@@ -350,6 +357,7 @@
 
 </body>
 </html>
+
 
 
 
