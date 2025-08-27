@@ -368,6 +368,18 @@ if (!user) {
   return;
 }
 
+  const user = JSON.parse(localStorage.getItem("vf_user"));
+if (!user) {
+  // Save current page and cart/custom order to return after login
+  localStorage.setItem("vf_redirect_after_login", window.location.href);
+  localStorage.setItem("vf_temp_cart", JSON.stringify(JSON.parse(localStorage.getItem("cart") || "[]")));
+  localStorage.setItem("vf_temp_customOrder", JSON.stringify(JSON.parse(localStorage.getItem("customOrder") || "null")));
+
+  alert("Please log in to place an order!");
+  window.location.href = "login.html"; // redirect to login
+}
+
+
   // Get cart items
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
   const customOrder = JSON.parse(localStorage.getItem("customOrder") || "null");
@@ -494,5 +506,6 @@ emailjs.send("service_byyvwjh", "template_z8lkhwp", {
 
 </body>
 </html>
+
 
 
