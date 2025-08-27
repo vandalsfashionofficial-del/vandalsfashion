@@ -460,23 +460,29 @@ updateCarousel();
   });
 </script>
 <script>
-const phone = document.querySelector('.fixed-phone');
+ const phone = document.querySelector('.fixed-phone');
 const footer = document.querySelector('footer');
+const creations = document.querySelector('#our-creations');
 
 window.addEventListener('scroll', () => {
   const phoneRect = phone.getBoundingClientRect();
   const footerRect = footer.getBoundingClientRect();
+  const creationsRect = creations.getBoundingClientRect();
 
-  if (phoneRect.bottom > footerRect.top) {
-    phone.style.color = 'black'; // near footer
+  // Change color if phone overlaps Our Creations section or Footer
+  if (phoneRect.bottom > creationsRect.top && phoneRect.top < creationsRect.bottom) {
+    phone.style.color = 'black';
+  } else if (phoneRect.bottom > footerRect.top) {
+    phone.style.color = 'black';
   } else {
-    phone.style.color = 'white'; // default
+    phone.style.color = 'white';
   }
 });
 </script>
 
 </body>
 </html>
+
 
 
 
