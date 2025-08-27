@@ -289,11 +289,15 @@
   <!-- Scripts -->
   <script>
     // ✅ Only init EmailJS if SDK is loaded (prevents a blocking error)
-    if (window.emailjs && typeof emailjs.init === "function") {
-      emailjs.init("CB8hwx-xnlGQcO9aL");
-    } else {
-      console.warn("EmailJS SDK not loaded yet; order email will be skipped if unavailable.");
-    }
+    document.addEventListener("DOMContentLoaded", () => {
+  if (window.emailjs && typeof emailjs.init === "function") {
+    emailjs.init("CB8hwx-xnlGQcO9aL"); // ✅ Your real public key
+    console.log("EmailJS initialized");
+  } else {
+    console.error("EmailJS SDK not loaded!");
+  }
+});
+
 
     // Load cart from localStorage
    // Load checkoutCart instead of cart
@@ -351,7 +355,9 @@ if (total > 0 && customOrder) {
   msg.className = "empty-msg";
   document.querySelector(".checkout-container").prepend(msg);
 }  // <- closes the else block
-
+function generateOrderID() {
+  return "VF-" + Math.floor(1000 + Math.random() * 9000);
+}
 
 function placeOrder() {
   // Get cart items
@@ -409,9 +415,7 @@ if (orderItemsDiv) {
     alert("Please fill all required fields.");
     return;
   }
-  function generateOrderID() {
-  return "VF-" + Math.floor(1000 + Math.random() * 9000);
-}
+  
 
 
   // Build order data
@@ -458,51 +462,20 @@ emailjs.send("service_byyvwjh", "template_z8lkhwp", {
   total: totalText,
   order_Id: order_id,
   itemsList: orderDetails,
-  image_html: image_html // <-- this is the key
+  image_html: image_html
 })
-
-      .then(() => {
-        localStorage.removeItem("cart");
-        localStorage.removeItem("customOrder");
-        window.location.href = "thankyou.html";
-      })
-      .catch(error => {
-        console.error("EmailJS Error:", error);
-        alert("Order placed, but email failed.");
-        localStorage.removeItem("cart");
-        localStorage.removeItem("customOrder");
-        window.location.href = "thankyou.html";
-      });
-if (window.emailjs && typeof emailjs.send === "function") {
-  emailjs.send("service_byyvwjh", "template_z8lkhwp", {
-    name: name,
-    phone: phone,
-    address: address,
-    pincode: pincode,
-    payment: payment,
-    total: totalText,
-    order_Id: order_id,
-    itemsList: orderDetails,
-    image_html: image_html
-  })
-  .then(() => {
-    localStorage.removeItem("cart");
-    localStorage.removeItem("customOrder");
-    window.location.href = "thankyou.html";
-  })
-  .catch(error => {
-    console.error("EmailJS Error:", error);
-    alert("Order placed, but email failed.");
-    localStorage.removeItem("cart");
-    localStorage.removeItem("customOrder");
-    window.location.href = "thankyou.html";
-  });
-} else {
-  // fallback if EmailJS is not available
+.then(() => {
   localStorage.removeItem("cart");
   localStorage.removeItem("customOrder");
   window.location.href = "thankyou.html";
-}
+})
+.catch(error => {
+  console.error("EmailJS Error:", error);
+  alert("Order placed, but email failed.");
+  localStorage.removeItem("cart");
+  localStorage.removeItem("customOrder");
+  window.location.href = "thankyou.html";
+});
 
 }
   </script>
@@ -510,31 +483,3 @@ if (window.emailjs && typeof emailjs.send === "function") {
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
