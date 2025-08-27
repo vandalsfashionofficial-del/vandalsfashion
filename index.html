@@ -291,83 +291,103 @@
 <p class="fixed-phone">📞 +91-7837498898</p>
 
 
-<!-- Our Creations Carousel -->
 <section id="our-creations">
   <h2>Our Creations</h2>
   <div class="carousel-container">
-    <div class="carousel">
-      <img src="https://i.ibb.co/0RqZqFsk/Whats-App-Image-2025-08-27-at-1-28-11-PM-1.jpg" alt="Image 1">
-      <img src="https://i.ibb.co/Xr9d0vLH/Whats-App-Image-2025-08-27-at-1-28-11-PM-2.jpg" alt="Image 2">
-      <img src="https://i.ibb.co/39SggtRK/Whats-App-Image-2025-08-27-at-1-28-11-PM-3.jpg" alt="Image 3">
-      <img src="https://i.ibb.co/ccQS4M8B/Whats-App-Image-2025-08-27-at-1-28-11-PM-6.jpg" alt="Image 4">
-    </div>
+    <div class="carousel"></div>
   </div>
 </section>
 
 <style>
-  #our-creations {
-    text-align: center;
-    margin: 50px 0;
-  }
+#our-creations {
+  text-align: center;
+  margin: 50px 0;
+}
 
-  .carousel-container {
-    position: relative;
-    width: 80%;
-    margin: 0 auto;
-    overflow: hidden;
-    perspective: 1200px;
-  }
+.carousel-container {
+  position: relative;
+  width: 90%;
+  margin: 0 auto;
+  overflow: hidden;
+}
 
-  .carousel {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.5s ease;
-  }
+.carousel {
+  display: flex;
+  transition: transform 0.5s ease;
+}
 
+.carousel img {
+  flex: 0 0 30%;
+  max-width: 30%;
+  margin: 0 1%;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.5s ease;
+}
+
+.carousel img.center {
+  transform: scale(1.2);
+  z-index: 2;
+}
+
+.carousel img.side {
+  transform: scale(1);
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
   .carousel img {
-    width: 250px;
-    height: auto;
-    margin: 0 10px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    transition: transform 0.5s ease;
-    cursor: pointer;
+    flex: 0 0 40%;
+    max-width: 40%;
   }
-
-  .carousel img.center {
-    transform: scale(1.2);
-    z-index: 2;
-  }
-
-  .carousel img.left,
-  .carousel img.right {
-    transform: scale(0.8);
-    z-index: 1;
-  }
+}
 </style>
 
 <script>
-const images = document.querySelectorAll('.carousel img');
+const imageUrls = [
+  "https://i.ibb.co/0RqZqFsk/Whats-App-Image-2025-08-27-at-1-28-11-PM-1.jpg",
+  "https://i.ibb.co/Xr9d0vLH/Whats-App-Image-2025-08-27-at-1-28-11-PM-2.jpg",
+  "https://i.ibb.co/39SggtRK/Whats-App-Image-2025-08-27-at-1-28-11-PM-3.jpg",
+  "https://i.ibb.co/ccQS4M8B/Whats-App-Image-2025-08-27-at-1-28-11-PM-6.jpg"
+];
+
+const carousel = document.querySelector('.carousel');
+
+// Dynamically create images
+imageUrls.forEach(url => {
+  const img = document.createElement('img');
+  img.src = url;
+  carousel.appendChild(img);
+});
+
 let currentIndex = 0;
+const imgs = document.querySelectorAll('.carousel img');
 
 function updateCarousel() {
-  images.forEach((img, index) => {
-    img.classList.remove('center','left','right');
+  imgs.forEach((img, index) => {
+    img.classList.remove('center', 'side');
     if(index === currentIndex) img.classList.add('center');
-    else if(index === (currentIndex - 1 + images.length) % images.length) img.classList.add('left');
-    else if(index === (currentIndex + 1) % images.length) img.classList.add('right');
+    else if(index === (currentIndex - 1 + imgs.length) % imgs.length) img.classList.add('side');
+    else if(index === (currentIndex + 1) % imgs.length) img.classList.add('side');
+    else img.style.transform = 'scale(0.8)'; // hidden/side
   });
+
+  // Shift carousel to center the current image
+  const containerWidth = carousel.parentElement.offsetWidth;
+  const imgWidth = imgs[currentIndex].offsetWidth;
+  const offset = (containerWidth / 2) - (imgWidth / 2) - (imgs[currentIndex].offsetLeft);
+  carousel.style.transform = `translateX(${offset}px)`;
 }
 
-function moveToNext() {
-  currentIndex = (currentIndex + 1) % images.length;
+function moveNext() {
+  currentIndex = (currentIndex + 1) % imgs.length;
   updateCarousel();
 }
 
-setInterval(moveToNext, 3000);
+setInterval(moveNext, 3000);
 updateCarousel();
 </script>
+
 <!-- Marquee -->
 <div class="marquee">
   <span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION • </span>
