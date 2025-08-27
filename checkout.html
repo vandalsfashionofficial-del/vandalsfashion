@@ -300,9 +300,9 @@
 
 
     // Load cart from localStorage
-   // Load checkoutCart instead of cart
-const cartItems = JSON.parse(localStorage.getItem("checkoutCart") || "[]");
-const customOrder = JSON.parse(localStorage.getItem("checkoutCustomOrder") || "null");
+  
+const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
+const customOrder = JSON.parse(localStorage.getItem("customOrder") || "null");
     const cartTotalBox = document.getElementById("cartTotal");
     const orderSummaryList = document.querySelector("#orderSummary ul");
     const customNote = document.getElementById("customNote");
@@ -358,8 +358,8 @@ if (total > 0 && customOrder) {
 function generateOrderID() {
   return "VF-" + Math.floor(1000 + Math.random() * 9000);
 }
-
-function placeOrder() {
+// Make the function globally available and include the login check at the start
+window.placeOrder = function() {
   const user = JSON.parse(localStorage.getItem("vf_user"));
   if (!user) {
     // Save current page and cart/custom order to return after login
@@ -371,9 +371,7 @@ function placeOrder() {
     window.location.href = "auth.html"; // redirect to login
     return; // stop the rest of placeOrder() from running
   }
-}
-
-
+};
 
   // Get cart items
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -501,6 +499,7 @@ emailjs.send("service_byyvwjh", "template_z8lkhwp", {
 
 </body>
 </html>
+
 
 
 
