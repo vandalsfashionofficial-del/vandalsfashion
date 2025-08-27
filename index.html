@@ -288,8 +288,37 @@
     <a href="explore.html" class="btn">Explore Now</a>
   </div>
 </section>
-<p class="fixed-phone">📞 +91-XXXXXXXXXX</p>
+<p class="fixed-phone">📞 +91-7837498898</p>
 
+
+  <!-- Place this where you want the slideshow on index.html -->
+<div id="homepage-slideshow" style="max-width:100%; overflow:hidden; position:relative;">
+  <img id="slide" src="" alt="Slideshow Image" style="width:100%; height:auto; border-radius:10px;">
+</div>
+
+<script>
+  // Replace these URLs with your own uploaded images
+  const slideshowImages = [
+    "https://i.ibb.co/0RqZqFsk/Whats-App-Image-2025-08-27-at-1-28-11-PM-1.jpg",
+    "https://i.ibb.co/Xr9d0vLH/Whats-App-Image-2025-08-27-at-1-28-11-PM-2.jpg",
+    "https://i.ibb.co/39SggtRK/Whats-App-Image-2025-08-27-at-1-28-11-PM-3.jpg",
+    "https://i.ibb.co/ccQS4M8B/Whats-App-Image-2025-08-27-at-1-28-11-PM-6.jpg",
+  ];
+
+  let currentSlide = 0;
+  const slideEl = document.getElementById("slide");
+
+  function showNextSlide() {
+    slideEl.src = slideshowImages[currentSlide];
+    currentSlide = (currentSlide + 1) % slideshowImages.length;
+  }
+
+  // Initial display
+  showNextSlide();
+
+  // Change slide every 4 seconds
+  setInterval(showNextSlide, 4000);
+</script>
 
 <!-- Marquee -->
 <div class="marquee">
@@ -373,6 +402,7 @@ window.addEventListener('scroll', () => {
 
 </body>
 </html>
+
 
 
 
