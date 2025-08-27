@@ -31,7 +31,10 @@ window.signup = async function () {
     localStorage.setItem("vf_user_uid", user.uid);
     localStorage.removeItem("vf_user_google"); // in case switching from Google
 
-    window.location.href = "index.html";
+    const redirectUrl = localStorage.getItem("vf_redirect_after_login") || "index.html";
+localStorage.removeItem("vf_redirect_after_login");
+window.location.href = redirectUrl;
+
   } catch (error) {
     alert("Signup failed: " + error.message);
   }
@@ -60,7 +63,10 @@ window.login = async function () {
     localStorage.setItem("vf_user_uid", user.uid);
     localStorage.removeItem("vf_user_google");
 
-    window.location.href = "index.html";
+   const redirectUrl = localStorage.getItem("vf_redirect_after_login") || "index.html";
+localStorage.removeItem("vf_redirect_after_login");
+window.location.href = redirectUrl;
+
   } catch (error) {
     alert("Login failed: " + error.message);
   }
@@ -79,7 +85,10 @@ window.googleSignIn = async function () {
     localStorage.setItem("vf_user_photo", user.photoURL);
     localStorage.setItem("vf_user_uid", user.uid);
 
-    window.location.href = "index.html";
+  const redirectUrl = localStorage.getItem("vf_redirect_after_login") || "index.html";
+localStorage.removeItem("vf_redirect_after_login");
+window.location.href = redirectUrl;
+
   } catch (error) {
     alert("Google Sign-In failed: " + error.message);
   }
