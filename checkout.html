@@ -373,9 +373,7 @@ window.placeOrder = function() {
   }
 };
 
-  // Get cart items
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const customOrder = JSON.parse(localStorage.getItem("customOrder") || "null");
+    
 
   if (cart.length === 0 && !customOrder) {
     alert("Your cart is empty!");
@@ -499,6 +497,7 @@ emailjs.send("service_byyvwjh", "template_z8lkhwp", {
 
 </body>
 </html>
+
 
 
 
