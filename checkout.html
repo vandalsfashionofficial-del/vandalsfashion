@@ -345,17 +345,13 @@ if (total > 0 && customOrder) {
   cartTotalBox.style.display = "none";
   customNote.style.display = "none";
   deliveryNote.style.display = "none";
-}
 
-      const msg = document.createElement("p");
-      msg.textContent = "No items in cart to checkout.";
-      msg.className = "empty-msg";
-      document.querySelector(".checkout-container").prepend(msg);
-    }
+  const msg = document.createElement("p");
+  msg.textContent = "No items in cart to checkout.";
+  msg.className = "empty-msg";
+  document.querySelector(".checkout-container").prepend(msg);
+}  // <- closes the else block
 
-    function generateOrderID() {
-  return "VF-" + Math.floor(1000 + Math.random() * 9000);
-}
 
 function placeOrder() {
   // Get cart items
@@ -510,6 +506,7 @@ if (window.emailjs && typeof emailjs.send === "function") {
 
 </body>
 </html>
+
 
 
 
