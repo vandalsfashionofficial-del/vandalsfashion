@@ -409,6 +409,10 @@ if (orderItemsDiv) {
     alert("Please fill all required fields.");
     return;
   }
+  function generateOrderID() {
+  return "VF-" + Math.floor(1000 + Math.random() * 9000);
+}
+
 
   // Build order data
   const order_id = generateOrderID();
@@ -506,6 +510,7 @@ if (window.emailjs && typeof emailjs.send === "function") {
 
 </body>
 </html>
+
 
 
 
