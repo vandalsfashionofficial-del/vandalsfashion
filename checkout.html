@@ -371,7 +371,7 @@ window.placeOrder = function() {
     window.location.href = "auth.html"; // redirect to login
    return;
   }
-  if (cart.length === 0 && !customOrder) {
+  if (cartitems.length === 0 && !customOrder) {
     alert("Your cart is empty!");
     return;
   }
@@ -493,6 +493,7 @@ emailjs.send("service_byyvwjh", "template_z8lkhwp", {
 
 </body>
 </html>
+
 
 
 
