@@ -377,20 +377,20 @@ window.placeOrder = function() {
   }
 
   // Build order details
-  const orderDetails = cart.map(item =>
+  const orderDetails = cartItems.map(item =>
     item.custom ? `Custom Order: ${item.custom}` : `${item.name} – ₹${item.price}`
   ).join(", ") || "Custom Order";
 
   // Display items in checkout page
 const orderItemsDiv = document.getElementById("orderSummary"); // Make sure this ID exists in HTML
 if (orderItemsDiv) {
-  if (cart.length === 0 && !customOrder) {
+  if (cartItems.length === 0 && !customOrder) {
     orderItemsDiv.innerHTML = "<p>No items in your order.</p>";
   } else {
     let html = "";
 
-    if (cart.length > 0) {
-      html += cart.map(item => `
+    if (cartItems.length > 0) {
+      html += cartItems.map(item => `
         <div class="checkout-item" style="display:flex;align-items:center;margin-bottom:10px;">
           <img src="${item.imageUrls && item.imageUrls[0] ? item.imageUrls[0] : 'default.jpg'}" 
                alt="${item.name}" style="width:80px;height:auto;margin-right:10px;border-radius:8px;">
@@ -453,7 +453,7 @@ if (orderItemsDiv) {
   localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
 
   // Generate HTML for images
-const image_html = cart.map(item =>
+const image_html = cartItems.map(item =>
   item.imageUrls && item.imageUrls.length > 0
     ? item.imageUrls.map(url => `<p><img src="${url}" style="max-width:200px; margin-bottom:10px;" /></p>`).join('')
     : ''
@@ -493,6 +493,7 @@ emailjs.send("service_byyvwjh", "template_z8lkhwp", {
 
 </body>
 </html>
+
 
 
 
