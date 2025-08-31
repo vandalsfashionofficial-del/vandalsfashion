@@ -438,7 +438,7 @@ if (orderItemsDiv) {
     total: totalText,
     orderFor: orderDetails,
     orderId: order_id,
-    items: cart,
+    items: cartItems,
     timestamp: Date.now(),
     ...(customOrder ? { custom: true, customDetails: customOrder } : {})
   };
@@ -493,6 +493,7 @@ emailjs.send("service_byyvwjh", "template_z8lkhwp", {
 
 </body>
 </html>
+
 
 
 
