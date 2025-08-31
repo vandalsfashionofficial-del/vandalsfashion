@@ -31,6 +31,14 @@ window.signup = async function () {
     localStorage.setItem("vf_user_uid", user.uid);
     localStorage.removeItem("vf_user_google"); // in case switching from Google
 
+    localStorage.setItem("vf_user", JSON.stringify({
+  username,
+  email,
+  uid: user.uid,
+  google: false
+}));
+
+
     const redirectUrl = localStorage.getItem("vf_redirect_after_login") || "index.html";
 localStorage.removeItem("vf_redirect_after_login");
 window.location.href = redirectUrl;
@@ -63,6 +71,14 @@ window.login = async function () {
     localStorage.setItem("vf_user_uid", user.uid);
     localStorage.removeItem("vf_user_google");
 
+    localStorage.setItem("vf_user", JSON.stringify({
+  username,
+  email,
+  uid: user.uid,
+  google: false
+}));
+
+
    const redirectUrl = localStorage.getItem("vf_redirect_after_login") || "index.html";
 localStorage.removeItem("vf_redirect_after_login");
 window.location.href = redirectUrl;
@@ -84,6 +100,15 @@ window.googleSignIn = async function () {
     localStorage.setItem("vf_user_email", user.email);
     localStorage.setItem("vf_user_photo", user.photoURL);
     localStorage.setItem("vf_user_uid", user.uid);
+
+    localStorage.setItem("vf_user", JSON.stringify({
+  username: user.displayName,
+  email: user.email,
+  uid: user.uid,
+  google: true,
+  photo: user.photoURL
+}));
+
 
   const redirectUrl = localStorage.getItem("vf_redirect_after_login") || "index.html";
 localStorage.removeItem("vf_redirect_after_login");
