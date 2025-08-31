@@ -287,7 +287,10 @@
   </footer>
 
   <!-- Scripts -->
-  <script>
+  <script type="module">
+  import { db } from "./firebase-config.js";
+  import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
     // ✅ Only init EmailJS if SDK is loaded (prevents a blocking error)
     document.addEventListener("DOMContentLoaded", () => {
   if (window.emailjs && typeof emailjs.init === "function") {
@@ -358,6 +361,21 @@ if (total > 0 && customOrder) {
 function generateOrderID() {
   return "VF-" + Math.floor(1000 + Math.random() * 9000);
 }
+
+    async function saveOrder(orderData, userId) {
+  try {
+    await addDoc(collection(db, "orders"), {
+      ...orderData,
+      userId,
+      status: "Placed",
+      timestamp: serverTimestamp()
+    });
+    console.log("Order saved to Firestore ✅");
+  } catch (error) {
+    console.error("Error saving order:", error);
+  }
+}
+
 // Make the function globally available and include the login check at the start
 window.placeOrder = function() {
   const user = JSON.parse(localStorage.getItem("vf_user"));
@@ -409,8 +427,7 @@ if (orderItemsDiv) {
 
     orderItemsDiv.innerHTML = html;
   }
-}
-
+ 
   // Collect form values
   const name = document.getElementById("name").value;
   const address = document.getElementById("address").value;
@@ -442,6 +459,9 @@ if (orderItemsDiv) {
     timestamp: Date.now(),
     ...(customOrder ? { custom: true, customDetails: customOrder } : {})
   };
+
+  
+    await saveOrder(orderId, userId, cartItems, total);
 
   // Save locally
   localStorage.setItem("vf_order_id", order_id);
@@ -493,6 +513,7 @@ emailjs.send("service_byyvwjh", "template_z8lkhwp", {
 
 </body>
 </html>
+
 
 
 
