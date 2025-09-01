@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Directions - Vandals Fashion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet" />
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { height: 100%; font-family: 'Poppins', sans-serif; }
+
+    header {
+      background-color: black;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    header strong { font-family: 'Playfair Display', serif; font-size: 1.5rem; }
+
+    nav a { color: white; margin-left: 1.5rem; text-decoration: none; }
+    .hamburger { display: none; font-size: 1.8rem; cursor: pointer; }
+
+    @media (max-width: 768px) {
+      header { flex-wrap: wrap; }
+      nav { display: none; flex-direction: column; width: 100%; background-color: black; margin-top: 1rem; }
+      nav a { padding: 0.8rem 1rem; border-top: 1px solid #333; display: block; margin-left: 0; }
+      nav.show { display: flex; }
+      .hamburger { display: block; margin-left: auto; margin-top: 0.5rem; }
+    }
+
+    .map-container { width: 100%; height: 90vh; }
+    .map-container iframe { width: 100%; height: 100%; border: 0; }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      padding: 1rem 0;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div><strong>Vandals Fashion</strong></div>
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+  <nav id="navbar">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="explore.html">Explore</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="custom-order.html">Custom</a>
+    <a href="cart.html">🛒</a>
+    <a href="orders.html">Orders</a>
+    <a href="auth.html" id="authLink">Login</a>
+  </nav>
+</header>
+
+<section class="map-container">
+  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3442.635793036436!2d76.37614747560701!3d30.361299074765647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391029f7699fea2f%3A0xb97edf5556c1ec99!2sVANDAL%20FASHION!5e0!3m2!1sen!2sin!4v1756718684584!5m2!1sen!2sin" 
+    allowfullscreen="" 
+    loading="lazy" 
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</section>
+
+<footer>
+  &copy; 2025 Vandals Fashion. All rights reserved.
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById("navbar").classList.toggle("show");
+  }
+</script>
+
+</body>
+</html>
