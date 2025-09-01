@@ -241,20 +241,26 @@
       padding: 1rem 0;
       background-color: #f9f9f9;
     }
-  .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
+ .header-left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 1rem; /* spacing for luxury feel */
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
 }
 
-.logo .phone {
-  font-size: 0.9rem;
-  font-weight: normal;
-  color: #ffd700; /* pastel golden */
+.header-separator {
+  color: #ffd700; /* golden accent */
+  font-weight: 400;
+  font-size: 1.2rem;
 }
+
+.header-phone {
+  color: #ffd700;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
 
 
 
@@ -264,7 +270,8 @@
 
 <header>
   <div><strong>Vandals Fashion</strong></div>
-  <span class="phone">+91 78374 98898</span>
+  <span class="header-separator">|</span>
+    <span class="header-phone">📞 +91 78374 98898</span>
   
   <div class="hamburger" onclick="toggleMenu()">☰</div>
   <nav id="navbar">
@@ -484,6 +491,7 @@ window.addEventListener('scroll', () => {
 
 </body>
 </html>
+
 
 
 
