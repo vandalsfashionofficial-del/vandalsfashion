@@ -241,25 +241,27 @@
       padding: 1rem 0;
       background-color: #f9f9f9;
     }
- .header-left {
+.brand-container {
   display: flex;
-  flex-direction: column; /* stacked layout */
-  align-items: flex-start;
-  font-family: 'Playfair Display', serif;
-  gap: 0.3rem; /* spacing between brand and phone */
+  flex-direction: column; /* stack vertically */
+  align-items: flex-start; /* left align */
+  gap: 0.2rem; /* small spacing */
 }
 
 .brand {
+  font-family: 'Playfair Display', serif;
   font-size: 1.8rem;
   font-weight: 700;
   color: white;
 }
 
 .header-phone {
-  color: #ffd700; /* golden accent for luxury */
-  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
+  font-weight: 500;
+  color: #ffd700; /* golden accent for luxury */
 }
+
 
 
 
@@ -270,9 +272,10 @@
 <body>
 
 <header>
-  <div><strong>Vandals Fashion</strong></div>
-  <span class="header-phone">📞 +91 78374 98898</span>
-  
+ <div class="brand-container">
+    <strong class="brand">Vandals Fashion</strong>
+    <span class="header-phone">📞 +91 78374 98898</span>
+ </div>
   <div class="hamburger" onclick="toggleMenu()">☰</div>
   <nav id="navbar">
     <a href="index.html">Home</a>
@@ -491,6 +494,7 @@ window.addEventListener('scroll', () => {
 
 </body>
 </html>
+
 
 
 
