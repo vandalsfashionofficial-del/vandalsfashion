@@ -456,27 +456,16 @@
     localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
 
     // Generate HTML for images
-   // Generate HTML for images (cart items + custom order)
-let image_html = "";
-
-// Cart items images
-image_html += cartItems
-  .map(item =>
-    item.imageUrls && item.imageUrls.length > 0
-      ? item.imageUrls
-          .map(url => `<p><img src="${url}" style="max-width:200px; margin-bottom:10px;" /></p>`)
-          .join("")
-      : ""
-  )
-  .join("");
-
-// Custom order images
-if (customOrder && customOrder.imageUrls && customOrder.imageUrls.length > 0) {
-  image_html += customOrder.imageUrls
-    .map(url => `<p><img src="${url}" style="max-width:200px; margin-bottom:10px;" /></p>`)
-    .join("");
-}
-
+   
+const image_html =
+  customOrder && customOrder.imageUrls && customOrder.imageUrls.length > 0
+    ? customOrder.imageUrls
+        .map(
+          url =>
+            `<p><img src="${url}" style="max-width:200px; margin-bottom:10px;" /></p>`
+        )
+        .join("")
+    : "";
 
     console.log(image_html); // debug
 
@@ -511,6 +500,7 @@ if (customOrder && customOrder.imageUrls && customOrder.imageUrls.length > 0) {
 
 </body>
 </html>
+
 
 
 
