@@ -241,18 +241,19 @@
       padding: 1rem 0;
       background-color: #f9f9f9;
     }
-   .fixed-phone {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  margin: 0;
-  background: transparent;
-  color: white; /* default color */
-  padding: 0.5rem 1rem;
+  .logo {
+  font-size: 1.5rem;
   font-weight: bold;
-  font-family: 'Poppins', sans-serif;
-  z-index: 9999;
-  transition: color 0.3s ease;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo .phone {
+  font-size: 0.9rem;
+  font-weight: normal;
+  color: #ffd700; /* pastel golden */
 }
 
 
@@ -263,6 +264,7 @@
 
 <header>
   <div><strong>Vandals Fashion</strong></div>
+  <span class="phone">+91 78374 98898</span>
   
   <div class="hamburger" onclick="toggleMenu()">☰</div>
   <nav id="navbar">
@@ -288,7 +290,7 @@
     <a href="explore.html" class="btn">Explore Now</a>
   </div>
 </section>
-<p class="fixed-phone">📞 +91-7837498898</p>
+
 
 
 <section id="our-creations">
@@ -482,6 +484,7 @@ window.addEventListener('scroll', () => {
 
 </body>
 </html>
+
 
 
 
