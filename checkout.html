@@ -288,8 +288,7 @@
 
   <!-- Scripts -->
   <script type="module">
-  import { db } from "./firebase-config.js";
-  import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  
 
     // ✅ Only init EmailJS if SDK is loaded (prevents a blocking error)
     document.addEventListener("DOMContentLoaded", () => {
@@ -362,19 +361,7 @@ function generateOrderID() {
   return "VF-" + Math.floor(1000 + Math.random() * 9000);
 }
 
-    async function saveOrder(orderData, userId) {
-  try {
-    await addDoc(collection(db, "orders"), {
-      ...orderData,
-      userId,
-      status: "Placed",
-      timestamp: serverTimestamp()
-    });
-    console.log("Order saved to Firestore ✅");
-  } catch (error) {
-    console.error("Error saving order:", error);
-  }
-}
+    
 
 // Make the function globally available and include the login check at the start
 window.placeOrder = async function() {
@@ -460,8 +447,6 @@ if (orderItemsDiv) {
     ...(customOrder ? { custom: true, customDetails: customOrder } : {})
   };
 
-  
-    await saveOrder(orderid, user, cartItems, total);
 
   // Save locally
   localStorage.setItem("vf_order_id", order_id);
@@ -513,6 +498,7 @@ emailjs.send("service_byyvwjh", "template_z8lkhwp", {
 
 </body>
 </html>
+
 
 
 
