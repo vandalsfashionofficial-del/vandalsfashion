@@ -76,9 +76,50 @@
       color: #888;
       margin-top: 30px;
     }
+    .brand-container {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  align-items: flex-start; /* left align */
+  gap: 0.2rem; /* small spacing */
+}
+
+.brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+}
+
+.header-phone {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ffd700; /* golden accent for luxury */
+}
+
   </style>
 </head>
 <body>
+
+  <header>
+<div class="brand-container">
+<strong class="brand">Vandals Fashion</strong>
+<span class="header-phone">📞 +91 78374 98898</span>
+</div>
+<div class="hamburger" onclick="toggleMenu()">☰</div>
+<nav id="navbar">
+<a href="index.html">Home</a>
+<a href="shop.html">Shop</a>
+<a href="explore.html">Explore</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+<a href="Directions.html">Directions</a>
+<a href="custom-order.html">Custom</a>
+<a href="cart.html">🛒</a>
+<a href="auth.html" id="authLink">Login</a>
+</nav>
+<div id="mobileProfile" class="mobile-profile"></div>
+</header>
 
   <div class="container">
     <h2>Your Orders</h2>
@@ -129,6 +170,7 @@
 
 </body>
 </html>
+
 
 
 
