@@ -261,16 +261,35 @@
   font-weight: 500;
   color: #ffd700; /* golden accent for luxury */
 }
-    .brand-link {
-  display: flex;
-  align-items: center;
-  gap: 6px; /* spacing between icon and text */
-  text-decoration: none;
-  color: inherit; /* keeps same text color */
+  /* layout the header row */
+.brand-container{
+  display:flex;
+  align-items:center;
+  gap:.6rem;
 }
-.brand-link svg {
-  vertical-align: middle;
+
+/* clickable home icon only */
+.home-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:32px;
+  height:32px;
+  text-decoration:none;
+  color:inherit;          /* icon matches header text color */
 }
+
+/* control the svg size; inherit color from .home-icon */
+.home-icon svg{
+  width:20px;
+  height:20px;
+  fill:currentColor;
+}
+
+/* make sure your header keeps its black background & white text */
+header{ background:#000; color:#fff; }
+.brand{ color:#fff; }
+
 
 
 
@@ -282,14 +301,17 @@
 </head>
 <body>
 <div class="brand-container">
-  <a href="index.html" class="home-icon">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-      <path d="M8 .5l6 6V15a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6.5l6-6z"/>
+  <a href="index.html" class="home-icon" aria-label="Home" title="Home">
+    <!-- inline SVG home icon -->
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
     </svg>
   </a>
+
   <strong class="brand">Vandals Fashion</strong>
   <span class="header-phone">📞 +91 78374 98898</span>
 </div>
+
 
 
   <div class="hamburger" onclick="toggleMenu()">☰</div>
@@ -511,6 +533,7 @@ window.addEventListener('scroll', () => {
 
 </body>
 </html>
+
 
 
 
