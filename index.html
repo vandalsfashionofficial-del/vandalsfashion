@@ -163,10 +163,23 @@
         right: 2rem;
         top: 1rem;
       }
-     .header-right {
-    flex-direction: row-reverse;
-    align-items: center; /* keeps them nicely centered vertically */
-  }
+     header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hamburger {
+  display: flex;
+  align-items: center; /* keeps ☰ vertically centered */
+}
+
+#mobileProfile {
+  margin-left: auto; /* pushes profile pic to far right */
+  display: flex;
+  align-items: center;
+}
+
     }
 
     .hero {
@@ -176,10 +189,7 @@
       display: flex;
       align-items: center;
     }
-    .header-right {
-    flex-direction: row-reverse;
-    align-items: center; /* keeps them nicely centered vertically */
-  }
+   
 
     .overlay {
       position: absolute;
@@ -531,6 +541,7 @@ window.addEventListener('scroll', () => {
 
 </body>
 </html>
+
 
 
 
