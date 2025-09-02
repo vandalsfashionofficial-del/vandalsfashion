@@ -163,22 +163,31 @@
         right: 2rem;
         top: 1rem;
       }
-     header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
+     /* keep both hamburger and mobile profile in normal flow and spaced */
 .hamburger {
-  display: flex;
-  align-items: center; /* keeps ☰ vertically centered */
+  /* push the pair to the right */
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  z-index: 1000;
 }
 
-#mobileProfile {
-  margin-left: auto; /* pushes profile pic to far right */
-  display: flex;
+/* undo absolute positioning for mobile profile and align it */
+.mobile-profile {
+  position: static;      /* was absolute earlier – make it normal flow */
+  right: auto;
+  top: auto;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.6rem;   /* gap between hamburger and profile */
+  z-index: 1000;
+}
+
+/* ensure header keeps items centered vertically on mobile */
+header {
   align-items: center;
 }
+
 
     }
 
@@ -541,6 +550,7 @@ window.addEventListener('scroll', () => {
 
 </body>
 </html>
+
 
 
 
