@@ -226,11 +226,11 @@
     </div>
 
 
-    <label for="referenceImage">Upload Reference Image(s) (optional)</label>
+    <label for="referenceImage">Upload Reference Image(s) (required)</label>
       <!-- multiple allowed, not required -->
-      <input type="file" id="referenceImage" accept="image/*" multiple />
+      <input type="file" id="referenceImage" accept="image/*" multiple required />
 
-      <div class="small-muted">You can upload multiple images. They are optional.</div>
+      <div class="small-muted">You can upload multiple images. They are required.</div>
 
       <div id="imagePreview" aria-live="polite"></div>
 
@@ -401,6 +401,7 @@ localStorage.setItem("cart", JSON.stringify(currentCart));
   </script>
 </body>
 </html>
+
 
 
 
