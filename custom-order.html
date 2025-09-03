@@ -195,14 +195,18 @@
     </div>
     <nav>
       <ul id="nav-list">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="shop.html">Shop</a></li>
-        <li><a href="explore.html">Explore</a></li>
-        <li><a href="about.html">About us</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="Directions.html">Directions</a></li>
-        <li><a href="cart.html">Cart🛒</a></li>
-        <li><a href="orders.html">Orders</a></li>
+       
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+   <li><a href="shop.html">Shop</a></li>
+    <li><a href="explore.html">Explore</a></li>
+    <li><a href="custom-order.html">Customised Orders</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="cart.html">🛒</a></li>
+    <li><a href="orders.html">Your Orders</a></li>
+    <li><a href="Directions.html">Directions</a></li>
+    <li><a href="auth.html" id="authLink">Login</a></li>
+
       </ul>
     </nav>
     <div class="profile" id="profileSection" style="display: none;">
@@ -221,6 +225,21 @@
       Uploading image(s)... please wait
     </div>
 
+
+    <label for="referenceImage">Upload Reference Image(s) (optional)</label>
+      <!-- multiple allowed, not required -->
+      <input type="file" id="referenceImage" accept="image/*" multiple />
+
+      <div class="small-muted">You can upload multiple images. They are optional.</div>
+
+      <div id="imagePreview" aria-live="polite"></div>
+
+      <label for="size">Size</label>
+      <input type="text" id="size" />
+
+          <label for="description">Order Description</label>
+      <textarea id="description" rows="4" required></textarea>
+      
     <form id="customOrderForm">
       <label for="name">Your Name</label>
       <input type="text" id="name" required />
@@ -228,19 +247,6 @@
       <label for="phone">Phone Number</label>
       <input type="tel" id="phone" required />
 
-      <label for="description">Order Description</label>
-      <textarea id="description" rows="4" required></textarea>
-
-      <label for="size">Size</label>
-      <input type="text" id="size" />
-
-      <label for="referenceImage">Upload Reference Image(s) (optional)</label>
-      <!-- multiple allowed, not required -->
-      <input type="file" id="referenceImage" accept="image/*" multiple />
-
-      <div class="small-muted">You can upload multiple images. They are optional.</div>
-
-      <div id="imagePreview" aria-live="polite"></div>
 
       <button type="submit" id="submitBtn">Submit Request</button>
     </form>
@@ -395,6 +401,7 @@ localStorage.setItem("cart", JSON.stringify(currentCart));
   </script>
 </body>
 </html>
+
 
 
 
