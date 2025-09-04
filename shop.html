@@ -191,32 +191,125 @@
       nav a {
         padding: 0.5rem 0;
       }
-    }
+      /* --- Consistent Header Styles --- */
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.home-icon svg {
+  width: 28px;
+  height: 28px;
+  fill: white;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+}
+
+.header-phone {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ffd700; /* golden */
+}
+
+/* Mobile Nav Fix */
+@media (max-width: 768px) {
+  nav {
+    display: none;
+    flex-direction: column;
+    background-color: black;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    z-index: 999;
+  }
+
+  nav.show {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+  }
+
+  .menu-toggle div {
+    height: 3px;
+    width: 25px;
+    background: white;
+    margin: 4px 0;
+    border-radius: 2px;
+  }
+
+  nav a {
+    margin: 0.5rem 0;
+  }
+}
+
+    
   </style>
 </head>
 <body>
 
   <header>
-    <div class="logo-title">Vandals Fashion</div>
-    <button class="hamburger" id="hamburgerBtn">☰</button>
-    <nav id="navMenu">
-      <a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="shop.html">Shop</a>
-<a href="explore.html">Explore</a>
-<a href="custom-order.html">Customised Orders</a>
-<a href="contact.html">Contact</a>
-<a href="cart.html">🛒</a>
-<a href="orders.html">Your Orders</a>
-<a href="Directions.html">Directions</a>
-<a href="auth.html" id="authLink">Login</a>
-      <img id="profilePic" class="profile-pic" style="display:none;" />
-    </nav>
-    <div id="userDropdown">
-      <a href="https://myaccount.google.com" target="_blank">Manage Account</a>
-      <a href="#" onclick="logout()">Logout</a>
+  <div class="brand-wrapper">
+    <!-- Home icon on the left -->
+    <a href="index.html" class="home-icon" aria-label="Home" title="Home">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
+      </svg>
+    </a>
+
+    <!-- Brand text with yellow phone -->
+    <div class="brand-text">
+      <strong class="brand">Vandals Fashion</strong>
+      <span class="header-phone">📞 +91 78374 98898</span>
     </div>
+  </div>
+
+  <!-- Hamburger toggle -->
+  <div class="menu-toggle" onclick="toggleMenu()">
+    <div></div><div></div><div></div>
+  </div>
+
+  <!-- Navigation -->
+ <nav id="navbar">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="shop.html">Shop</a>
+    <a href="explore.html">Explore</a>
+    <a href="custom-order.html">Customised Orders</a>
+    <a href="contact.html">Contact</a>
+    <a href="cart.html">🛒</a>
+    <a href="orders.html">Your Orders</a>
+    <a href="Directions.html">Directions</a>
+  </nav>
+      
+<!-- Profile Icon -->
+  <div id="profileContainer" style="position: relative; display: none;">
+    <img id="profileIcon" src="" alt="Profile" style="width: 35px; height: 35px; border-radius: 50%; cursor: pointer;" onclick="toggleProfileDropdown()" />
+    <div id="profileDropdown" style="display: none; position: absolute; top: 40px; right: 0; background-color: white; color: black; border: 1px solid #ccc; border-radius: 8px; width: 150px; z-index: 1000;">
+      <a href="auth.html" style="display: block; padding: 10px; text-decoration: none; color: black;">Manage Account</a>
+      <a href="#" onclick="logout()" style="display: block; padding: 10px; text-decoration: none; color: black;">Logout</a>
+    </div>
+  </div>
   </header>
+  
 
   <h1>Explore Our Collection</h1>
 
@@ -238,29 +331,25 @@
   <script src="./firebase-config.js"></script>
   <script type="module" src="shop.js"></script>
 
-  <script>
-    // Hamburger toggle
-    document.getElementById('hamburgerBtn').addEventListener('click', () => {
-      document.getElementById('navMenu').classList.toggle('active');
-    });
+ <script>
+  window.toggleMenu = function () {
+    const nav = document.getElementById("navbar");
+    nav.classList.toggle("show");
+  };
 
-    // Profile dropdown toggle
-    const profilePic = document.getElementById("profilePic");
-    const userDropdown = document.getElementById("userDropdown");
+  window.toggleProfileDropdown = function () {
+    const profileDropdown = document.getElementById("profileDropdown");
+    profileDropdown.classList.toggle("show");
+  };
 
-    if (profilePic) {
-      profilePic.addEventListener("click", () => {
-        userDropdown.style.display = userDropdown.style.display === "block" ? "none" : "block";
-      });
+  window.logout = function () {
+    // Firebase signOut logic here
+    window.location.href = "auth.html";
+  };
+</script>
 
-      window.addEventListener("click", (e) => {
-        if (!profilePic.contains(e.target) && !userDropdown.contains(e.target)) {
-          userDropdown.style.display = "none";
-        }
-      });
-    }
-  </script>
 </body>
 </html>
+
 
 
