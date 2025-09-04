@@ -136,6 +136,13 @@
       nav a {
         margin: 0.5rem 0;
       }
+      .header-phone {
+font-family: 'Poppins', sans-serif;
+font-size: 1rem;
+font-weight: 500;
+color: #ffd700; /* golden accent for luxury */
+}
+
     }
 
     /* Dropdown styles */
@@ -149,23 +156,23 @@
   <!-- Header -->
   <header>
     <div class="logo">Vandals Fashion</div>
-
+<span class="header-phone">📞 +91 78374 98898</span>
     <div class="menu-toggle" onclick="toggleMenu()">
       <div></div><div></div><div></div>
     </div>
 
-    <nav id="navMenu">
-      <a href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
-      <a href="explore.html">Explore</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="Directions.html">Directions</a>
-      <a href="custom-order.html">Custom</a>
-      <a href="cart.html">🛒</a>
-      <a href="orders.html">Orders</a>
-      <a href="auth.html">Login</a> 
-    </nav>
+  <nav id="navbar">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="shop.html">Shop</a>
+<a href="explore.html">Explore</a>
+<a href="custom-order.html">Customised Orders</a>
+<a href="contact.html">Contact</a>
+<a href="cart.html">🛒</a>
+<a href="orders.html">Your Orders</a>
+<a href="Directions.html">Directions</a>
+<a href="auth.html" id="authLink">Login</a>
+</nav>
 
     <!-- ✅ Profile Icon -->
     <div id="profileContainer" style="position: relative; display: none;">
@@ -237,6 +244,7 @@
 </body>
 </html>
 <!-- ✅ End of Fixed about.html -->
+
 
 
 
