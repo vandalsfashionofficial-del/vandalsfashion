@@ -26,14 +26,7 @@
       position: relative;
     }
 
-   .brand-container {
-display: flex;
-flex-direction: column; /* stack vertically */
-align-items: flex-start; /* left align */
-gap: 0.2rem; /* small spacing */
-}
-
-.brand {
+  .brand {
 font-family: 'Playfair Display', serif;
 font-size: 1.8rem;
 font-weight: 700;
@@ -45,6 +38,21 @@ font-family: 'Poppins', sans-serif;
 font-size: 1rem;
 font-weight: 500;
 color: #ffd700; /* golden accent for luxury */
+}
+brand-wrapper {
+display: flex;
+align-items: center; /* centers icon with the text block */
+gap: 0.5rem; /* spacing between icon and text */
+}
+.home-icon svg {
+width: 28px;
+height: 28px;
+fill: white; /* matches your brand text color */
+}
+.brand-text {
+display: flex;
+flex-direction: column; /* stack name and phone vertically */
+line-height: 1.2;
 }
 
     nav {
@@ -291,7 +299,7 @@ line-height: 1.2;
     };
 
     window.toggleMenu = function () {
-      const nav = document.getElementById("navMenu");
+      const nav = document.getElementById("navbar");
       nav.classList.toggle("show");
     };
   </script>
@@ -299,12 +307,3 @@ line-height: 1.2;
 </body>
 </html>
 <!-- ✅ End of Fixed about.html -->
-
-
-
-
-
-
-
-
-
