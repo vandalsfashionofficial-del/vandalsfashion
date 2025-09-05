@@ -23,8 +23,8 @@ if (selectedCategory) {
 // 🔐 Profile UI
 onAuthStateChanged(auth, (user) => {
   if (user && user.photoURL) {
-    profile-Pic.src = user.photoURL;
-    profile-Pic.style.display = "inline-block";
+    profilePic.src = user.photoURL;
+    profilePic.style.display = "inline-block";
     authLink.style.display = "none";
   }
 });
