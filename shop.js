@@ -3,6 +3,7 @@ import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.5.2/f
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 
 const grid = document.getElementById('productGrid');
+const profileContainer = document.getElementById("profileContainer");
 const profilePic = document.getElementById("profile-Pic");
 const profileDropdown = document.getElementById("profileDropdown");
 const authLink = document.getElementById("authLink");
@@ -23,14 +24,18 @@ if (selectedCategory) {
 // 🔐 Profile UI
 onAuthStateChanged(auth, (user) => {
   if (user && user.photoURL) {
+    profileContainer.style.display = "block";   // show profile section
     profilePic.src = user.photoURL;
-    profilePic.style.display = "inline-block";
-    authLink.style.display = "none";
+    authLink.style.display = "none";            // hide login
+  } else {
+    profileContainer.style.display = "none";    // hide profile
+    authLink.style.display = "inline-block";    // show login
   }
 });
 
+
 profilePic?.addEventListener("click", () => {
-  userDropdown.style.display = userDropdown.style.display === "block" ? "none" : "block";
+  profileDropdown.style.display = profileDropdown.style.display === "block" ? "none" : "block";
 });
 
 window.logout = () => {
