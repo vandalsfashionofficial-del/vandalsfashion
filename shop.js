@@ -4,8 +4,8 @@ import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/
 
 const grid = document.getElementById('productGrid');
 const profilePic = document.getElementById("profile-Pic");
+const profileDropdown = document.getElementById("profileDropdown");
 const authLink = document.getElementById("authLink");
-const userDropdown = document.getElementById("userDropdown");
 
 // ✅ Get category from URL (e.g., ?category=Trendy)
 const urlParams = new URLSearchParams(window.location.search);
