@@ -3,7 +3,7 @@ import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.5.2/f
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 
 const grid = document.getElementById('productGrid');
-const profilePic = document.getElementById("profile-Pic");
+const profilePic = document.getElementById("profilePic");
 const authLink = document.getElementById("authLink");
 const userDropdown = document.getElementById("userDropdown");
 
