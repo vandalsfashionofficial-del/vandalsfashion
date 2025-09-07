@@ -301,14 +301,19 @@
   </nav>
       
 <!-- Profile Icon -->
-  <div id="profileContainer" style="position: relative; display: none;">
-    <img id="profile-Pic" src="" alt="Profile" style="width: 35px; height: 35px; border-radius: 50%; cursor: pointer;" onclick="toggleProfileDropdown()" />
-    <div id="profileDropdown" style="display: none; position: absolute; top: 40px; right: 0; background-color: white; color: black; border: 1px solid #ccc; border-radius: 8px; width: 150px; z-index: 1000;">
-      <a href="auth.html" style="display: block; padding: 10px; text-decoration: none; color: black;">Manage Account</a>
-      <a href="#" onclick="logout()" style="display: block; padding: 10px; text-decoration: none; color: black;">Logout</a>
-    </div>
+<div id="profileContainer" style="position: relative; display: none;">
+  <img id="profilePic" src="" alt="Profile"
+       style="width: 35px; height: 35px; border-radius: 50%; cursor: pointer;" />
+  <div id="userDropdown"
+       style="display: none; position: absolute; top: 40px; right: 0; background-color: white; color: black; border: 1px solid #ccc; border-radius: 8px; width: 150px; z-index: 1000;">
+    <a href="auth.html" style="display: block; padding: 10px; text-decoration: none; color: black;">Manage Account</a>
+    <a href="#" onclick="logout()" style="display: block; padding: 10px; text-decoration: none; color: black;">Logout</a>
   </div>
-  </header>
+</div>
+
+<!-- Login link (for logged-out users) -->
+<a id="authLink" href="auth.html">Login</a>
+
   
 
   <h1>Explore Our Collection</h1>
@@ -347,6 +352,7 @@
 
 </body>
 </html>
+
 
 
 
