@@ -10,11 +10,17 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Poppins', sans-serif; background-color: #fff; color: #222; }
 
-    header {
-      background-color: black; color: white;
-      padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;
-      position: relative; flex-wrap: wrap;
-    }
+   header {
+  background-color: black;
+  color: white;
+  padding: 0.5rem 2rem;      /* smaller top/bottom padding */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  flex-wrap: nowrap;         /* force everything on one line */
+  min-height: 60px;          /* consistent height */
+}
 
     .logo-title {
       font-weight: bold;
@@ -360,6 +366,7 @@
 
 </body>
 </html>
+
 
 
 
