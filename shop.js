@@ -29,7 +29,7 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-profile-Pic?.addEventListener("click", () => {
+profilePic?.addEventListener("click", () => {
   userDropdown.style.display = userDropdown.style.display === "block" ? "none" : "block";
 });
 
