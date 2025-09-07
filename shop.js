@@ -90,3 +90,14 @@ async function loadProducts() {
 }
 
 loadProducts();
+// Close dropdown when clicking outside
+document.addEventListener("click", (e) => {
+  if (
+    profileDropdown &&
+    profilePic &&
+    !profileDropdown.contains(e.target) &&
+    !profilePic.contains(e.target)
+  ) {
+    profileDropdown.style.display = "none";
+  }
+});
