@@ -43,33 +43,53 @@
       cursor: pointer;
     }
 
-    #profileContainer {
-  position: relative;
+  /* Make the right side a positioning container */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  position: relative;       /* <-- important: profileDropdown positions relative to this */
+  z-index: 1200;            /* ensure it sits above most page content */
+}
+
+/* profile image smaller on desktop, larger on mobile */
+#profile-Pic {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
   display: inline-block;
 }
 
-#profile-Pic {
-  width: 24px;   /* smaller */
-  height: 24px;
-  border-radius: 50%;
-  cursor: pointer;
+/* Mobile touch size */
+@media (max-width: 768px) {
+  #profile-Pic { width: 32px; height: 32px; }
 }
 
+/* Dropdown anchored to nav-right */
 #profileDropdown {
   position: absolute;
-  top: 32px;   /* directly under the profile pic */
+  top: calc(100% + 6px); /* just below the profile/hamburger */
   right: 0;
   background-color: white;
   color: black;
   border: 1px solid #ccc;
   border-radius: 8px;
-  width: 150px;
-  display: none;
-  z-index: 1000;
+  width: 160px;
+  display: none;          /* controlled by JS */
+  z-index: 9999;          /* VERY high so it isn't covered */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
 }
 
+/* class that shows the dropdown */
 #profileDropdown.show {
   display: block;
+}
+
+/* ensure mobile menu doesn't cover the dropdown unintentionally */
+nav#navbar {
+  z-index: 900; /* lower than profileDropdown so dropdown appears above it */
 }
 
 
@@ -371,6 +391,7 @@
 
 </body>
 </html>
+
 
 
 
