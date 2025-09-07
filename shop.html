@@ -259,6 +259,12 @@
   nav a {
     margin: 0.5rem 0;
   }
+  .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 }
 
     
@@ -266,7 +272,8 @@
 </head>
 <body>
 
-  <header>
+ <header>
+  <!-- Brand -->
   <div class="brand-wrapper">
     <!-- Home icon on the left -->
     <a href="index.html" class="home-icon" aria-label="Home" title="Home">
@@ -275,20 +282,36 @@
       </svg>
     </a>
 
-    <!-- Brand text with yellow phone -->
     <div class="brand-text">
       <strong class="brand">Vandals Fashion</strong>
       <span class="header-phone">📞 +91 78374 98898</span>
     </div>
   </div>
 
-  <!-- Hamburger toggle -->
-  <div class="menu-toggle" onclick="toggleMenu()">
-    <div></div><div></div><div></div>
+  <!-- Right side: hamburger + profile/login -->
+  <div class="nav-right">
+    <!-- Hamburger toggle -->
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <div></div><div></div><div></div>
+    </div>
+
+    <!-- Profile Icon (hidden until login) -->
+    <div id="profileContainer" style="position: relative; display: none;">
+      <img id="profile-Pic" src="" alt="Profile"
+           style="width: 35px; height: 35px; border-radius: 50%; cursor: pointer;" 
+           onclick="toggleProfileDropdown()" />
+      <div id="profileDropdown" style="display: none; position: absolute; top: 40px; right: 0; background-color: white; color: black; border: 1px solid #ccc; border-radius: 8px; width: 150px; z-index: 1000;">
+        <a href="auth.html" style="display: block; padding: 10px; text-decoration: none; color: black;">Manage Account</a>
+        <a href="#" onclick="logout()" style="display: block; padding: 10px; text-decoration: none; color: black;">Logout</a>
+      </div>
+    </div>
+
+    <!-- Login Link (hidden if logged in) -->
+    <a id="authLink" href="auth.html" style="display:none;">Login</a>
   </div>
 
   <!-- Navigation -->
- <nav id="navbar">
+  <nav id="navbar">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="shop.html">Shop</a>
@@ -299,18 +322,7 @@
     <a href="orders.html">Your Orders</a>
     <a href="Directions.html">Directions</a>
   </nav>
-      
-<div id="profileContainer" style="position: relative; display: none;">
-    <img id="profile-Pic" src="" alt="Profile" style="width: 35px; height: 35px; border-radius: 50%; cursor: pointer;" onclick="toggleProfileDropdown()" />
-    <div id="profileDropdown" style="display: none; position: absolute; top: 40px; right: 0; background-color: white; color: black; border: 1px solid #ccc; border-radius: 8px; width: 150px; z-index: 1000;">
-      <a href="auth.html" style="display: block; padding: 10px; text-decoration: none; color: black;">Manage Account</a>
-      <a href="#" onclick="logout()" style="display: block; padding: 10px; text-decoration: none; color: black;">Logout</a>
-    </div>
-</div>
-
-    <a id="authLink" href="auth.html">Login</a>
-  </header>
-  
+</header>
 
   <h1>Explore Our Collection</h1>
 
@@ -348,6 +360,7 @@
 
 </body>
 </html>
+
 
 
 
