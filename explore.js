@@ -5,7 +5,7 @@ import {
   signOut,
 } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 
-const profilePic = document.getElementById("profilePic");
+const profilePic = document.getElementById("profile-Pic");
 const authLink = document.getElementById("authLink");
 const userDropdown = document.getElementById("userDropdown");
 
