@@ -46,16 +46,17 @@
       cursor: pointer;
     }
 
-    #userDropdown {
-      position: absolute;
-      top: 60px;
-      right: 20px;
-      background-color: white;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      display: none;
-      z-index: 999;
-    }
+   #userDropdown {
+  position: absolute;
+  top: 40px;   /* appears just below profile pic */
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  display: none;
+  z-index: 9999;
+}
+
 
     #userDropdown a {
       display: block;
@@ -235,23 +236,24 @@
 
     <nav id="navMenu">
       <a href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
-      <a href="explore.html">Explore</a>
-      <a href="contact.html">Contact</a>
-      <a href="Directions.html">Directions</a>
-      <a href="custom-order.html">Custom</a>
-      <a href="cart.html">🛒</a>
-      <a href="orders.html">Orders</a>
-      <a href="auth.html" id="authLink">Login</a>
-      <img id="profilePic" class="profile-pic" style="display:none;" />
+<a href="about.html">About</a>
+<a href="shop.html">Shop</a>
+<a href="explore.html">Explore</a>
+<a href="custom-order.html">Customised Orders</a>
+<a href="contact.html">Contact</a>
+<a href="cart.html">🛒</a>
+<a href="orders.html">Your Orders</a>
+<a href="Directions.html">Directions</a>
+<a href="auth.html" id="authLink">Login</a>
+     <div class="profile-container" style="position:relative; display:inline-block;">
+  <img id="profilePic" class="profile-pic" style="display:none;" />
+  <div id="userDropdown">
+    <a href="https://myaccount.google.com" target="_blank">Manage Account</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </div>
+</div>
+
     </nav>
-
-    <div id="userDropdown">
-      <a href="https://myaccount.google.com" target="_blank">Manage Account</a>
-      <a href="#" onclick="logout()">Logout</a>
-    </div>
-  </header>
-
   <h1>Explore Our Categories</h1>
 
   <div class="category-boxes" id="categoryContainer">
@@ -280,6 +282,7 @@
 
 </body>
 </html>
+
 
 
 
