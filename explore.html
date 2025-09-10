@@ -80,9 +80,7 @@
     padding: 10px;
     border-bottom: 1px solid #444;
   }
-  #navbar.active {
-    display: flex;
-  }
+ 
 }
 
     nav {
@@ -237,7 +235,7 @@
     }
 
    @media (max-width: 768px) {
-  nav {
+  #navbar {
     display: none;
     flex-direction: column;
     background-color: black;
@@ -249,7 +247,7 @@
     z-index: 9999;
   }
 
-  nav.show {
+  #navbar.show {
     display: flex;
   }
 
@@ -262,6 +260,7 @@
     margin: 0.5rem 0;
   }
 }
+
 
     }
 
@@ -351,16 +350,19 @@
     &copy; 2025 Vandals Fashion. All rights reserved.
   </footer>
 
-  <script type="module">
-    function toggleMenu() {
-      document.getElementById('navbar').classList.toggle('show');
-    }
-  </script>
+ <script type="module">
+  window.toggleMenu = function () {
+    const nav = document.getElementById('navbar');
+    if (nav) nav.classList.toggle('show'); // use "show" because your media query expects it
+  };
+</script>
+
   <script type="module" src="./firebase-config.js"></script>
   <script type="module" src="explore.js"></script>
 
 </body>
 </html>
+
 
 
 
