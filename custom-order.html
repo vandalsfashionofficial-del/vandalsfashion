@@ -84,24 +84,70 @@
       object-fit: cover;
     }
 
-    @media (max-width: 768px) {
-      nav ul {
-        display: none;
-        flex-direction: column;
-        background: black;
-        width: 100%;
-        position: absolute;
-        top: 60px;
-        left: 0;
-      }
+   /* Brand Wrapper */
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-      nav ul.active {
-        display: flex;
-      }
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
 
-      .menu {
-        display: flex;
-      }
+.header-phone {
+  font-size: 14px;
+  color: goldenrod;
+  font-weight: bold;
+}
+
+/* Nav Right (hamburger + profile) */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Hamburger */
+.menu-toggle {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 4px;
+}
+
+.menu-toggle div {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+}
+    .home-icon svg {
+  width: 28px;
+  height: 28px;
+  fill: white;   /* make it visible */
+  cursor: pointer;
+}
+
+
+      /* Responsive nav */
+@media (max-width: 768px) {
+  #navbar {
+    display: none;
+    flex-direction: column;
+    background-color: black;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 200px;
+    padding: 10px;
+  }
+  #navbar a {
+    padding: 10px;
+    border-bottom: 1px solid #444;
+  }
+ 
     }
 
     main {
@@ -183,56 +229,99 @@
       color: #666;
       margin-top: 6px;
     }
-    @media (max-width: 768px) {
-  nav ul {
+   @media (max-width: 768px) {
+  #navbar {
     display: none;
     flex-direction: column;
-    background: black;
-    width: 100%;
+    background-color: black;
     position: absolute;
     top: 60px;
     left: 0;
+    width: 100%;
+    padding: 1rem;
+    z-index: 9999;
   }
-  nav ul.active { display: flex; }
-  .menu { display: flex; }
-}
 
+  #navbar.show {
+    display: flex;
+  }
+
+  .hamburger {
+    display: flex;
+    z-index: 10000;
+  }
+
+  nav a {
+    margin: 0.5rem 0;
+  }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">Vandals Fashion</div>
-    <div class="menu" onclick="toggleMenu()">
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
+ <header>
+  <!-- Brand -->
+  <div class="brand-wrapper">
+    <!-- Home icon on the left -->
+    <a href="index.html" class="home-icon" aria-label="Home" title="Home">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
+      </svg>
+    </a>
+
+    <div class="brand-text">
+      <strong class="brand">Vandals Fashion</strong>
+      <span class="header-phone">📞 +91 78374 98898</span>
     </div>
-    <nav>
-      <ul id="nav-list">
-       
-    <li><a href="index.html">Home</a></li>
-    <li><a href="about.html">About</a></li>
-   <li><a href="shop.html">Shop</a></li>
-    <li><a href="explore.html">Explore</a></li>
-    <li><a href="custom-order.html">Customised Orders</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="cart.html">🛒</a></li>
-    <li><a href="orders.html">Your Orders</a></li>
-    <li><a href="Directions.html">Directions</a></li>
-    <li><a href="auth.html" id="authLink">Login</a></li>
-
-      </ul>
-    </nav>
-    <div class="profile" id="profileSection" style="display:none;">
-  <img id="profilePic" src="images/default-profile.png" alt="Profile" />
-  <div id="profileDropdown" style="display:none;">
-    <a href="https://myaccount.google.com" target="_blank">Manage Account</a>
-    <a href="#" onclick="logout()">Logout</a>
   </div>
-</div>
 
-  </header>
+  <!-- Right side: hamburger + profile/login -->
+  <div class="nav-right">
+    <!-- Hamburger toggle -->
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <div></div><div></div><div></div>
+    </div>
 
+    <!-- Profile Icon (hidden until login) -->
+    <div id="profileContainer" style="position: relative; display: none;">
+      <img id="profile-Pic" src="" alt="Profile"
+           style="width: 35px; height: 35px; border-radius: 50%; cursor: pointer;" 
+           onclick="toggleProfileDropdown()" />
+      <div id="profileDropdown" style="display: none; position: absolute; top: 40px; right: 0; background-color: white; color: black; border: 1px solid #ccc; border-radius: 8px; width: 150px; z-index: 1000;">
+        <a href="auth.html" style="display: block; padding: 10px; text-decoration: none; color: black;">Manage Account</a>
+        <a href="#" onclick="logout()" style="display: block; padding: 10px; text-decoration: none; color: black;">Logout</a>
+      </div>
+    </div>
+
+    <!-- Login Link (hidden if logged in) -->
+    <a id="authLink" href="auth.html" style="display:none;">Login</a>
+  </div>
+
+  <!-- Navigation -->
+  <nav id="navbar">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="shop.html">Shop</a>
+    <a href="explore.html">Explore</a>
+    <a href="custom-order.html">Customised Orders</a>
+    <a href="contact.html">Contact</a>
+    <a href="cart.html">🛒</a>
+    <a href="orders.html">Your Orders</a>
+    <a href="Directions.html">Directions</a>
+  </nav>
+</header>
+  <div class="marquee">
+    <span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION • </span>
+  </div>
+
+  <footer>
+    &copy; 2025 Vandals Fashion. All rights reserved.
+  </footer>
+
+ <script type="module">
+  window.toggleMenu = function () {
+    const nav = document.getElementById('navbar');
+    if (nav) nav.classList.toggle('show'); // use "show" because your media query expects it
+  };
+</script>
   <main>
     <h1>Custom Order</h1>
 
@@ -284,11 +373,7 @@
 
     window.logout = () => signOut(auth);
 
-    const profileDropdown = document.getElementById('profileDropdown');
-document.getElementById('profileSection').addEventListener('click', () => {
-  profileDropdown.style.display =
-    profileDropdown.style.display === 'block' ? 'none' : 'block';
-});
+    
 
   </script>
 
@@ -421,14 +506,11 @@ localStorage.setItem("cart", JSON.stringify(currentCart));
     });
 })();
   </script>
-  <script>
-  function toggleMenu() {
-    document.querySelector('nav ul').classList.toggle('active');
-  }
-</script>
+  
 
 </body>
 </html>
+
 
 
 
