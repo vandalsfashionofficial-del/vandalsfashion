@@ -183,6 +183,20 @@
       color: #666;
       margin-top: 6px;
     }
+    @media (max-width: 768px) {
+  nav ul {
+    display: none;
+    flex-direction: column;
+    background: black;
+    width: 100%;
+    position: absolute;
+    top: 60px;
+    left: 0;
+  }
+  nav ul.active { display: flex; }
+  .menu { display: flex; }
+}
+
   </style>
 </head>
 <body>
@@ -209,13 +223,14 @@
 
       </ul>
     </nav>
-    <div class="profile" id="profileSection" style="display: none;">
-      <img id="profilePic" src="images/default-profile.png" alt="Profile" />
-      <div id="profileDropdown" style="display: none;">
-        <a href="#">Manage Account</a>
-        <a href="#" onclick="logout()">Logout</a>
-      </div>
-    </div>
+    <div class="profile" id="profileSection" style="display:none;">
+  <img id="profilePic" src="images/default-profile.png" alt="Profile" />
+  <div id="profileDropdown" style="display:none;">
+    <a href="https://myaccount.google.com" target="_blank">Manage Account</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </div>
+</div>
+
   </header>
 
   <main>
@@ -268,6 +283,13 @@
     });
 
     window.logout = () => signOut(auth);
+
+    const profileDropdown = document.getElementById('profileDropdown');
+document.getElementById('profileSection').addEventListener('click', () => {
+  profileDropdown.style.display =
+    profileDropdown.style.display === 'block' ? 'none' : 'block';
+});
+
   </script>
 
   <script>
@@ -399,8 +421,15 @@ localStorage.setItem("cart", JSON.stringify(currentCart));
     });
 })();
   </script>
+  <script>
+  function toggleMenu() {
+    document.querySelector('nav ul').classList.toggle('active');
+  }
+</script>
+
 </body>
 </html>
+
 
 
 
