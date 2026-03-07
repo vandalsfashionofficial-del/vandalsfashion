@@ -1,353 +1,317 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cart – Vandals Fashion</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #fff;
-      color: #222;
-    }
+<title>Cart – Vandals Fashion</title>
 
-    header {
-      background-color: black;
-      color: white;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: relative;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
 
-    nav a {
-      color: white;
-      margin-left: 1.5rem;
-      text-decoration: none;
-    }
+<style>
 
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      margin: 2rem 0;
-      text-align: center;
-    }
+*{margin:0;padding:0;box-sizing:border-box;}
 
-    .cart-container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-
-    .item {
-      border-bottom: 1px solid #eee;
-      padding: 1rem 0;
-      display: flex;
-      gap: 1rem;
-      align-items: flex-start;
-    }
-
-    .item img {
-      width: 120px;
-      height: auto;
-      border-radius: 10px;
-    }
-
-    .item-details {
-      flex: 1;
-    }
-
-    .item h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.3rem;
-    }
-
-    .item-details p {
-      margin: 0.3rem 0;
-    }
-
-    .item button {
-      background-color: black;
-      color: white;
-      border: none;
-      padding: 0.4rem 1rem;
-      border-radius: 20px;
-      cursor: pointer;
-      margin-top: 0.5rem;
-      transition: 0.3s;
-    }
-
-    .item button:hover {
-      background-color: #FFD700;
-      color: black;
-    }
-
-    .total {
-      text-align: right;
-      font-size: 1.3rem;
-      font-weight: bold;
-      margin-top: 2rem;
-    }
-
-    .buy-now {
-      text-align: right;
-      margin-top: 1rem;
-    }
-
-    /* ✅ Fixed Buy Now button styling */
-    .buy-now button {
-      background-color: black;
-      color: white;
-      border: none;
-      padding: 0.7rem 1.8rem;
-      border-radius: 30px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-      font-size: 1rem;
-    }
-
-    .buy-now button:hover {
-      background-color: #FFD700;
-      color: black;
-    }
-
-    .marquee {
-      background-color: black;
-      color: white;
-      font-weight: bold;
-      padding: 0.7rem 0;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-
-    .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll 20s linear infinite;
-    }
-
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-
-    footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      padding: 1rem 0;
-      background-color: #f9f9f9;
-    }
-
-    .hamburger {
-      display: none;
-      cursor: pointer;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .hamburger div {
-      width: 25px;
-      height: 3px;
-      background-color: white;
-    }
-  
-    .nav-links {
-      display: flex;
-      gap: 20px;
-      list-style: none;
-      margin: 0;
-      align-items: center;
-    }
-
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-        flex-direction: column;
-        background-color: black;
-        position: absolute;
-        top: 60px;
-        right: 10px;
-        width: 200px;
-        padding: 10px;
-        border-radius: 8px;
-        z-index: 1000;
-      }
-
-      .nav-links.show {
-        display: flex;
-      }
-
-      .hamburger {
-        display: flex;
-      }
-    }
-    /* Navbar link colors */
-nav a {
-  color: black; /* or white if your navbar background is dark */
-  text-decoration: none;
+body{
+font-family:'Poppins',sans-serif;
+background:#fff;
+color:#222;
 }
 
-nav a:visited {
-  color: white; /* make visited links same color */
+/* HEADER */
+
+header{
+background:black;
+color:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0.5rem 1rem;
+position:relative;
 }
 
-nav a:hover {
-  color: #d4af37; /* pastel golden hover, like your theme */
+.brand-wrapper{
+display:flex;
+align-items:center;
+gap:10px;
 }
 
-  </style>
+.brand-text{
+display:flex;
+flex-direction:column;
+line-height:1.2;
+}
+
+.header-phone{
+font-size:14px;
+color:goldenrod;
+font-weight:bold;
+}
+
+.home-icon svg{
+width:28px;
+height:28px;
+fill:white;
+cursor:pointer;
+}
+
+/* NAV */
+
+nav{
+display:flex;
+gap:1rem;
+align-items:center;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-size:0.9rem;
+}
+
+/* RIGHT SIDE */
+
+.nav-right{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+/* HAMBURGER */
+
+.menu-toggle{
+display:none;
+flex-direction:column;
+cursor:pointer;
+gap:4px;
+}
+
+.menu-toggle div{
+width:25px;
+height:3px;
+background:white;
+}
+
+/* PAGE */
+
+h1{
+font-family:'Playfair Display',serif;
+font-size:2.5rem;
+margin:2rem 0;
+text-align:center;
+}
+
+.cart-container{
+max-width:900px;
+margin:auto;
+padding:2rem;
+}
+
+.item{
+border-bottom:1px solid #eee;
+padding:1rem 0;
+display:flex;
+gap:1rem;
+align-items:flex-start;
+}
+
+.item img{
+width:120px;
+border-radius:10px;
+}
+
+.item-details{
+flex:1;
+}
+
+.item h3{
+font-size:1.2rem;
+margin-bottom:0.3rem;
+}
+
+.item-details p{
+margin:0.3rem 0;
+}
+
+.item button{
+background:black;
+color:white;
+border:none;
+padding:0.4rem 1rem;
+border-radius:20px;
+cursor:pointer;
+margin-top:0.5rem;
+transition:0.3s;
+}
+
+.item button:hover{
+background:#FFD700;
+color:black;
+}
+
+.total{
+text-align:right;
+font-size:1.3rem;
+font-weight:bold;
+margin-top:2rem;
+}
+
+.buy-now{
+text-align:right;
+margin-top:1rem;
+}
+
+.buy-now button{
+background:black;
+color:white;
+border:none;
+padding:0.7rem 1.8rem;
+border-radius:30px;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+font-size:1rem;
+}
+
+.buy-now button:hover{
+background:#FFD700;
+color:black;
+}
+
+/* MARQUEE */
+
+.marquee{
+background:black;
+color:white;
+font-weight:bold;
+padding:0.7rem 0;
+overflow:hidden;
+white-space:nowrap;
+}
+
+.marquee span{
+display:inline-block;
+padding-left:100%;
+animation:scroll 20s linear infinite;
+}
+
+@keyframes scroll{
+0%{transform:translateX(0);}
+100%{transform:translateX(-100%);}
+}
+
+/* FOOTER */
+
+footer{
+text-align:center;
+font-size:0.9rem;
+color:#777;
+padding:1rem 0;
+background:#f9f9f9;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.menu-toggle{
+display:flex;
+}
+
+nav{
+display:none;
+flex-direction:column;
+background:black;
+position:absolute;
+top:100%;
+left:0;
+width:100%;
+padding:1rem;
+}
+
+nav.show{
+display:flex;
+}
+
+nav a{
+margin:0.5rem 0;
+text-align:left;
+width:100%;
+padding-left:1rem;
+}
+
+}
+
+</style>
 </head>
+
 <body>
 
-  <!-- Header -->
-  <header>
-    <div><strong>Vandals Fashion</strong></div>
-    
-    <div class="hamburger" onclick="toggleMenu()">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+<header>
 
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="shop.html">Shop</a></li>
-      <li><a href="explore.html">Explore</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="Directions.html">Directions</a></li>
-      <li><a href="custom-order.html">Custom Order</a></li>
-      <li><a href="cart.html">Cart</a></li>
-      <li><a href="orders.html">Orders</a></li>
-    </ul>
-  </header>
+<div class="brand-wrapper">
 
-  <!-- Page Title -->
-  <h1>Your Cart</h1>
+<a href="index.html" class="home-icon">
+<svg viewBox="0 0 24 24">
+<path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
+</svg>
+</a>
 
-  <div class="cart-container" id="cartItems"></div>
-  <div class="total" id="cartTotal">Total: ₹0</div>
+<div class="brand-text">
+<strong>Vandals Fashion</strong>
+<span class="header-phone">📞 +91 78374 98898</span>
+</div>
 
-  <!-- Buy Now Button -->
-  <div class="buy-now">
-    <button id="buyNowBtn">Buy Now</button>
-  </div>
+</div>
 
-  <!-- Marquee -->
-  <div class="marquee">
-    <span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION • </span>
-  </div>
+<div class="nav-right">
 
-  <!-- Footer -->
-  <footer>
-    &copy; 2025 Vandals Fashion. All rights reserved.
-  </footer>
+<div class="menu-toggle" onclick="toggleMenu()">
+<div></div>
+<div></div>
+<div></div>
+</div>
 
- <!-- Cart Logic -->
-<script>
-  const cartContainer = document.getElementById("cartItems");
-  const cartTotal = document.getElementById("cartTotal");
-  let cartItems = []; // keep global so Buy Now can use it
+</div>
 
-  function updateCart() {
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    cartItems = cart; // save to global
-    const customOrder = JSON.parse(localStorage.getItem("customOrder"));
-    cartContainer.innerHTML = "";
-    let total = 0;
+<nav id="navbar">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="shop.html">Shop</a>
+<a href="explore.html">Explore</a>
+<a href="custom-order.html">Customised Orders</a>
+<a href="contact.html">Contact</a>
+<a href="cart.html">🛒</a>
+<a href="orders.html">Your Orders</a>
+<a href="Directions.html">Directions</a>
+</nav>
 
-    if (cart.length === 0 && !customOrder) {
-      cartContainer.innerHTML = "<p style='text-align:center; color:#888; font-weight:bold;'>Your cart is empty.</p>";
-      cartTotal.style.display = "none";
-      document.querySelector(".buy-now").style.display = "none";
-      return;
-    }
+</header>
 
-    cart.forEach((item, index) => {
-      total += item.price;
+<h1>Your Cart</h1>
 
-      const div = document.createElement("div");
-      div.className = "item";
-      div.innerHTML = 
-        `<img src="${item.imageUrl}" alt="${item.name}">
-        <div class="item-details">
-          <h3>${item.name}</h3>
-          <p><strong>Price:</strong> ₹${item.price}</p>
-          <p><strong>Size:</strong> ${item.size}</p>
-          ${item.customSizes ? 
-            `<p><strong>Custom:</strong> Waist: ${item.customSizes.waist}", Hip: ${item.customSizes.hip}", Chest: ${item.customSizes.chest}"</p>` 
-           : ""}
-          ${item.colorPreference ? `<p><strong>Color Preference:</strong> ${item.colorPreference}</p>` : ""}
-          <button onclick="removeItem(${index})">Remove</button>
-        </div>`;
-      cartContainer.appendChild(div);
-    });
+<div class="cart-container" id="cartItems"></div>
+<div class="total" id="cartTotal">Total: ₹0</div>
 
-    if (customOrder) {
-      const div = document.createElement("div");
-      div.className = "item";
-      div.innerHTML = 
-        `<h3>🧵 Custom Order #1</h3>
-        <div class="item-details">
-          <p><strong>Name:</strong> ${customOrder.name}</p>
-          <p><strong>Style:</strong> ${customOrder.style}</p>
-          <p><strong>Size:</strong> ${customOrder.size}</p>
-          <p><strong>Color:</strong> ${customOrder.color}</p>
-          <p><strong>Notes:</strong> ${customOrder.notes}</p>
-          <p style="color: darkred; font-weight: bold;">💰 Price is variable based on design & fabric.</p>
-          <p style="color: darkred; font-weight: bold;">⏳ Delivery time will be confirmed personally.</p>
-          <button onclick="removeCustomOrder()">Remove</button>
-        </div>`;
-      cartContainer.appendChild(div);
-    }
+<div class="buy-now">
+<button id="buyNowBtn">Buy Now</button>
+</div>
 
-    cartTotal.textContent = "Total: ₹" + total;
-    cartTotal.style.display = "block";
-    document.querySelector(".buy-now").style.display = "block";
-  }
+<div class="marquee">
+<span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION •</span>
+</div>
 
-  function removeItem(index) {
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    cart.splice(index, 1);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    updateCart();
-  }
-
-  function removeCustomOrder() {
-    localStorage.removeItem("customOrder");
-    updateCart();
-  }
-
-  updateCart();
-</script>
+<footer>
+© 2025 Vandals Fashion. All rights reserved.
+</footer>
 
 <script>
-  function toggleMenu() {
-    document.querySelector('.nav-links').classList.toggle('show');
-  }
 
-  // ✅ Single clean Buy Now handler
-  document.getElementById("buyNowBtn").addEventListener("click", () => {
-    localStorage.setItem("checkoutCart", JSON.stringify(cartItems));
+function toggleMenu(){
+document.getElementById("navbar").classList.toggle("show");
+}
 
-    const customOrder = JSON.parse(localStorage.getItem("customOrder"));
-    if (customOrder) {
-      localStorage.setItem("checkoutCustomOrder", JSON.stringify(customOrder));
-    }
-
-    window.location.href = "checkout.html";
-  });
 </script>
-
-
-</body>
-</html>
 
 
 
