@@ -19,7 +19,33 @@
       align-items: center;
       position: relative;
     }
-
+.header-phone {
+font-family: 'Poppins', sans-serif;
+font-size: 1rem;
+font-weight: 500;
+color: #ffd700; /* golden accent for luxury */
+}
+    .header-phone {
+font-family: 'Poppins', sans-serif;
+font-size: 1rem;
+font-weight: 500;
+color: #ffd700; /* golden accent for luxury */
+}
+brand-wrapper {
+display: flex;
+align-items: center; /* centers icon with the text block */
+gap: 0.5rem; /* spacing between icon and text */
+}
+.home-icon svg {
+width: 28px;
+height: 28px;
+fill: white; /* matches your brand text color */
+}
+.brand-text {
+display: flex;
+flex-direction: column; /* stack name and phone vertically */
+line-height: 1.2;
+}
     header strong { font-family: 'Playfair Display', serif; font-size: 1.5rem; }
 
     nav a { color: white; margin-left: 1.5rem; text-decoration: none; }
@@ -46,9 +72,16 @@
   </style>
 </head>
 <body>
-
+  
+ <div class="brand-wrapper">
+<a href="index.html" class="home-icon" aria-label="Home" title="Home">
+<svg viewBox="0 0 24 24" aria-hidden="true">
+<path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
+</svg>
+</a>
 <header>
   <div><strong>Vandals Fashion</strong></div>
+  <span class="header-phone">📞 +91 78374 98898</span>
   <div class="hamburger" onclick="toggleMenu()">☰</div>
   <nav id="navbar">
     <a href="index.html">Home</a>
