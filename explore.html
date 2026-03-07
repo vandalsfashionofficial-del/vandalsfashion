@@ -1,377 +1,354 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Explore – Vandals Fashion</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #fff;
-      margin: 0;
-      padding: 0;
-      color: #222;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    header {
-      background-color: black;
-      color: white;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: relative;
-    }
-/* Brand Wrapper */
-.brand-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+<title>Explore – Vandals Fashion</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+font-family:'Poppins',sans-serif;
+background:#fff;
+color:#222;
 }
 
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
+/* HEADER */
+
+header{
+background:black;
+color:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0.5rem 1rem;
+position:relative;
 }
 
-.header-phone {
-  font-size: 14px;
-  color: goldenrod;
-  font-weight: bold;
+/* BRAND */
+
+.brand-wrapper{
+display:flex;
+align-items:center;
+gap:10px;
 }
 
-/* Nav Right (hamburger + profile) */
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+.brand-text{
+display:flex;
+flex-direction:column;
+line-height:1.2;
 }
 
-/* Hamburger */
-.menu-toggle {
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  gap: 4px;
+.header-phone{
+font-size:14px;
+color:goldenrod;
+font-weight:bold;
 }
 
-.menu-toggle div {
-  width: 25px;
-  height: 3px;
-  background-color: white;
-}
-    .home-icon svg {
-  width: 28px;
-  height: 28px;
-  fill: white;   /* make it visible */
-  cursor: pointer;
+.home-icon svg{
+width:28px;
+height:28px;
+fill:white;
+cursor:pointer;
 }
 
+/* NAV */
 
-/* Responsive nav */
-@media (max-width: 768px) {
-  #navbar {
-    display: none;
-    flex-direction: column;
-    background-color: black;
-    position: absolute;
-    top: 60px;
-    right: 0;
-    width: 200px;
-    padding: 10px;
-  }
-  #navbar a {
-    padding: 10px;
-    border-bottom: 1px solid #444;
-  }
- 
+nav{
+display:flex;
+gap:1rem;
+align-items:center;
 }
 
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 1rem;
-    }
-
-    .profile-pic {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-left: 1rem;
-      cursor: pointer;
-    }
-
-   #userDropdown {
-  position: absolute;
-  top: 40px;   /* appears just below profile pic */
-  right: 0;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  display: none;
-  z-index: 9999;
+nav a{
+color:white;
+text-decoration:none;
+font-size:0.9rem;
 }
 
+/* LOGIN FIX */
 
-    #userDropdown a {
-      display: block;
-      padding: 0.5rem 1rem;
-      color: black;
-      text-decoration: none;
-      font-size: 0.9rem;
-    }
-
-    #userDropdown a:hover {
-      background-color: #f2f2f2;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 2.5rem;
-      margin: 2rem 0 1rem;
-      font-family: 'Playfair Display', serif;
-    }
-
-    .category-boxes {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 1rem;
-      gap: 1.5rem;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .category-box {
-      position: relative;
-      width: 90%;
-      max-width: 700px;
-      padding: 2rem;
-      border-radius: 20px;
-      font-size: 1.8rem;
-      font-family: 'Playfair Display', serif;
-      background: white;
-      color: black;
-      cursor: pointer;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      overflow: hidden;
-      transition: background 0.4s ease;
-      margin-bottom: 2rem;
-    }
-
-    .category-box::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: -100%;
-      width: 60%;
-      height: 100%;
-      background: url("https://i.ibb.co/RkDkLcNj/images.jpg") no-repeat center center;
-      background-size: cover;
-      transition: right 0.5s ease;
-      z-index: 1;
-      opacity: 1;
-    }
-
-    .category-box:hover {
-      background: linear-gradient(to right, #f9d3ec, #e0c9ff);
-    }
-
-    .category-box:hover::before {
-      right: 0;
-    }
-
-    .category-box span {
-      position: relative;
-      z-index: 2;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      padding: 2rem 0 1rem;
-      background-color: #f9f9f9;
-    }
-
-    .marquee {
-      background-color: black;
-      color: white;
-      font-weight: bold;
-      padding: 0.7rem 0;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-
-    .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll 20s linear infinite;
-    }
-
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-
-    /* Hamburger */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-      gap: 5px;
-    }
-
-    .hamburger div {
-      width: 25px;
-      height: 3px;
-      background-color: white;
-    }
-
-   @media (max-width: 768px) {
-  #navbar {
-    display: none;
-    flex-direction: column;
-    background-color: black;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    padding: 1rem;
-    z-index: 9999;
-  }
-
-  #navbar.show {
-    display: flex;
-  }
-
-  .hamburger {
-    display: flex;
-    z-index: 10000;
-  }
-
-  nav a {
-    margin: 0.5rem 0;
-  }
+#authLink{
+color:white;
+text-decoration:none;
+font-size:0.9rem;
 }
 
+/* RIGHT SIDE */
 
-    }
+.nav-right{
+display:flex;
+align-items:center;
+gap:15px;
+position:relative;
+}
 
-  /* Add this fix to your existing styles */
-  .navbar {
-    position: relative;
-    z-index: 1000;
-  }
+/* HAMBURGER */
 
-  .dropdown-menu {
-    position: relative;
-    z-index: 1001;
-  }
+.menu-toggle{
+display:none;
+flex-direction:column;
+cursor:pointer;
+gap:4px;
+}
 
-  .category-box {
-    position: relative;
-    z-index: 1;
-  }
+.menu-toggle div{
+width:25px;
+height:3px;
+background:white;
+}
+
+/* PROFILE */
+
+#profile-Pic{
+width:22px;
+height:22px;
+border-radius:50%;
+object-fit:cover;
+cursor:pointer;
+}
+
+#profileDropdown{
+position:absolute;
+top:40px;
+right:0;
+background:white;
+border:1px solid #ccc;
+border-radius:8px;
+width:150px;
+display:none;
+z-index:9999;
+}
+
+#profileDropdown.show{
+display:block;
+}
+
+/* PAGE */
+
+h1{
+text-align:center;
+font-size:2.5rem;
+margin:2rem 0 1rem;
+font-family:'Playfair Display',serif;
+}
+
+/* CATEGORY */
+
+.category-boxes{
+display:flex;
+flex-direction:column;
+align-items:center;
+padding:1rem;
+gap:1.5rem;
+max-width:1000px;
+margin:auto;
+}
+
+.category-box{
+position:relative;
+width:90%;
+max-width:700px;
+padding:2rem;
+border-radius:20px;
+font-size:1.8rem;
+font-family:'Playfair Display',serif;
+background:white;
+color:black;
+cursor:pointer;
+box-shadow:0 4px 20px rgba(0,0,0,0.05);
+display:flex;
+align-items:center;
+justify-content:flex-start;
+overflow:hidden;
+transition:background 0.4s;
+}
+
+.category-box::before{
+content:"";
+position:absolute;
+top:0;
+right:-100%;
+width:60%;
+height:100%;
+background:url("https://i.ibb.co/RkDkLcNj/images.jpg") center/cover no-repeat;
+transition:right 0.5s;
+z-index:1;
+}
+
+.category-box:hover{
+background:linear-gradient(to right,#f9d3ec,#e0c9ff);
+}
+
+.category-box:hover::before{
+right:0;
+}
+
+.category-box span{
+position:relative;
+z-index:2;
+}
+
+/* FOOTER */
+
+footer{
+text-align:center;
+font-size:0.9rem;
+color:#777;
+padding:2rem 0 1rem;
+background:#f9f9f9;
+}
+
+/* MARQUEE */
+
+.marquee{
+background:black;
+color:white;
+font-weight:bold;
+padding:0.7rem 0;
+overflow:hidden;
+white-space:nowrap;
+}
+
+.marquee span{
+display:inline-block;
+padding-left:100%;
+animation:scroll 20s linear infinite;
+}
+
+@keyframes scroll{
+0%{transform:translateX(0);}
+100%{transform:translateX(-100%);}
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.menu-toggle{
+display:flex;
+}
+
+#profile-Pic{
+width:32px;
+height:32px;
+}
+
+nav{
+display:none;
+flex-direction:column;
+background:black;
+position:absolute;
+top:100%;
+left:0;
+width:100%;
+padding:1rem;
+}
+
+nav.show{
+display:flex;
+}
+
+nav a{
+margin:0.5rem 0;
+text-align:left;
+width:100%;
+padding-left:1rem;
+}
+
+}
+
 </style>
-
 </head>
+
 <body>
 
-  <header>
-  <!-- Brand -->
-  <div class="brand-wrapper">
-    <!-- Home icon on the left -->
-    <a href="index.html" class="home-icon" aria-label="Home" title="Home">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
-      </svg>
-    </a>
+<header>
 
-    <div class="brand-text">
-      <strong class="brand">Vandals Fashion</strong>
-      <span class="header-phone">📞 +91 78374 98898</span>
-    </div>
-  </div>
+<div class="brand-wrapper">
 
-  <!-- Right side: hamburger + profile/login -->
-  <div class="nav-right">
-    <!-- Hamburger toggle -->
-    <div class="menu-toggle" onclick="toggleMenu()">
-      <div></div><div></div><div></div>
-    </div>
+<a href="index.html" class="home-icon">
+<svg viewBox="0 0 24 24">
+<path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
+</svg>
+</a>
 
-    <!-- Profile Icon (hidden until login) -->
-    <div id="profileContainer" style="position: relative; display: none;">
-      <img id="profile-Pic" src="" alt="Profile"
-           style="width: 35px; height: 35px; border-radius: 50%; cursor: pointer;" 
-           onclick="toggleProfileDropdown()" />
-      <div id="profileDropdown" style="display: none; position: absolute; top: 40px; right: 0; background-color: white; color: black; border: 1px solid #ccc; border-radius: 8px; width: 150px; z-index: 1000;">
-        <a href="auth.html" style="display: block; padding: 10px; text-decoration: none; color: black;">Manage Account</a>
-        <a href="#" onclick="logout()" style="display: block; padding: 10px; text-decoration: none; color: black;">Logout</a>
-      </div>
-    </div>
+<div class="brand-text">
+<strong class="brand">Vandals Fashion</strong>
+<span class="header-phone">📞 +91 78374 98898</span>
+</div>
 
-    <!-- Login Link (hidden if logged in) -->
-    <a id="authLink" href="auth.html" style="display:none;">Login</a>
-  </div>
+</div>
 
-  <!-- Navigation -->
-  <nav id="navbar">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="shop.html">Shop</a>
-    <a href="explore.html">Explore</a>
-    <a href="custom-order.html">Customised Orders</a>
-    <a href="contact.html">Contact</a>
-    <a href="cart.html">🛒</a>
-    <a href="orders.html">Your Orders</a>
-    <a href="Directions.html">Directions</a>
-  </nav>
+<div class="nav-right">
+
+<div class="menu-toggle" onclick="toggleMenu()">
+<div></div><div></div><div></div>
+</div>
+
+<div id="profileContainer" style="position:relative;display:none;">
+<img id="profile-Pic" src="" alt="Profile" onclick="toggleProfileDropdown()">
+
+<div id="profileDropdown">
+<a href="auth.html" style="display:block;padding:10px;color:black;text-decoration:none;">Manage Account</a>
+<a href="#" onclick="logout()" style="display:block;padding:10px;color:black;text-decoration:none;">Logout</a>
+</div>
+
+</div>
+
+<a id="authLink" href="auth.html" style="display:none;">Login</a>
+
+</div>
+
+<nav id="navbar">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="shop.html">Shop</a>
+<a href="explore.html">Explore</a>
+<a href="custom-order.html">Customised Orders</a>
+<a href="contact.html">Contact</a>
+<a href="cart.html">🛒</a>
+<a href="orders.html">Your Orders</a>
+<a href="Directions.html">Directions</a>
+</nav>
+
 </header>
 
-  <h1>Explore Our Categories</h1>
+<h1>Explore Our Categories</h1>
 
-  <div class="category-boxes" id="categoryContainer">
-    <!-- Dynamic categories will go here -->
-  </div>
+<div class="category-boxes" id="categoryContainer"></div>
 
-  <div class="marquee">
-    <span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION • </span>
-  </div>
+<div class="marquee">
+<span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION •</span>
+</div>
 
-  <footer>
-    &copy; 2025 Vandals Fashion. All rights reserved.
-  </footer>
+<footer>
+© 2025 Vandals Fashion. All rights reserved.
+</footer>
 
- <script type="module">
-  window.toggleMenu = function () {
-    const nav = document.getElementById('navbar');
-    if (nav) nav.classList.toggle('show'); // use "show" because your media query expects it
-  };
+<script>
+
+window.toggleMenu=function(){
+const nav=document.getElementById("navbar");
+nav.classList.toggle("show");
+}
+
+window.toggleProfileDropdown=function(){
+const d=document.getElementById("profileDropdown");
+d.classList.toggle("show");
+}
+
 </script>
 
-  <script type="module" src="./firebase-config.js"></script>
-  <script type="module" src="explore.js"></script>
+<script type="module" src="explore.js"></script>
 
 </body>
 </html>
-
-
-
 
 
 
