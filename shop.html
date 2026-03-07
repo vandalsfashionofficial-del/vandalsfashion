@@ -1,411 +1,373 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shop – Vandals Fashion</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Shop – Vandals Fashion</title>
 
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Poppins', sans-serif; background-color: #fff; color: #222; }
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
 
-  header {
-  background-color: black;
-  color: white;
-  display: flex;
-  justify-content: space-between; /* left vs right */
-  align-items: center;            /* vertical alignment */
-  padding: 0.5rem 1rem;
-  min-height: 10px;               /* keeps it compact */
-}
-    
-    .logo-title {
-      font-weight: bold;
-    }
+<style>
 
-    nav {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
+* { margin:0; padding:0; box-sizing:border-box; }
 
-    nav a {
-      color: white; text-decoration: none; font-size: 0.9rem;
-    }
-
-    .profile-Pic {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-left: 1rem;
-      cursor: pointer;
-    }
-
-  /* Make the right side a positioning container */
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  position: relative;       /* <-- important: profileDropdown positions relative to this */
-  z-index: 1200;            /* ensure it sits above most page content */
+body{
+font-family:'Poppins',sans-serif;
+background:#fff;
+color:#222;
 }
 
-/* profile image smaller on desktop, larger on mobile */
-#profile-Pic {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  object-fit: cover;
-  cursor: pointer;
-  display: inline-block;
+/* HEADER */
+
+header{
+background:black;
+color:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0.5rem 1rem;
+position:relative;
 }
 
-/* Mobile touch size */
-@media (max-width: 768px) {
-  #profile-Pic { width: 32px; height: 32px; }
+/* LOGIN FIX */
+
+#authLink{
+color:white;
+text-decoration:none;
+font-size:0.9rem;
 }
 
-/* Dropdown anchored to nav-right */
-#profileDropdown {
-  position: absolute;
-  top: calc(100% + 6px); /* just below the profile/hamburger */
-  right: 0;
-  background-color: white;
-  color: black;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  width: 160px;
-  display: none;          /* controlled by JS */
-  z-index: 9999;          /* VERY high so it isn't covered */
-  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+/* NAV */
+
+nav{
+display:flex;
+gap:1rem;
+align-items:center;
 }
 
-/* class that shows the dropdown */
-#profileDropdown.show {
-  display: block;
+nav a{
+color:white;
+text-decoration:none;
+font-size:0.9rem;
 }
 
-/* ensure mobile menu doesn't cover the dropdown unintentionally */
-nav#navbar {
-  z-index: 900; /* lower than profileDropdown so dropdown appears above it */
+/* BRAND */
+
+.brand-wrapper{
+display:flex;
+align-items:center;
+gap:0.7rem;
 }
 
-
-    .hamburger {
-      display: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: white;
-      background: none;
-      border: none;
-    }
-
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      align-items: center;
-    }
-
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      margin: 2rem 0;
-      text-align: center;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      padding: 2rem;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    .card {
-      border: 1px solid #eee;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-      background: white;
-      transition: 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 15px rgba(255, 182, 193, 0.4);
-    }
-
-    .card img {
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-    }
-
-    .card-content {
-      padding: 1rem;
-      text-align: center;
-    }
-
-    .card-content h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .btn {
-      margin-top: 1rem;
-      padding: 0.6rem 1.4rem;
-      background-color: black;
-      color: white;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.3s ease;
-    }
-
-    .btn:hover {
-      background-color: #FFD700;
-      color: black;
-    }
-
-    .marquee {
-      background-color: black;
-      color: white;
-      font-weight: bold;
-      padding: 0.7rem 0;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-
-    .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll 20s linear infinite;
-    }
-
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-
-    footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      padding: 1rem 0;
-      background-color: #f9f9f9;
-    }
-
-    /* Responsive Styles */
-    @media (max-width: 768px) {
-      .hamburger {
-        display: block;
-      }
-
-      nav {
-        width: 100%;
-        flex-direction: column;
-        display: none;
-        background-color: black;
-        padding: 1rem 0;
-      }
-
-      nav.active {
-        display: flex;
-      }
-
-      nav a {
-        padding: 0.5rem 0;
-      }
-      /* --- Consistent Header Styles --- */
-.brand-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
+.home-icon svg{
+width:28px;
+height:28px;
+fill:white;
 }
 
-.home-icon svg {
-  width: 28px;
-  height: 28px;
-  fill: white;
+.brand-text{
+display:flex;
+flex-direction:column;
+line-height:1.2;
 }
 
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
+.brand{
+font-family:'Playfair Display',serif;
+font-size:1.8rem;
+font-weight:700;
+color:white;
 }
 
-.brand {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: white;
+.header-phone{
+font-size:1rem;
+font-weight:500;
+color:#FFD700;
 }
 
-.header-phone {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #ffd700; /* golden */
+/* RIGHT SIDE */
+
+.nav-right{
+display:flex;
+align-items:center;
+gap:0.8rem;
+position:relative;
 }
 
-/* Mobile Nav Fix */
-@media (max-width: 768px) {
-  nav {
-    display: none;
-    flex-direction: column;
-    background-color: black;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    padding: 1rem;
-    z-index: 999;
-  }
-header {
-  position: relative; /* anchor child absolute positioning */
+/* HAMBURGER */
+
+.menu-toggle{
+display:none;
+flex-direction:column;
+cursor:pointer;
 }
 
-  nav.show {
-    display: flex;
-  }
+.menu-toggle div{
+height:3px;
+width:25px;
+background:white;
+margin:4px 0;
+border-radius:2px;
+}
 
-  .menu-toggle {
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-  }
+/* PROFILE */
 
-  .menu-toggle div {
-    height: 3px;
-    width: 25px;
-    background: white;
-    margin: 4px 0;
-    border-radius: 2px;
-  }
+#profile-Pic{
+width:22px;
+height:22px;
+border-radius:50%;
+object-fit:cover;
+cursor:pointer;
+}
 
-  nav a {
-    margin: 0.5rem 0;
-  }
-  .nav-right {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+/* DROPDOWN */
+
+#profileDropdown{
+position:absolute;
+top:40px;
+right:0;
+background:white;
+color:black;
+border:1px solid #ccc;
+border-radius:8px;
+width:150px;
+display:none;
+z-index:9999;
+box-shadow:0 6px 18px rgba(0,0,0,0.12);
+}
+
+#profileDropdown.show{
+display:block;
+}
+
+nav#navbar{
+z-index:900;
+}
+
+/* PAGE */
+
+h1{
+font-family:'Playfair Display',serif;
+font-size:2.5rem;
+margin:2rem 0;
+text-align:center;
+}
+
+/* PRODUCTS */
+
+.product-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:2rem;
+padding:2rem;
+max-width:1200px;
+margin:auto;
+}
+
+.card{
+border:1px solid #eee;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
+background:white;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 4px 15px rgba(255,182,193,0.4);
+}
+
+.card img{
+width:100%;
+height:300px;
+object-fit:cover;
+}
+
+.card-content{
+padding:1rem;
+text-align:center;
+}
+
+.card-content h3{
+font-family:'Playfair Display',serif;
+font-size:1.2rem;
+margin-bottom:0.5rem;
+}
+
+.btn{
+margin-top:1rem;
+padding:0.6rem 1.4rem;
+background:black;
+color:white;
+border:none;
+border-radius:30px;
+cursor:pointer;
+font-weight:600;
+}
+
+.btn:hover{
+background:#FFD700;
+color:black;
+}
+
+/* MARQUEE */
+
+.marquee{
+background:black;
+color:white;
+font-weight:bold;
+padding:0.7rem 0;
+overflow:hidden;
+white-space:nowrap;
+}
+
+.marquee span{
+display:inline-block;
+padding-left:100%;
+animation:scroll 20s linear infinite;
+}
+
+@keyframes scroll{
+0%{transform:translateX(0);}
+100%{transform:translateX(-100%);}
+}
+
+/* FOOTER */
+
+footer{
+text-align:center;
+font-size:0.9rem;
+color:#777;
+padding:1rem 0;
+background:#f9f9f9;
+}
+
+/* MOBILE */
+
+@media (max-width:768px){
+
+.menu-toggle{
+display:flex;
+}
+
+#profile-Pic{
+width:32px;
+height:32px;
+}
+
+nav{
+display:none;
+flex-direction:column;
+background:black;
+position:absolute;
+top:100%;
+left:0;
+width:100%;
+padding:1rem;
+}
+
+nav.show{
+display:flex;
+}
+
+nav a{
+margin:0.5rem 0;
+text-align:left;
+width:100%;
+padding-left:1rem;
 }
 
 }
 
-    
-  </style>
+</style>
 </head>
+
 <body>
 
- <header>
-  <!-- Brand -->
-  <div class="brand-wrapper">
-    <!-- Home icon on the left -->
-    <a href="index.html" class="home-icon" aria-label="Home" title="Home">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
-      </svg>
-    </a>
+<header>
 
-    <div class="brand-text">
-      <strong class="brand">Vandals Fashion</strong>
-      <span class="header-phone">📞 +91 78374 98898</span>
-    </div>
-  </div>
+<div class="brand-wrapper">
 
-  <!-- Right side: hamburger + profile/login -->
-  <div class="nav-right">
-    <!-- Hamburger toggle -->
-    <div class="menu-toggle" onclick="toggleMenu()">
-      <div></div><div></div><div></div>
-    </div>
+<a href="index.html" class="home-icon">
+<svg viewBox="0 0 24 24">
+<path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
+</svg>
+</a>
 
-    <!-- Profile Icon (hidden until login) -->
-    <div id="profileContainer" style="position: relative; display: none;">
-      <img id="profile-Pic" src="" alt="Profile"
-           style="width: 35px; height: 35px; border-radius: 50%; cursor: pointer;" 
-           onclick="toggleProfileDropdown()" />
-      <div id="profileDropdown" style="display: none; position: absolute; top: 40px; right: 0; background-color: white; color: black; border: 1px solid #ccc; border-radius: 8px; width: 150px; z-index: 1000;">
-        <a href="auth.html" style="display: block; padding: 10px; text-decoration: none; color: black;">Manage Account</a>
-        <a href="#" onclick="logout()" style="display: block; padding: 10px; text-decoration: none; color: black;">Logout</a>
-      </div>
-    </div>
+<div class="brand-text">
+<strong class="brand">Vandals Fashion</strong>
+<span class="header-phone">📞 +91 78374 98898</span>
+</div>
 
-    <!-- Login Link (hidden if logged in) -->
-    <a id="authLink" href="auth.html" style="display:none;">Login</a>
-  </div>
+</div>
 
-  <!-- Navigation -->
-  <nav id="navbar">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="shop.html">Shop</a>
-    <a href="explore.html">Explore</a>
-    <a href="custom-order.html">Customised Orders</a>
-    <a href="contact.html">Contact</a>
-    <a href="cart.html">🛒</a>
-    <a href="orders.html">Your Orders</a>
-    <a href="Directions.html">Directions</a>
-  </nav>
+<div class="nav-right">
+
+<div class="menu-toggle" onclick="toggleMenu()">
+<div></div>
+<div></div>
+<div></div>
+</div>
+
+<div id="profileContainer" style="position:relative;display:none;">
+<img id="profile-Pic" src="" alt="Profile" onclick="toggleProfileDropdown()">
+
+<div id="profileDropdown">
+<a href="auth.html" style="display:block;padding:10px;text-decoration:none;color:black;">Manage Account</a>
+<a href="#" onclick="logout()" style="display:block;padding:10px;text-decoration:none;color:black;">Logout</a>
+</div>
+
+</div>
+
+<a id="authLink" href="auth.html" style="display:none;">Login</a>
+
+</div>
+
+<nav id="navbar">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="shop.html">Shop</a>
+<a href="explore.html">Explore</a>
+<a href="custom-order.html">Customised Orders</a>
+<a href="contact.html">Contact</a>
+<a href="cart.html">🛒</a>
+<a href="orders.html">Your Orders</a>
+<a href="Directions.html">Directions</a>
+</nav>
+
 </header>
 
-  <h1>Explore Our Collection</h1>
+<h1>Explore Our Collection</h1>
 
-  <section class="product-grid" id="productGrid">
-    <!-- Products will appear here -->
-  </section>
+<section class="product-grid" id="productGrid"></section>
 
-  <div class="marquee">
-    <span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION • </span>
-  </div>
+<div class="marquee">
+<span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION •</span>
+</div>
 
-  <footer>
-    &copy; 2025 Vandals Fashion. All rights reserved.
-  </footer>
+<footer>
+&copy; 2025 Vandals Fashion. All rights reserved.
+</footer>
 
- 
-  <script type="module" src="shop.js"></script>
+<script type="module" src="shop.js"></script>
 
- <script>
-  window.toggleMenu = function () {
-    const nav = document.getElementById("navbar");
-    nav.classList.toggle("show");
-  };
+<script>
 
-  window.toggleProfileDropdown = function () {
-    const profileDropdown = document.getElementById("profileDropdown");
-    profileDropdown.classList.toggle("show");
-  };
+window.toggleMenu=function(){
+const nav=document.getElementById("navbar");
+nav.classList.toggle("show");
+}
 
-  window.logout = function () {
-    // Firebase signOut logic here
-    window.location.href = "auth.html";
-  };
+window.toggleProfileDropdown=function(){
+const profileDropdown=document.getElementById("profileDropdown");
+profileDropdown.classList.toggle("show");
+}
+
+window.logout=function(){
+window.location.href="auth.html";
+}
+
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
