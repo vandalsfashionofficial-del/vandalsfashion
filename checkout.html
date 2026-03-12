@@ -24,7 +24,54 @@
       flex-wrap: wrap;
       position: relative; /* for mobile menu positioning */
     }
+.brand-wrapper{
+display:flex;
+align-items:center;
+gap:10px;
+}
 
+.brand-text{
+display:flex;
+flex-direction:column;
+line-height:1.2;
+}
+
+.header-phone{
+font-size:14px;
+color:goldenrod;
+font-weight:bold;
+}
+
+.home-icon svg{
+width:28px;
+height:28px;
+fill:white;
+cursor:pointer;
+}
+
+.nav-right{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.menu-toggle{
+display:none;
+flex-direction:column;
+cursor:pointer;
+gap:4px;
+}
+
+.menu-toggle div{
+width:25px;
+height:3px;
+background:white;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+}
     nav {
       display: flex;
       align-items: center;
@@ -210,26 +257,54 @@
   <!-- ✅ Load EmailJS SDK (required before calling emailjs.init) -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
 </head>
+  <script>
+function toggleMenu(){
+document.getElementById("navbar").classList.toggle("show");
+}
+</script>
 <body>
 
   <!-- Header -->
   <header>
-    <div><strong>Vandals Fashion</strong></div>
-    <div class="hamburger" onclick="document.querySelector('nav').classList.toggle('active')">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
-      <a href="explore.html">Explore</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="cart.html">🛒</a>
-      <a href="orders.html">Orders</a>
-    </nav>
-  </header>
+
+<div class="brand-wrapper">
+
+<a href="index.html" class="home-icon">
+<svg viewBox="0 0 24 24">
+<path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
+</svg>
+</a>
+
+<div class="brand-text">
+<strong>Vandals Fashion</strong>
+<span class="header-phone">📞 +91 78374 98898</span>
+</div>
+
+</div>
+
+<div class="nav-right">
+
+<div class="menu-toggle" onclick="toggleMenu()">
+<div></div>
+<div></div>
+<div></div>
+</div>
+
+</div>
+
+<nav id="navbar">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="shop.html">Shop</a>
+<a href="explore.html">Explore</a>
+<a href="custom-order.html">Customised Orders</a>
+<a href="contact.html">Contact</a>
+<a href="cart.html">🛒</a>
+<a href="orders.html">Your Orders</a>
+<a href="Directions.html">Directions</a>
+</nav>
+
+</header>
 
   <h1>Checkout</h1>
 
@@ -499,6 +574,7 @@ const image_html =
 
 </body>
 </html>
+
 
 
 
