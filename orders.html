@@ -21,6 +21,8 @@ background:white;
 color:#222;
 }
 
+/* HEADER */
+
 header{
 background:black;
 color:white;
@@ -48,55 +50,83 @@ font-size:0.95rem;
 color:#ffd700;
 }
 
-nav{
+/* NAVBAR */
+
+.nav-links{
 display:flex;
 gap:20px;
+list-style:none;
+margin:0;
 align-items:center;
 }
 
-nav a{
+.nav-links a{
 color:white;
 text-decoration:none;
-font-size:0.95rem;
 }
 
-nav a:hover{
+.nav-links a:visited{
+color:white;
+}
+
+.nav-links a:hover{
 color:#ffd700;
 }
 
+/* HAMBURGER */
+
 .hamburger{
 display:none;
-font-size:1.8rem;
 cursor:pointer;
+flex-direction:column;
+gap:4px;
 }
+
+.hamburger div{
+width:25px;
+height:3px;
+background:white;
+}
+
+/* MOBILE MENU */
 
 @media(max-width:768px){
 
-nav{
+.nav-links{
 display:none;
 flex-direction:column;
-position:absolute;
-top:100%;
-right:0;
 background:black;
+position:absolute;
+top:60px;
+right:10px;
 width:200px;
 padding:10px;
 border-radius:8px;
+align-items:flex-start;
 }
 
-nav.show{
+.nav-links.show{
 display:flex;
 }
 
-.hamburger{
+.nav-links li{
+width:100%;
+}
+
+.nav-links a{
 display:block;
+width:100%;
+text-align:left;
+padding:8px 10px;
 }
 
-nav a{
-padding:8px 0;
+.hamburger{
+display:flex;
 }
 
 }
+
+/* PAGE CONTENT */
 
 h1{
 font-family:'Playfair Display',serif;
@@ -158,6 +188,8 @@ color:#888;
 margin-top:30px;
 }
 
+/* MARQUEE */
+
 .marquee{
 background:black;
 color:white;
@@ -198,19 +230,23 @@ background:#f9f9f9;
 <span class="header-phone">📞 +91 78374 98898</span>
 </div>
 
-<div class="hamburger" onclick="toggleMenu()">☰</div>
+<div class="hamburger" onclick="toggleMenu()">
+<div></div>
+<div></div>
+<div></div>
+</div>
 
-<nav id="navbar">
-<a href="index.html">Home</a>
-<a href="shop.html">Shop</a>
-<a href="explore.html">Explore</a>
-<a href="about.html">About</a>
-<a href="contact.html">Contact</a>
-<a href="Directions.html">Directions</a>
-<a href="custom-order.html">Custom</a>
-<a href="cart.html">Cart</a>
-<a href="orders.html">Orders</a>
-</nav>
+<ul class="nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="shop.html">Shop</a></li>
+<li><a href="explore.html">Explore</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="contact.html">Contact</a></li>
+<li><a href="Directions.html">Directions</a></li>
+<li><a href="custom-order.html">Custom</a></li>
+<li><a href="cart.html">Cart</a></li>
+<li><a href="orders.html">Orders</a></li>
+</ul>
 
 </header>
 
@@ -282,27 +318,16 @@ ordersContainer.appendChild(card);
 }
 
 function toggleMenu(){
-
-document.getElementById("navbar").classList.toggle("show");
-
+document.querySelector('.nav-links').classList.toggle('show');
 }
 
 function prepareCancel(name,orderId,phone){
-
 localStorage.setItem("cancel_name",name);
 localStorage.setItem("cancel_order_id",orderId);
 localStorage.setItem("cancel_phone",phone);
-
 }
 
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
