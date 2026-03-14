@@ -1,0 +1,214 @@
+<style>
+
+header{
+background:black;
+color:white;
+padding:1rem 2rem;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:relative;
+}
+
+/* BRAND */
+
+.brand-wrapper{
+display:flex;
+align-items:center;
+gap:0.5rem;
+}
+
+.home-icon svg{
+width:28px;
+height:28px;
+fill:white;
+}
+
+.brand-text{
+display:flex;
+flex-direction:column;
+line-height:1.2;
+}
+
+.brand{
+font-family:'Playfair Display',serif;
+font-size:1.8rem;
+font-weight:700;
+color:white;
+}
+
+.header-phone{
+font-family:'Poppins',sans-serif;
+font-size:1rem;
+font-weight:500;
+color:#ffd700;
+}
+
+/* NAVBAR */
+
+nav a{
+color:white;
+margin-left:1.5rem;
+text-decoration:none;
+}
+
+.profile-container{
+position:relative;
+display:inline-block;
+margin-left:1.5rem;
+}
+
+.profile-pic{
+width:30px;
+height:30px;
+border-radius:50%;
+object-fit:cover;
+cursor:pointer;
+}
+
+.dropdown{
+display:none;
+position:absolute;
+right:0;
+background:white;
+color:black;
+min-width:150px;
+box-shadow:0px 8px 16px rgba(0,0,0,0.2);
+z-index:1000;
+border-radius:5px;
+overflow:hidden;
+}
+
+.dropdown a{
+display:block;
+padding:10px 15px;
+text-decoration:none;
+color:black;
+font-size:0.95rem;
+}
+
+.dropdown a:hover{
+background:#f2f2f2;
+}
+
+/* HAMBURGER */
+
+.hamburger{
+display:none;
+font-size:1.8rem;
+cursor:pointer;
+color:white;
+}
+
+.mobile-profile{
+display:none;
+}
+
+/* MOBILE NAV */
+
+@media (max-width:768px){
+
+header{
+flex-direction:row;
+flex-wrap:wrap;
+align-items:flex-start;
+}
+
+nav{
+display:none;
+flex-direction:column;
+width:100%;
+background:black;
+margin-top:1rem;
+}
+
+nav a{
+padding:0.8rem 1rem;
+border-top:1px solid #333;
+display:block;
+margin-left:0;
+}
+
+nav.show{
+display:flex;
+}
+
+.hamburger{
+display:block;
+margin-left:auto;
+margin-top:0.5rem;
+}
+
+.mobile-profile{
+display:block;
+position:absolute;
+right:2rem;
+top:1rem;
+}
+
+.hamburger{
+margin-left:auto;
+display:inline-flex;
+align-items:center;
+z-index:1000;
+}
+
+.mobile-profile{
+position:static;
+display:inline-flex;
+align-items:center;
+margin-left:0.6rem;
+z-index:1000;
+}
+
+header{
+align-items:center;
+}
+
+}
+
+</style>
+
+<header>
+
+<div class="brand-wrapper">
+
+<a href="index.html" class="home-icon" aria-label="Home" title="Home">
+<svg viewBox="0 0 24 24">
+<path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
+</svg>
+</a>
+
+<div class="brand-text">
+<strong class="brand">Vandals Fashion</strong>
+<span class="header-phone">📞 +91 78374 98898</span>
+</div>
+
+</div>
+
+<div class="hamburger" onclick="toggleMenu()">☰</div>
+
+<nav id="navbar">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="shop.html">Shop</a>
+<a href="explore.html">Explore</a>
+<a href="custom-order.html">Customised Orders</a>
+<a href="contact.html">Contact</a>
+<a href="cart.html">🛒</a>
+<a href="orders.html">Your Orders</a>
+<a href="Directions.html">Directions</a>
+<a href="auth.html" id="authLink">Login</a>
+</nav>
+
+<div id="mobileProfile" class="profile-container"></div>
+
+</header>
+
+<script>
+
+function toggleMenu(){
+document.getElementById("navbar").classList.toggle("show");
+}
+
+</script>
