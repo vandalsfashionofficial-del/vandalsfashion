@@ -1,260 +1,358 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Contact – Vandals Fashion</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
-  <script type="module" src="./firebase-config.js"></script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #fff;
-      color: #222;
-    }
-    header {
-      background-color: black;
-      color: white;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: relative;
-    }
-    .brand { font-weight: bold; font-size: 1.2rem; }
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-size: 0.9rem;
-    }
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-    }
-    .hamburger div {
-      width: 20px;
-      height: 2px;
-      background: white;
-      margin: 3px 0;
-    }
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-    }
-    .profile-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
-      object-fit: cover;
-      margin-left: 1rem;
-    }
-    .dropdown {
-      display: none;
-      position: absolute;
-      right: 2rem;
-      top: 70px;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      z-index: 1000;
-    }
-    .dropdown a {
-      display: block;
-      padding: 10px;
-      color: black;
-      text-decoration: none;
-    }
-    .dropdown a:hover {
-      background-color: #f0f0f0;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact – Vandals Fashion</title>
 
-    @media (max-width: 768px) {
-      .hamburger {
-        display: flex;
-      }
-      .nav-links {
-        display: none;
-        position: absolute;
-        background-color: black;
-        top: 60px;
-        left: 0;
-        width: 100%;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 1rem;
-      }
-      .nav-links a {
-        margin: 0.5rem 0;
-      }
-    }
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
+<script type="module" src="./firebase-config.js"></script>
 
-    .container {
-      max-width: 800px;
-      margin: 3rem auto;
-      padding: 2rem;
-      background-color: #f9f9f9;
-      border-radius: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    }
+<style>
 
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      margin-bottom: 1.2rem;
-      text-align: center;
-    }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-    p {
-      font-size: 1rem;
-      line-height: 1.8;
-      margin-bottom: 0.8rem;
-    }
+body{
+font-family:'Poppins',sans-serif;
+background:white;
+color:#222;
+}
 
-    a.contact-link {
-      color: black;
-      text-decoration: underline;
-      font-weight: bold;
-    }
+header{
+background:black;
+color:white;
+padding:1rem 2rem;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:relative;
+}
 
-    .info {
-      margin-top: 2rem;
-    }
+/* BRAND */
 
-    .info p {
-      margin-bottom: 0.5rem;
-    }
+.brand-wrapper{
+display:flex;
+align-items:center;
+gap:0.5rem;
+}
 
-    .marquee {
-      background-color: black;
-      color: white;
-      font-weight: bold;
-      padding: 0.7rem 0;
-      overflow: hidden;
-      white-space: nowrap;
-    }
+.home-icon svg{
+width:28px;
+height:28px;
+fill:white;
+}
 
-    .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll 20s linear infinite;
-    }
+.brand-text{
+display:flex;
+flex-direction:column;
+line-height:1.2;
+}
 
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
+.brand{
+font-family:'Playfair Display',serif;
+font-size:1.8rem;
+font-weight:700;
+}
 
-    footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      padding: 1rem 0;
-      background-color: #fff;
-    }
-  </style>
+.header-phone{
+font-size:1rem;
+font-weight:500;
+color:#ffd700;
+}
+
+/* NAV */
+
+nav a{
+color:white;
+margin-left:1.5rem;
+text-decoration:none;
+font-size:0.9rem;
+}
+
+/* PROFILE */
+
+.profile-container{
+position:relative;
+display:inline-block;
+margin-left:1.5rem;
+}
+
+.profile-pic{
+width:30px;
+height:30px;
+border-radius:50%;
+object-fit:cover;
+cursor:pointer;
+}
+
+.dropdown{
+display:none;
+position:absolute;
+right:0;
+background:white;
+color:black;
+min-width:150px;
+box-shadow:0px 8px 16px rgba(0,0,0,0.2);
+z-index:1000;
+border-radius:5px;
+overflow:hidden;
+}
+
+.dropdown a{
+display:block;
+padding:10px 15px;
+text-decoration:none;
+color:black;
+}
+
+.dropdown a:hover{
+background:#f2f2f2;
+}
+
+/* HAMBURGER */
+
+.hamburger{
+display:none;
+font-size:1.8rem;
+cursor:pointer;
+color:white;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+nav{
+display:none;
+flex-direction:column;
+width:100%;
+background:black;
+margin-top:1rem;
+}
+
+nav a{
+padding:0.8rem 1rem;
+border-top:1px solid #333;
+display:block;
+margin-left:0;
+}
+
+nav.show{
+display:flex;
+}
+
+.hamburger{
+display:block;
+margin-left:auto;
+}
+
+}
+
+/* CONTENT */
+
+.container{
+max-width:800px;
+margin:3rem auto;
+padding:2rem;
+background:#f9f9f9;
+border-radius:15px;
+box-shadow:0 0 10px rgba(0,0,0,0.05);
+}
+
+h1{
+font-family:'Playfair Display',serif;
+font-size:2.5rem;
+margin-bottom:1.2rem;
+text-align:center;
+}
+
+p{
+font-size:1rem;
+line-height:1.8;
+margin-bottom:0.8rem;
+}
+
+.contact-link{
+color:black;
+text-decoration:underline;
+font-weight:bold;
+}
+
+.info{
+margin-top:2rem;
+}
+
+.marquee{
+background:black;
+color:white;
+font-weight:bold;
+padding:0.7rem 0;
+overflow:hidden;
+white-space:nowrap;
+}
+
+.marquee span{
+display:inline-block;
+padding-left:100%;
+animation:scroll 20s linear infinite;
+}
+
+@keyframes scroll{
+0%{transform:translateX(0);}
+100%{transform:translateX(-100%);}
+}
+
+footer{
+text-align:center;
+font-size:0.9rem;
+color:#777;
+padding:1rem 0;
+background:#fff;
+}
+
+</style>
 </head>
+
 <body>
 
-  <!-- Header -->
-  <header>
-    <div class="brand">Vandals Fashion</div>
-    <div class="hamburger" onclick="toggleMenu()">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-    <nav class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
-      <a href="explore.html">Explore</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="Directions.html">Directions</a>
-      <a href="custom-order.html">Custom</a>
-      <a href="cart.html">🛒</a>
-      <a href="orders.html">Orders</a>
-      <a href="auth.html" id="authLink">Login</a>
-    </nav>
-    <img id="profilePic" class="profile-icon" style="display:none;" />
-    <div class="dropdown" id="dropdownMenu">
-      <a href="manage.html">Manage Account</a>
-      <a href="#" onclick="logout()">Logout</a>
-    </div>
-  </header>
+<header>
 
-  <!-- Main Content -->
-  <div class="container">
-    <h1>Contact Us</h1>
-    <p>We’d love to hear from you! Whether you have a custom design in mind or want to know more about our latest collection, feel free to reach out to us anytime.</p>
-    <div class="info">
-      <p><strong>📞 Phone / WhatsApp:</strong> <a class="contact-link" href="https://wa.me/917837498898" target="_blank">+91 78374 98898</a></p>
-      <p><strong>📍 Address:</strong> #60, Dashmesh Nagar A, Street No 3, Behind Central Jail, Patiala, Punjab, India</p>
-      <p><strong>📷 Instagram:</strong> <a class="contact-link" href="https://www.instagram.com/vandalsfashion_by_priya_vandal" target="_blank">@vandalsfashion_by_priya_vandal</a></p>
-      <p><strong>📌 Pinterest:</strong> <a class="contact-link" href="https://pin.it/3cRfrYmFh" target="_blank">Vandals Fashion Pins</a></p>
-    </div>
-  </div>
+<div class="brand-wrapper">
+<a href="index.html" class="home-icon">
+<svg viewBox="0 0 24 24">
+<path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
+</svg>
+</a>
 
-  <!-- Marquee -->
-  <div class="marquee">
-    <span>GET IN TOUCH • WHATSAPP US • FOLLOW ON INSTAGRAM • VISIT OUR BOUTIQUE • VANDALS FASHION • </span>
-  </div>
+<div class="brand-text">
+<strong class="brand">Vandals Fashion</strong>
+<span class="header-phone">📞 +91 78374 98898</span>
+</div>
+</div>
 
-  <!-- Footer -->
-  <footer>
-    &copy; 2025 Vandals Fashion. All rights reserved.
-  </footer>
+<div class="hamburger" onclick="toggleMenu()">☰</div>
 
-  <!-- Auth + Hamburger Script -->
-  <script type="module">
-    import { auth } from './firebase-config.js';
-    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+<nav id="navLinks">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="shop.html">Shop</a>
+<a href="explore.html">Explore</a>
+<a href="custom-order.html">Customised Orders</a>
+<a href="contact.html">Contact</a>
+<a href="cart.html">🛒</a>
+<a href="orders.html">Your Orders</a>
+<a href="Directions.html">Directions</a>
+<a href="auth.html" id="authLink">Login</a>
+</nav>
 
-    const profilePic = document.getElementById("profilePic");
-    const dropdown = document.getElementById("dropdownMenu");
-    const authLink = document.getElementById("authLink");
+<div id="mobileProfile" class="profile-container"></div>
 
-    onAuthStateChanged(auth, user => {
-      if (user) {
-        authLink.style.display = "none";
-        profilePic.style.display = "block";
-        profilePic.src = user.photoURL || "https://cdn-icons-png.flaticon.com/512/847/847969.png";
-        profilePic.onclick = () => dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-      } else {
-        authLink.style.display = "inline";
-        profilePic.style.display = "none";
-        dropdown.style.display = "none";
-      }
-    });
+</header>
 
-    window.logout = async () => {
-      await signOut(auth);
-      window.location.href = "auth.html";
-    };
-  </script>
-  <script>
-    function toggleMenu() {
-      const nav = document.getElementById("navLinks");
-      nav.style.display = nav.style.display === "flex" ? "none" : "flex";
-    }
+<div class="container">
 
-    // Close dropdown when clicking outside
-    document.addEventListener("click", function(event) {
-      const dropdown = document.getElementById("dropdownMenu");
-      const profile = document.getElementById("profilePic");
-      if (dropdown && !dropdown.contains(event.target) && !profile.contains(event.target)) {
-        dropdown.style.display = "none";
-      }
-    });
-  </script>
+<h1>Contact Us</h1>
+
+<p>
+We’d love to hear from you! Whether you have a custom design in mind or want to know more about our latest collection, feel free to reach out to us anytime.
+</p>
+
+<div class="info">
+
+<p><strong>📞 Phone / WhatsApp:</strong>
+<a class="contact-link" href="https://wa.me/917837498898" target="_blank">
++91 78374 98898
+</a>
+</p>
+
+<p><strong>📍 Address:</strong>
+#60, Dashmesh Nagar A, Street No 3, Behind Central Jail, Patiala, Punjab, India
+</p>
+
+<p><strong>📷 Instagram:</strong>
+<a class="contact-link" href="https://www.instagram.com/vandalsfashion_by_priya_vandal" target="_blank">
+@vandalsfashion_by_priya_vandal
+</a>
+</p>
+
+<p><strong>📌 Pinterest:</strong>
+<a class="contact-link" href="https://pin.it/3cRfrYmFh" target="_blank">
+Vandals Fashion Pins
+</a>
+</p>
+
+</div>
+
+</div>
+
+<div class="marquee">
+<span>GET IN TOUCH • WHATSAPP US • FOLLOW ON INSTAGRAM • VISIT OUR BOUTIQUE • VANDALS FASHION •</span>
+</div>
+
+<footer>
+© 2025 Vandals Fashion. All rights reserved.
+</footer>
+
+<script type="module">
+
+import { auth } from './firebase-config.js';
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+
+const authLink=document.getElementById("authLink");
+const mobileProfile=document.getElementById("mobileProfile");
+
+onAuthStateChanged(auth,user=>{
+
+if(user){
+
+authLink.style.display="none";
+
+const container=document.createElement("div");
+container.className="profile-container";
+
+const img=document.createElement("img");
+img.className="profile-pic";
+img.src=user.photoURL||"https://cdn-icons-png.flaticon.com/512/847/847969.png";
+
+const dropdown=document.createElement("div");
+dropdown.className="dropdown";
+
+dropdown.innerHTML=`
+<a href="https://myaccount.google.com/" target="_blank">Manage Account</a>
+<a href="#" onclick="logout()">Logout</a>
+`;
+
+img.onclick=()=>{
+dropdown.style.display=dropdown.style.display==="block"?"none":"block";
+};
+
+container.appendChild(img);
+container.appendChild(dropdown);
+
+mobileProfile.appendChild(container);
+
+}
+
+});
+
+window.logout=async()=>{
+await signOut(auth);
+window.location.href="auth.html";
+};
+
+</script>
+
+<script>
+
+function toggleMenu(){
+document.getElementById("navLinks").classList.toggle("show");
+}
+
+</script>
 
 </body>
 </html>
-
