@@ -1,134 +1,307 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Directions - Vandals Fashion</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Directions - Vandals Fashion</title>
 
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body, html { height: 100%; font-family: 'Poppins', sans-serif; }
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
 
-    header {
-      background-color: black;
-      color: white;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: relative;
-    }
-.header-phone {
-font-family: 'Poppins', sans-serif;
-font-size: 1rem;
-font-weight: 500;
-color: #ffd700; /* golden accent for luxury */
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
-    .header-phone {
-font-family: 'Poppins', sans-serif;
-font-size: 1rem;
-font-weight: 500;
-color: #ffd700; /* golden accent for luxury */
-}
-brand-wrapper {
-display: flex;
-align-items: center; /* centers icon with the text block */
-gap: 0.5rem; /* spacing between icon and text */
-}
-.home-icon svg {
-width: 28px;
-height: 28px;
-fill: white; /* matches your brand text color */
-}
-.brand-text {
-display: flex;
-flex-direction: column; /* stack name and phone vertically */
-line-height: 1.2;
-}
-    header strong { font-family: 'Playfair Display', serif; font-size: 1.5rem; }
 
-    nav a { color: white; margin-left: 1.5rem; text-decoration: none; }
-    .hamburger { display: none; font-size: 1.8rem; cursor: pointer; }
+body,html{
+height:100%;
+font-family:'Poppins',sans-serif;
+}
 
-    @media (max-width: 768px) {
-      header { flex-wrap: wrap; }
-      nav { display: none; flex-direction: column; width: 100%; background-color: black; margin-top: 1rem; }
-      nav a { padding: 0.8rem 1rem; border-top: 1px solid #333; display: block; margin-left: 0; }
-      nav.show { display: flex; }
-      .hamburger { display: block; margin-left: auto; margin-top: 0.5rem; }
-    }
+header{
+background:black;
+color:white;
+padding:1rem 2rem;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:relative;
+}
 
-    .map-container { width: 100%; height: 90vh; }
-    .map-container iframe { width: 100%; height: 100%; border: 0; }
+nav a{
+color:white;
+margin-left:1.5rem;
+text-decoration:none;
+}
 
-    footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      padding: 1rem 0;
-      background-color: #f9f9f9;
-    }
-  </style>
+.hamburger{
+display:none;
+font-size:1.8rem;
+cursor:pointer;
+color:white;
+}
+
+.profile-container{
+position:relative;
+display:inline-block;
+margin-left:1.5rem;
+}
+
+.profile-pic{
+width:30px;
+height:30px;
+border-radius:50%;
+object-fit:cover;
+cursor:pointer;
+}
+
+.dropdown{
+display:none;
+position:absolute;
+right:0;
+background:white;
+color:black;
+min-width:150px;
+box-shadow:0 8px 16px rgba(0,0,0,0.2);
+z-index:1000;
+border-radius:5px;
+overflow:hidden;
+}
+
+.dropdown a{
+display:block;
+padding:10px 15px;
+text-decoration:none;
+color:black;
+font-size:0.95rem;
+}
+
+.dropdown a:hover{
+background:#f2f2f2;
+}
+
+.mobile-profile{
+display:none;
+}
+
+@media(max-width:768px){
+
+header{
+flex-direction:row;
+flex-wrap:wrap;
+align-items:center;
+}
+
+nav{
+display:none;
+flex-direction:column;
+width:100%;
+background:black;
+margin-top:1rem;
+}
+
+nav a{
+padding:0.8rem 1rem;
+border-top:1px solid #333;
+display:block;
+margin-left:0;
+}
+
+nav.show{
+display:flex;
+}
+
+.hamburger{
+display:block;
+margin-left:auto;
+margin-top:0.5rem;
+}
+
+.mobile-profile{
+display:inline-flex;
+align-items:center;
+margin-left:0.6rem;
+}
+
+}
+
+.brand-wrapper{
+display:flex;
+align-items:center;
+gap:0.5rem;
+}
+
+.home-icon svg{
+width:28px;
+height:28px;
+fill:white;
+}
+
+.brand-text{
+display:flex;
+flex-direction:column;
+line-height:1.2;
+}
+
+.brand{
+font-family:'Playfair Display',serif;
+font-size:1.8rem;
+font-weight:700;
+color:white;
+}
+
+.header-phone{
+font-size:1rem;
+font-weight:500;
+color:#ffd700;
+}
+
+.map-container{
+width:100%;
+height:90vh;
+}
+
+.map-container iframe{
+width:100%;
+height:100%;
+border:0;
+}
+
+footer{
+text-align:center;
+font-size:0.9rem;
+color:#777;
+padding:1rem 0;
+background:#f9f9f9;
+}
+
+</style>
 </head>
+
 <body>
-  
- <div class="brand-wrapper">
+
+<header>
+
+<div class="brand-wrapper">
+
 <a href="index.html" class="home-icon" aria-label="Home" title="Home">
-<svg viewBox="0 0 24 24" aria-hidden="true">
+<svg viewBox="0 0 24 24">
 <path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
 </svg>
 </a>
-<header>
-  <div><strong>Vandals Fashion</strong></div>
-  <span class="header-phone">📞 +91 78374 98898</span>
-  <div class="hamburger" onclick="toggleMenu()">☰</div>
-  <nav id="navbar">
-    <a href="index.html">Home</a>
-    <a href="shop.html">Shop</a>
-    <a href="explore.html">Explore</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="custom-order.html">Custom</a>
-    <a href="cart.html">🛒</a>
-    <a href="orders.html">Orders</a>
-    <a href="auth.html" id="authLink">Login</a>
-  </nav>
-</header>
 
-<div class="map-container">
-  <iframe 
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3442.635793036436!2d76.37614747560701!3d30.361299074765647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391029f7699fea2c%3A0xb97edf5556c1ec99!2sVANDAL%20FASHION!5e0!3m2!1sen!2sin!4v1756718684584!5m2!1sen!2sin" 
-    width="100%" 
-    height="450" 
-    style="border:0;" 
-    allowfullscreen="" 
-    loading="lazy" 
-    referrerpolicy="no-referrer-when-downgrade">
-  </iframe>
-
-  <div style="text-align:center; margin-top:10px;">
-    <a 
-      href="https://www.google.com/maps/place/VANDAL+FASHION,+Patiala,+Punjab,+India" 
-      target="_blank" 
-      style="text-decoration:none; color:#ffd700; font-weight:bold;"
-    >
-      View on Google Maps
-    </a>
-  </div>
+<div class="brand-text">
+<strong class="brand">Vandals Fashion</strong>
+<span class="header-phone">📞 +91 78374 98898</span>
 </div>
 
-</section>
+</div>
+
+<div class="hamburger" onclick="toggleMenu()">☰</div>
+
+<nav id="navbar">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="shop.html">Shop</a>
+<a href="explore.html">Explore</a>
+<a href="custom-order.html">Customised Orders</a>
+<a href="contact.html">Contact</a>
+<a href="cart.html">🛒</a>
+<a href="orders.html">Your Orders</a>
+<a href="Directions.html">Directions</a>
+<a href="auth.html" id="authLink">Login</a>
+</nav>
+
+<div id="mobileProfile" class="profile-container"></div>
+
+</header>
+
+
+<div class="map-container">
+
+<iframe
+src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3442.635793036436!2d76.37614747560701!3d30.361299074765647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391029f7699fea2c%3A0xb97edf5556c1ec99!2sVANDAL%20FASHION!5e0!3m2!1sen!2sin!4v1756718684584!5m2!1sen!2sin"
+allowfullscreen
+loading="lazy">
+</iframe>
+
+<div style="text-align:center;margin-top:10px;">
+<a href="https://www.google.com/maps/place/VANDAL+FASHION,+Patiala,+Punjab,+India"
+target="_blank"
+style="text-decoration:none;color:#ffd700;font-weight:bold;">
+View on Google Maps
+</a>
+</div>
+
+</div>
+
 
 <footer>
-  &copy; 2025 Vandals Fashion. All rights reserved.
+© 2025 Vandals Fashion. All rights reserved.
 </footer>
 
+
 <script>
-  function toggleMenu() {
-    document.getElementById("navbar").classList.toggle("show");
-  }
+
+function toggleMenu(){
+document.getElementById("navbar").classList.toggle("show");
+}
+
+const authLink=document.getElementById("authLink");
+const mobileProfile=document.getElementById("mobileProfile");
+
+const username=localStorage.getItem("vf_username");
+const photo=localStorage.getItem("vf_user_photo");
+
+if(username || photo){
+
+if(authLink) authLink.remove();
+
+const container=document.createElement("div");
+container.className="profile-container";
+
+const img=document.createElement("img");
+img.className="profile-pic";
+img.src=photo || "https://cdn-icons-png.flaticon.com/512/847/847969.png";
+
+const dropdown=document.createElement("div");
+dropdown.className="dropdown";
+
+dropdown.innerHTML=`
+<a href="https://myaccount.google.com/" target="_blank">Manage Account</a>
+<a href="#" onclick="logout()">Logout</a>
+`;
+
+img.onclick=()=>{
+dropdown.style.display=dropdown.style.display==="block"?"none":"block";
+};
+
+container.appendChild(img);
+container.appendChild(dropdown);
+
+mobileProfile.appendChild(container);
+
+}
+
+function logout(){
+localStorage.removeItem("vf_username");
+localStorage.removeItem("vf_user_photo");
+localStorage.removeItem("vf_user_google");
+window.location.href="index.html";
+}
+
+window.addEventListener("click",(e)=>{
+const dropdowns=document.querySelectorAll(".dropdown");
+dropdowns.forEach(d=>{
+if(!d.parentNode.contains(e.target)) d.style.display="none";
+});
+});
+
 </script>
 
 </body>
 </html>
+```
