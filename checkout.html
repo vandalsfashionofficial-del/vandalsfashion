@@ -1,80 +1,434 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0"/> <title>Checkout – Vandals Fashion</title> <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/> <style> * { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: 'Poppins', sans-serif; background-color: #fff; color: #222; } header { background-color: black; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; position: relative; /* for mobile menu positioning */ } .brand-wrapper{ display:flex; align-items:center; gap:10px; } .brand-text{ display:flex; flex-direction:column; line-height:1.2; } .header-phone{ font-size:14px; color:goldenrod; font-weight:bold; } .home-icon svg{ width:28px; height:28px; fill:white; cursor:pointer; } .nav-right{ display:flex; align-items:center; gap:15px; } .menu-toggle{ display:none; flex-direction:column; cursor:pointer; gap:4px; } .menu-toggle div{ width:25px; height:3px; background:white; } nav a{ color:white; text-decoration:none; } nav { display: flex; align-items: center; } nav a { color: white; margin-left: 1.5rem; text-decoration: none; } nav a:visited { color: white; } .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; } .hamburger div { width: 25px; height: 3px; background: white; } @media (max-width: 768px) { .hamburger { display: flex; } nav { display: none; flex-direction: column; width: 100%; background: black; position: absolute; top: 60px; left: 0; padding: 1rem 0; } nav a { margin: 0.5rem 0; text-align: center; } nav.active { display: flex; } } h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin: 2rem 0; text-align: center; } .checkout-container { max-width: 900px; margin: 0 auto; padding: 2rem; } .form-group { margin-bottom: 1rem; } label { display: block; font-weight: bold; margin-bottom: 0.3rem; } input, textarea, select { width: 100%; padding: 0.6rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; } .summary-box { margin-bottom: 1.5rem; } .summary-box h3 { margin-bottom: 0.5rem; font-size: 1.1rem; } .summary-box ul { list-style: disc; margin-left: 1.5rem; } .summary-box li { margin-bottom: 0.3rem; } .total-box { font-size: 1.3rem; margin: 1.5rem 0 0.5rem; font-weight: bold; text-align: right; } .note, .delivery-note { color: darkred; font-weight: bold; text-align: right; margin-bottom: 0.3rem; } .delivery-note { color: #555; font-weight: normal; } button { background-color: black; color: white; border: none; padding: 0.8rem 2rem; border-radius: 30px; cursor: pointer; font-weight: bold; display: block; margin-left: auto; } button:hover { background-color: #FFD700; color: black; } .marquee { background-color: black; color: white; font-weight: bold; padding: 0.7rem 0; overflow: hidden; white-space: nowrap; } .marquee span { display: inline-block; padding-left: 100%; animation: scroll 20s linear infinite; } @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } } footer { text-align: center; font-size: 0.9rem; color: #777; padding: 1rem 0; background-color: #f9f9f9; } .empty-msg { text-align: center; color: #888; font-weight: bold; margin: 2rem 0; } @media (max-width: 768px) { .checkout-container { padding: 1rem; } h1 { font-size: 2rem; } button { width: 100%; } } </style> <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script> </head> <script> function toggleMenu(){ document.getElementById("navbar").classList.toggle("active"); } </script> <body> <header> <div class="brand-wrapper"> <a href="index.html" class="home-icon"> <svg viewBox="0 0 24 24"> <path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/> </svg> </a> <div class="brand-text"> <strong>Vandals Fashion</strong> <span class="header-phone">📞 +91 78374 98898</span> </div> </div> <div class="nav-right"> <div class="menu-toggle" onclick="toggleMenu()"> <div></div> <div></div> <div></div> </div> </div> <nav id="navbar"> <a href="index.html">Home</a> <a href="about.html">About</a> <a href="shop.html">Shop</a> <a href="explore.html">Explore</a> <a href="custom-order.html">Customised Orders</a> <a href="contact.html">Contact</a> <a href="cart.html">🛒</a> <a href="orders.html">Your Orders</a> <a href="Directions.html">Directions</a> </nav> </header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout – Vandals Fashion</title>
+  <link href="https://fonts.googleapis.com" rel="stylesheet" />
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<h1>Checkout</h1>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff;
+      color: #222;
+    }
 
-<div class="checkout-container">
+    header {
+      background-color: black;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
 
-<div id="orderSummary" class="summary-box">
-<h3>Items in your order:</h3>
-<ul></ul>
-</div>
+    .brand-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-<div id="cartTotal" class="total-box"></div>
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
 
-<div id="customNote" class="note">
-Note: Custom order price and delivery days are variable. If no custom order is in the cart then ignore
-</div>
+    .header-phone {
+      font-size: 14px;
+      color: goldenrod;
+      font-weight: bold;
+    }
 
-<div class="delivery-note">
-Note: Delivery charges not included.
-</div>
+    .home-icon svg {
+      width: 28px;
+      height: 28px;
+      fill: white;
+      cursor: pointer;
+    }
 
-<div class="form-group">
-<label>Name</label>
-<input type="text" id="name" required />
-</div>
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-<div class="form-group">
-<label>Phone Number</label>
-<input type="tel" id="phone" required />
-</div>
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
 
-<div class="form-group">
-<label>Full Address</label>
-<textarea id="address" rows="3" required></textarea>
-</div>
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: white;
+    }
 
-<div class="form-group">
-<label>Pincode</label>
-<input type="text" id="pincode" required />
-</div>
+    nav {
+      display: flex;
+      align-items: center;
+    }
 
-<div class="form-group">
-<label>Payment Method</label>
-<select id="payment">
-<option value="COD">Cash on Delivery</option>
-</select>
-</div>
+    nav a {
+      color: white;
+      margin-left: 1.5rem;
+      text-decoration: none;
+    }
 
-<button type="button" id="placeOrderBtn" onclick="placeOrder()">Place Order</button>
+    nav a:visited {
+      color: white;
+    }
 
-</div>
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
 
-<div class="marquee">
-<span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION • </span>
-</div>
+      nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: black;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        padding: 1rem 0;
+        z-index: 100;
+      }
 
-<footer>
-&copy; 2025 Vandals Fashion. All rights reserved.
-</footer>
+      nav a {
+        margin: 0.5rem 0;
+        text-align: center;
+      }
 
-<!-- Your entire script section remains unchanged below exactly as you wrote it -->
-<script type="module">
+      nav.active {
+        display: flex;
+      }
+    }
 
-/* I DID NOT CHANGE ANYTHING BELOW THIS POINT */
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
 
-document.addEventListener("DOMContentLoaded", () => {
-if (window.emailjs && typeof emailjs.init === "function") {
-emailjs.init("CB8hwx-xnlGQcO9aL");
-console.log("EmailJS initialized");
-} else {
-console.error("EmailJS SDK not loaded!");
-}
-});
+    .checkout-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
 
-/* rest of your script continues exactly the same */
+    .form-group {
+      margin-bottom: 1rem;
+    }
 
-</script>
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+    }
 
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .summary-box {
+      margin-bottom: 1.5rem;
+    }
+
+    .summary-box h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .summary-box ul {
+      list-style: disc;
+      margin-left: 1.5rem;
+    }
+
+    .summary-box li {
+      margin-bottom: 0.3rem;
+    }
+
+    .total-box {
+      font-size: 1.3rem;
+      margin: 1.5rem 0 0.5rem;
+      font-weight: bold;
+      text-align: right;
+    }
+
+    .note,
+    .delivery-note {
+      color: darkred;
+      font-weight: bold;
+      text-align: right;
+      margin-bottom: 0.3rem;
+    }
+
+    .delivery-note {
+      color: #555;
+      font-weight: normal;
+    }
+
+    button {
+      background-color: black;
+      color: white;
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: bold;
+      display: block;
+      margin-left: auto;
+    }
+
+    button:hover {
+      background-color: #FFD700;
+      color: black;
+    }
+
+    .marquee {
+      background-color: black;
+      color: white;
+      font-weight: bold;
+      padding: 0.7rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll 20s linear infinite;
+    }
+
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      padding: 1rem 0;
+      background-color: #f9f9f9;
+    }
+
+    .empty-msg {
+      text-align: center;
+      color: #888;
+      font-weight: bold;
+      margin: 2rem 0;
+    }
+
+    @media (max-width: 768px) {
+      .checkout-container {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+  
+  <script src="https://cdn.jsdelivr.net" defer></script>
+</head>
+
+<body>
+  <header>
+    <div class="brand-wrapper">
+      <a href="index.html" class="home-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z" />
+        </svg>
+      </a>
+      <div class="brand-text">
+        <strong>Vandals Fashion</strong>
+        <span class="header-phone">📞 +91 78374 98898</span>
+      </div>
+    </div>
+    <div class="nav-right">
+      <div class="hamburger" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+    <nav id="navbar">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="shop.html">Shop</a>
+      <a href="explore.html">Explore</a>
+      <a href="custom-order.html">Customised Orders</a>
+      <a href="contact.html">Contact</a>
+      <a href="cart.html">🛒</a>
+      <a href="orders.html">Your Orders</a>
+      <a href="Directions.html">Directions</a>
+    </nav>
+  </header>
+
+  <h1>Checkout</h1>
+
+  <div class="checkout-container">
+    <div id="orderSummary" class="summary-box">
+      <h3>Items in your order:</h3>
+      <ul></ul>
+    </div>
+    <div id="cartTotal" class="total-box"></div>
+    <div id="customNote" class="note" style="display:none;">
+      Note: Custom order price and delivery days are variable. If no custom order is in the cart then ignore
+    </div>
+    <div class="delivery-note">Note: Delivery charges not included.</div>
+
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" id="name" required />
+    </div>
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input type="tel" id="phone" required />
+    </div>
+    <div class="form-group">
+      <label>Full Address</label>
+      <textarea id="address" rows="3" required></textarea>
+    </div>
+    <div class="form-group">
+      <label>Pincode</label>
+      <input type="text" id="pincode" required />
+    </div>
+    <div class="form-group">
+      <label>Payment Method</label>
+      <select id="payment">
+        <option value="COD">Cash on Delivery</option>
+      </select>
+    </div>
+    <button type="button" id="placeOrderBtn" onclick="placeOrder()">Place Order</button>
+  </div>
+
+  <div class="marquee">
+    <span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION • </span>
+  </div>
+
+  <footer>
+    &copy; 2025 Vandals Fashion. All rights reserved.
+  </footer>
+
+  <script>
+    // Navigation Toggle Function
+    function toggleMenu() {
+      const navbar = document.getElementById("navbar");
+      navbar.classList.toggle("active");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Initialize EmailJS
+      if (window.emailjs) {
+        emailjs.init("CB8hwx-xnlGQcO9aL");
+        console.log("EmailJS initialized");
+      }
+
+      // 2. Variables & Selectors
+      const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
+      const customOrder = JSON.parse(localStorage.getItem("customOrder") || "null");
+      const cartTotalBox = document.getElementById("cartTotal");
+      const orderSummaryList = document.querySelector("#orderSummary ul");
+      const customNote = document.getElementById("customNote");
+      const deliveryNote = document.querySelector(".delivery-note");
+
+      let total = 0;
+      let hasItems = false;
+
+      // 3. Populate Cart Items
+      if (Array.isArray(cartItems) && cartItems.length > 0) {
+        cartItems.forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = `${item.name} – ₹${item.price}`;
+          orderSummaryList.appendChild(li);
+          total += Number(item.price) || 0;
+        });
+        hasItems = true;
+      }
+
+      // 4. Handle Custom Orders
+      if (customOrder) {
+        const li = document.createElement("li");
+        li.textContent = "Custom Order – Price to be discussed";
+        orderSummaryList.appendChild(li);
+        customNote.style.display = "block";
+        hasItems = true;
+      }
+
+      // 5. Calculate Total Display
+      let totalText = "";
+      if (total > 0 && customOrder) {
+        totalText = `₹${total} + Custom Order`;
+      } else if (total > 0) {
+        totalText = `₹${total}`;
+      } else if (customOrder) {
+        totalText = "Custom Order";
+      } else {
+        totalText = "₹0";
+      }
+
+      // 6. Final UI check for empty carts
+      if (hasItems) {
+        cartTotalBox.textContent = `Total: ${totalText}`;
+      } else {
+        document.getElementById("orderSummary").style.display = "none";
+        cartTotalBox.style.display = "none";
+        customNote.style.display = "none";
+        deliveryNote.style.display = "none";
+        
+        const msg = document.createElement("p");
+        msg.textContent = "No items in cart to checkout.";
+        msg.className = "empty-msg";
+        document.querySelector(".checkout-container").prepend(msg);
+      }
+    });
+
+    // 7. Order Helper Functions
+    function generateOrderID() {
+      return "VF-" + Math.floor(1000 + Math.random() * 9000);
+    }
+
+    window.placeOrder = async function() {
+      const name = document.getElementById("name").value;
+      if (!name) {
+        alert("Please enter your name.");
+        return;
+      }
+      
+      const orderID = generateOrderID();
+      alert(`Order ${orderID} placed successfully! Thank you, ${name}.`);
+      
+      // Clean up cart after success
+      localStorage.removeItem("cart");
+      localStorage.removeItem("customOrder");
+      window.location.href = "index.html";
+    };
+  </script>
 </body>
 </html>
