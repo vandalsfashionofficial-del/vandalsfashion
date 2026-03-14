@@ -1,571 +1,314 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Custom Order - Vandals Fashion</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="images/favicon.png" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Custom Order - Vandals Fashion</title>
 
-  <!-- keep your firebase import -->
-  <script type="module" src="firebase-config.js"></script>
+<link rel="stylesheet" href="style.css"/>
+<link rel="icon" href="images/favicon.png"/>
 
-  <!-- EmailJS browser SDK (defer so DOM loads first) -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
+<script type="module" src="firebase-config.js"></script>
 
-  <script>
-    // init EmailJS after script loads (we'll also call init again in script safety-check)
-    document.addEventListener("DOMContentLoaded", () => {
-      if (window.emailjs && typeof emailjs.init === "function") {
-        emailjs.init("CB8hwx-xnlGQcO9aL"); // replace if your public key is different
-      }
-    });
-  </script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
 
-  <style>
-    /* Your existing styles retained + small additions for uploader/preview */
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f9f9f9;
-    }
-
-    header {
-      background-color: #000;
-      color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
-    }
-
-    .logo {
-      font-size: 1.5rem;
-    }
-
-    .menu {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-    }
-    /* Dropdown links should be white by default */
-#profileDropdown a {
-  color: white;
-  text-decoration: none;  /* removes underline */
-  display: block;
-  padding: 8px 12px;
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+if(window.emailjs && typeof emailjs.init==="function"){
+emailjs.init("CB8hwx-xnlGQcO9aL");
 }
-
-/* On hover, maybe pastel highlight */
-#profileDropdown a:hover {
-  background-color: #444;  /* dark grey background */
-  color: #ffb6c1;          /* pastel pink highlight */
-}
-
-
-    .bar {
-      width: 25px;
-      height: 3px;
-      background-color: white;
-      margin: 3px 0;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 1rem;
-    }
-
-    nav ul li {
-      display: inline;
-    }
-
-    nav ul li a {
-      color: white;
-      text-decoration: none;
-    }
-
-    .profile {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .profile img {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-   /* Brand Wrapper */
-.brand-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-}
-
-.header-phone {
-  font-size: 14px;
-  color: goldenrod;
-  font-weight: bold;
-}
-
-/* Nav Right (hamburger + profile) */
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-/* Hamburger */
-.menu-toggle {
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  gap: 4px;
-}
-
-.menu-toggle div {
-  width: 25px;
-  height: 3px;
-  background-color: white;
-}
-    .home-icon svg {
-  width: 28px;
-  height: 28px;
-  fill: white;   /* make it visible */
-  cursor: pointer;
-}
-
-
-      /* Responsive nav */
-@media (max-width: 768px) {
-  #navbar {
-    display: none;
-    flex-direction: column;
-    background-color: black;
-    position: absolute;
-    top: 60px;
-    right: 0;
-    width: 200px;
-    padding: 10px;
-  }
-  #navbar a {
-    padding: 10px;
-    border-bottom: 1px solid #444;
-  }
- 
-    }
-
-    main {
-      padding: 2rem;
-      max-width: 760px;
-      margin: auto;
-    }
-
-    h1 {
-      text-align: center;
-      color: #333;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-    }
-
-    label {
-      margin-top: 1rem;
-      font-weight: bold;
-    }
-
-    input[type="text"],
-    input[type="tel"],
-    textarea {
-      padding: 0.5rem;
-      margin-top: 0.25rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-footer {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777;
-      padding: 2rem 0 1rem;
-      background-color: #f9f9f9;
-    }
-
-    input[type="file"] {
-      margin-top: 0.5rem;
-    }
-
-    button {
-      margin-top: 1.5rem;
-      background-color: black;
-      color: white;
-      padding: 0.75rem;
-      border: none;
-      cursor: pointer;
-      border-radius: 6px;
-    }
-
-    button:hover {
-      background-color: #333;
-    }
-
-    /* uploader UI */
-    #loading {
-      display: none;
-      margin-top: 10px;
-      text-align: center;
-      font-weight: bold;
-      color: #222;
-    }
-    .marquee {
-      background-color: black;
-      color: white;
-      font-weight: bold;
-      padding: 0.7rem 0;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-
-    .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll 20s linear infinite;
-    }
-
-    #imagePreview {
-      margin-top: 12px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .preview-thumb {
-      width: 120px;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-    }
-
-    .small-muted {
-      font-size: 13px;
-      color: #666;
-      margin-top: 6px;
-    }
-   @media (max-width: 768px) {
-  #navbar {
-    display: none;
-    flex-direction: column;
-    background-color: black;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    padding: 1rem;
-    z-index: 9999;
-  }
-
-  #navbar.show {
-    display: flex;
-  }
-
-  .hamburger {
-    display: flex;
-    z-index: 10000;
-  }
-
-  nav a {
-    margin: 0.5rem 0;
-  }
-  </style>
-</head>
-<body>
- <header>
-  <!-- Brand -->
-  <div class="brand-wrapper">
-    <!-- Home icon on the left -->
-    <a href="index.html" class="home-icon" aria-label="Home" title="Home">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
-      </svg>
-    </a>
-
-    <div class="brand-text">
-      <strong class="brand">Vandals Fashion</strong>
-      <span class="header-phone">📞 +91 78374 98898</span>
-    </div>
-  </div>
-
-  <!-- Right side: hamburger + profile/login -->
-  <div class="nav-right">
-    <!-- Hamburger toggle -->
-    <div class="menu-toggle" onclick="toggleMenu()">
-      <div></div><div></div><div></div>
-    </div>
-
-    <!-- Profile Icon (hidden until login) -->
-    <div id="profileContainer" style="position: relative; display: none;">
-      <img id="profile-Pic" src="" alt="Profile"
-           style="width: 35px; height: 35px; border-radius: 50%; cursor: pointer;" 
-           onclick="toggleProfileDropdown()" />
-      <div id="profileDropdown" style="display: none; position: absolute; top: 40px; right: 0; background-color: white; color: black; border: 1px solid #ccc; border-radius: 8px; width: 150px; z-index: 1000;">
-        <a href="auth.html" style="display: block; padding: 10px; text-decoration: none; color: black;">Manage Account</a>
-        <a href="#" onclick="logout()" style="display: block; padding: 10px; text-decoration: none; color: black;">Logout</a>
-      </div>
-    </div>
-
-    <!-- Login Link (hidden if logged in) -->
-    <a id="authLink" href="auth.html" style="display:none;">Login</a>
-  </div>
-
-  <!-- Navigation -->
-  <nav id="navbar">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="shop.html">Shop</a>
-    <a href="explore.html">Explore</a>
-    <a href="custom-order.html">Customised Orders</a>
-    <a href="contact.html">Contact</a>
-    <a href="cart.html">🛒</a>
-    <a href="orders.html">Your Orders</a>
-    <a href="Directions.html">Directions</a>
-  </nav>
-</header>
- 
- <script type="module">
-  window.toggleMenu = function () {
-    const nav = document.getElementById('navbar');
-    if (nav) nav.classList.toggle('show'); // use "show" because your media query expects it
-  };
+});
 </script>
-  <main>
-    <h1>Custom Order</h1>
 
-    <div id="loading" style="display:none;text-align:center;color:#333;font-weight:bold;">
-      Uploading image(s)... please wait
-    </div>
+<style>
 
+body{
+margin:0;
+font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+background-color:#f9f9f9;
+}
 
-    <label for="referenceImage">Upload Reference Image(s) (required)</label>
-      <!-- multiple allowed, not required -->
-      <input type="file" id="referenceImage" accept="image/*" multiple required />
+header{
+background:#000;
+color:#fff;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:1rem;
+}
 
-      <div class="small-muted">You can upload multiple images. They are required.</div>
+.brand-wrapper{
+display:flex;
+align-items:center;
+gap:10px;
+}
 
-      <div id="imagePreview" aria-live="polite"></div>
+.brand-text{
+display:flex;
+flex-direction:column;
+line-height:1.2;
+}
 
-      <label for="size">Size</label>
-      <input type="text" id="size" />
+.header-phone{
+font-size:14px;
+color:goldenrod;
+font-weight:bold;
+}
 
-          <label for="description">Order Description</label>
-      <textarea id="description" rows="4" required></textarea>
-      
-    <form id="customOrderForm">
-      <label for="name">Your Name</label>
-      <input type="text" id="name" required />
+.home-icon svg{
+width:28px;
+height:28px;
+fill:white;
+cursor:pointer;
+}
 
-      <label for="phone">Phone Number</label>
-      <input type="tel" id="phone" required />
+.nav-right{
+display:flex;
+align-items:center;
+gap:15px;
+}
 
+/* HAMBURGER */
+.menu-toggle{
+display:none;
+flex-direction:column;
+cursor:pointer;
+gap:4px;
+}
 
-      <button type="submit" id="submitBtn">Submit Request</button>
-    </form>
-  </main>
+.menu-toggle div{
+width:25px;
+height:3px;
+background:white;
+}
 
-  <!-- keep your firebase auth usage -->
-  <script type="module">
-    import { auth } from './firebase-config.js';
-    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+/* NAV LINKS */
+#navbar{
+display:flex;
+gap:1rem;
+}
 
-    const profileSection = document.getElementById('profileSection');
-    const profilePic = document.getElementById('profilePic');
+#navbar a{
+color:white;
+text-decoration:none;
+font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
 
-    onAuthStateChanged(auth, user => {
-      if (user) {
-        profileSection.style.display = 'flex';
-        if (user.photoURL) profilePic.src = user.photoURL;
-      }
-    });
+/* MOBILE NAV */
+@media (max-width:768px){
 
-    window.logout = () => signOut(auth);
+.menu-toggle{
+display:flex;
+}
 
-    
+#navbar{
+display:none;
+flex-direction:column;
+background:black;
+position:absolute;
+top:60px;
+left:0;
+width:100%;
+padding:1rem;
+z-index:9999;
+}
 
-  </script>
+#navbar.show{
+display:flex;
+}
 
-  <script>
-    // toggle menu (keeps your original behavior)
-    function toggleMenu() {
-      document.querySelector('nav ul').classList.toggle('active');
-    }
-  </script>
+#navbar a{
+padding:10px 0;
+border-bottom:1px solid #444;
+}
 
-  <!-- Main custom-order logic -->
-  <script>
-    (function() {
-      const form = document.getElementById('customOrderForm');
-      const imageInput = document.getElementById('referenceImage');
-      const imagePreview = document.getElementById('imagePreview');
-      const loadingDiv = document.getElementById('loading');
-      const submitBtn = document.getElementById('submitBtn');
+}
 
-      // Imgbb key you provided:
-      const IMGBB_KEY = 'bbfd6eceec416726284963eb08f78632';
+main{
+padding:2rem;
+max-width:760px;
+margin:auto;
+}
 
-      // Ensure EmailJS is initialized (safeguard if the SDK was deferred)
-      function ensureEmailJsInit() {
-        if (window.emailjs && typeof emailjs.init === "function") {
-          try { emailjs.init("CB8hwx-xnlGQcO9aL"); } catch (e) { /* ignore re-init errors */ }
-        }
-      }
-      ensureEmailJsInit();
+h1{
+text-align:center;
+color:#333;
+}
 
-      // preview selected images locally before upload
-      imageInput.addEventListener('change', () => {
-        imagePreview.innerHTML = '';
-        const files = Array.from(imageInput.files || []);
-        files.forEach(file => {
-          const url = URL.createObjectURL(file);
-          const img = document.createElement('img');
-          img.src = url;
-          img.className = 'preview-thumb';
-          imagePreview.appendChild(img);
-        });
-      });
+form{
+display:flex;
+flex-direction:column;
+}
 
-      // helper: upload single File to ImgBB, returns uploaded url
-      async function uploadToImgbb(file) {
-        const fd = new FormData();
-        fd.append('image', file);
-        const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, {
-          method: 'POST',
-          body: fd
-        });
-        const json = await res.json();
-        if (!json || !json.data || !json.data.url) {
-          throw new Error('ImgBB upload failed');
-        }
-        return json.data.url;
-      }
+label{
+margin-top:1rem;
+font-weight:bold;
+}
 
-    form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  submitBtn.disabled = true;
-  loadingDiv.style.display = 'block';
+input[type="text"],
+input[type="tel"],
+textarea{
+padding:0.5rem;
+margin-top:0.25rem;
+border:1px solid #ccc;
+border-radius:4px;
+width:100%;
+box-sizing:border-box;
+}
 
-  try {
-    const name = document.getElementById('name').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const description = document.getElementById('description').value.trim();
-    const size = document.getElementById('size').value.trim();
+input[type="file"]{
+margin-top:0.5rem;
+}
 
-    // gather image files (can be zero)
-    const files = Array.from(imageInput.files || []);
-    const uploadedUrls = [];
+button{
+margin-top:1.5rem;
+background:black;
+color:white;
+padding:0.75rem;
+border:none;
+cursor:pointer;
+border-radius:6px;
+}
 
-    // Upload images sequentially
-    for (let i = 0; i < files.length; i++) {
-      try {
-        const url = await uploadToImgbb(files[i]);
-        uploadedUrls.push(url);
-      } catch (err) {
-        console.error('Image upload failed for file', files[i].name, err);
-      }
-    }
+button:hover{
+background:#333;
+}
 
-    
-   // ✅ Now create HTML for EmailJS
-const image_html = uploadedUrls.length > 0
-  ? uploadedUrls.map(url => `<p><img src="${url}" style="max-width:200px; margin-bottom:10px;" /></p>`).join('')
-  : '<p>No images uploaded</p>';
+#loading{
+display:none;
+margin-top:10px;
+text-align:center;
+font-weight:bold;
+color:#222;
+}
 
+#imagePreview{
+margin-top:12px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
 
-// ✅ Add to EmailJS params
-const templateParams = {
-  name: document.getElementById('name').value,
-  phone: document.getElementById('phone').value,
-  description: document.getElementById('description').value,
-  size: document.getElementById('size').value,
-  image_html, // here we use the generated HTML
-  timestamp: new Date().toLocaleString()
+.preview-thumb{
+width:120px;
+height:120px;
+object-fit:cover;
+border-radius:8px;
+border:1px solid #ddd;
+}
+
+.small-muted{
+font-size:13px;
+color:#666;
+margin-top:6px;
+}
+
+footer{
+text-align:center;
+font-size:0.9rem;
+color:#777;
+padding:2rem 0 1rem;
+background:#f9f9f9;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="brand-wrapper">
+
+<a href="index.html" class="home-icon">
+<svg viewBox="0 0 24 24">
+<path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
+</svg>
+</a>
+
+<div class="brand-text">
+<strong class="brand">Vandals Fashion</strong>
+<span class="header-phone">📞 +91 78374 98898</span>
+</div>
+
+</div>
+
+<div class="nav-right">
+
+<div class="menu-toggle" onclick="toggleMenu()">
+<div></div><div></div><div></div>
+</div>
+
+<div id="profileContainer" style="position:relative;display:none;">
+<img id="profile-Pic" src="" alt="Profile"
+style="width:35px;height:35px;border-radius:50%;cursor:pointer;">
+<div id="profileDropdown"
+style="display:none;position:absolute;top:40px;right:0;background:white;color:black;border:1px solid #ccc;border-radius:8px;width:150px;z-index:1000;">
+<a href="auth.html" style="display:block;padding:10px;text-decoration:none;color:black;">Manage Account</a>
+<a href="#" onclick="logout()" style="display:block;padding:10px;text-decoration:none;color:black;">Logout</a>
+</div>
+</div>
+
+<a id="authLink" href="auth.html" style="display:none;">Login</a>
+
+</div>
+
+<nav id="navbar">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="shop.html">Shop</a>
+<a href="explore.html">Explore</a>
+<a href="custom-order.html">Customised Orders</a>
+<a href="contact.html">Contact</a>
+<a href="cart.html">🛒</a>
+<a href="orders.html">Your Orders</a>
+<a href="Directions.html">Directions</a>
+</nav>
+
+</header>
+
+<script type="module">
+window.toggleMenu=function(){
+const nav=document.getElementById('navbar');
+if(nav) nav.classList.toggle('show');
 };
+</script>
 
+<main>
 
-    // Add to cart (localStorage)
-    const item = {
-      name,
-      phone,
-      description,
-      size,
-      imageUrls: uploadedUrls,
-      imageUrl: uploadedUrls[0] || "",
-      isCustom: true,
-      quantity: 1,
-      price: 0
-    };
-   const currentCart = JSON.parse(localStorage.getItem('cart') || "[]");
-currentCart.push(item);
-localStorage.setItem("cart", JSON.stringify(currentCart));
+<h1>Custom Order</h1>
 
-    
+<div id="loading">
+Uploading image(s)... please wait
+</div>
 
+<label for="referenceImage">Upload Reference Image(s) (required)</label> <input type="file" id="referenceImage" accept="image/*" multiple required/>
 
-    // Redirect to cart
-    window.location.href = 'cart.html';
-  } catch (err) {
-    console.error('Custom order error:', err);
-    alert('Failed to submit custom order. Please try again.');
-  } finally {
-    loadingDiv.style.display = 'none';
-    submitBtn.disabled = false;
- }
-    });
-})();
-  </script>
-  <script type="module" src="custom-order.js"></script>
+<div class="small-muted">You can upload multiple images. They are required.</div>
 
+<div id="imagePreview"></div>
+
+<label for="size">Size</label> <input type="text" id="size"/>
+
+<label for="description">Order Description</label>
+
+<textarea id="description" rows="4" required></textarea>
+
+<form id="customOrderForm">
+
+<label for="name">Your Name</label> <input type="text" id="name" required/>
+
+<label for="phone">Phone Number</label> <input type="tel" id="phone" required/>
+
+<button type="submit" id="submitBtn">Submit Request</button>
+
+</form>
+
+</main>
+
+<script type="module" src="custom-order.js"></script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
