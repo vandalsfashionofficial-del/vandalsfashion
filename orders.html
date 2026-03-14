@@ -47,7 +47,23 @@ font-weight:700;
 font-size:0.95rem;
 color:#ffd700;
 }
+.brand-wrapper{
+display:flex;
+align-items:center;
+gap:0.5rem;
+}
 
+.home-icon svg{
+width:28px;
+height:28px;
+fill:white;
+}
+
+.brand-text{
+display:flex;
+flex-direction:column;
+line-height:1.2;
+}
 /* NAVBAR */
 
 .nav-links{
@@ -215,9 +231,18 @@ background:#f9f9f9;
 <body>
 
 <header>
-<div class="brand-container">
-<strong class="brand">Vandals Fashion</strong>
-<span class="header-phone">📞 +91 78374 98898</span>
+
+<div class="brand-wrapper">
+  <a href="index.html" class="home-icon" aria-label="Home" title="Home">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
+    </svg>
+  </a>
+
+  <div class="brand-text">
+    <strong class="brand">Vandals Fashion</strong>
+    <span class="header-phone">📞 +91 78374 98898</span>
+  </div>
 </div>
 
 <div class="hamburger" onclick="toggleMenu()">
