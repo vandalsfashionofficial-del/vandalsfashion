@@ -28,54 +28,60 @@
       align-items: center;
       gap: 1rem;
     }
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-size: 0.9rem;
-    }
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-    }
-    .hamburger div {
-      width: 20px;
-      height: 2px;
-      background: white;
-      margin: 3px 0;
-    }
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-    }
-    .profile-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
-      object-fit: cover;
-      margin-left: 1rem;
-    }
-    .dropdown {
-      display: none;
-      position: absolute;
-      right: 2rem;
-      top: 70px;
-      background: white;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      z-index: 1000;
-    }
-    .dropdown a {
-      display: block;
-      padding: 10px;
-      color: black;
-      text-decoration: none;
-    }
-    .dropdown a:hover {
-      background-color: #f0f0f0;
-    }
+  nav a{
+color:white;
+margin-left:1.5rem;
+text-decoration:none;
+}
 
+.profile-container{
+position:relative;
+display:inline-block;
+margin-left:1.5rem;
+}
+
+.profile-pic{
+width:30px;
+height:30px;
+border-radius:50%;
+object-fit:cover;
+cursor:pointer;
+}
+
+.dropdown{
+display:none;
+position:absolute;
+right:0;
+background:white;
+color:black;
+min-width:150px;
+box-shadow:0px 8px 16px rgba(0,0,0,0.2);
+z-index:1000;
+border-radius:5px;
+overflow:hidden;
+}
+
+.dropdown a{
+display:block;
+padding:10px 15px;
+text-decoration:none;
+color:black;
+}
+
+.dropdown a:hover{
+background:#f2f2f2;
+}
+
+.hamburger{
+display:none;
+font-size:1.8rem;
+cursor:pointer;
+color:white;
+}
+
+.mobile-profile{
+display:none;
+}
     @media (max-width: 768px) {
       .hamburger {
         display: flex;
@@ -159,35 +165,71 @@
       padding: 1rem 0;
       background-color: #fff;
     }
+   .brand-wrapper{
+display:flex;
+align-items:center;
+gap:0.5rem;
+}
+
+.home-icon svg{
+width:28px;
+height:28px;
+fill:white;
+}
+
+.brand-text{
+display:flex;
+flex-direction:column;
+line-height:1.2;
+}
+
+.brand{
+font-family:'Playfair Display',serif;
+font-size:1.8rem;
+font-weight:700;
+}
+
+.header-phone{
+font-size:1rem;
+font-weight:500;
+color:#ffd700;
+}
   </style>
 </head>
   <body>
   <!-- Header -->
-  <header>
-    <div class="brand">Vandals Fashion</div>
-    <div class="hamburger" onclick="toggleMenu()">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-    <nav class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="shop.html">Shop</a>
-      <a href="explore.html">Explore</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <a href="Directions.html">Directions</a>
-      <a href="custom-order.html">Custom</a>
-      <a href="cart.html">🛒</a>
-      <a href="orders.html">Orders</a>
-      <a href="auth.html" id="authLink">Login</a>
-    </nav>
-    <img id="profilePic" class="profile-icon" style="display:none;" />
-    <div class="dropdown" id="dropdownMenu">
-      <a href="manage.html">Manage Account</a>
-      <a href="#" onclick="logout()">Logout</a>
-    </div>
-  </header>
+ <header> 
+<div class="brand-wrapper">
+  <a href="index.html" class="home-icon" aria-label="Home" title="Home">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
+    </svg>
+  </a>
+
+  <div class="brand-text">
+    <strong class="brand">Vandals Fashion</strong>
+    <span class="header-phone">📞 +91 78374 98898</span>
+  </div>
+</div>
+
+<div class="hamburger" onclick="toggleMenu()">☰</div>
+
+<nav id="navLinks">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="shop.html">Shop</a>
+  <a href="explore.html">Explore</a>
+  <a href="custom-order.html">Customised Orders</a>
+  <a href="contact.html">Contact</a>
+  <a href="cart.html">🛒</a>
+  <a href="orders.html">Your Orders</a>
+  <a href="Directions.html">Directions</a>
+  <a href="auth.html" id="authLink">Login</a>
+</nav>
+
+<div id="mobileProfile" class="profile-container"></div>
+
+</header>
 
   <!-- Main Content -->
   <div class="container">
@@ -239,10 +281,9 @@
     };
   </script>
   <script>
-    function toggleMenu() {
-      const nav = document.getElementById("navLinks");
-      nav.style.display = nav.style.display === "flex" ? "none" : "flex";
-    }
+    function toggleMenu(){
+document.getElementById("navLinks").classList.toggle("show");
+}
 
     // Close dropdown when clicking outside
     document.addEventListener("click", function(event) {
