@@ -187,6 +187,8 @@ font-weight:bold;
 padding:0.7rem 0;
 overflow:hidden;
 white-space:nowrap;
+z-index:1; /* add this */
+position: relative; /* required for z-index to work */
 }
 
 .marquee span{
@@ -219,7 +221,7 @@ display:flex;
 }
 
 nav{
-display:none;
+display:flex;
 flex-direction:column;
 background:black;
 position:absolute;
@@ -227,6 +229,7 @@ top:100%;
 left:0;
 width:100%;
 padding:1rem;
+z-index:999; /* ensure nav is on top of marquee */  
 }
 
 nav.show{
@@ -246,7 +249,52 @@ padding-left:1rem;
 </head>
 
 <body>
+<script>
+const cartContainer = document.getElementById("cartItems");
+const cartTotalEl = document.getElementById("cartTotal");
 
+function renderCart() {
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  cartContainer.innerHTML = "";
+
+  if (cart.length === 0) {
+    cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+    cartTotalEl.textContent = "Total: ₹0";
+    return;
+  }
+
+  let total = 0;
+
+  cart.forEach((item, idx) => {
+    total += item.price;
+    const div = document.createElement("div");
+    div.classList.add("item");
+    div.innerHTML = `
+      <img src="${item.imageUrl}" alt="${item.name}" />
+      <div class="item-details">
+        <h3>${item.name}</h3>
+        <p>Price: ₹${item.price}</p>
+        <p>Size: ${item.size}${item.custom ? ` (Waist: ${item.custom.waist}", Hip: ${item.custom.hip}", Chest: ${item.custom.chest}")` : ""}</p>
+        <p>Color: ${item.colorPreference || 'N/A'}</p>
+        <button onclick="removeItem(${idx})">Remove</button>
+      </div>
+    `;
+    cartContainer.appendChild(div);
+  });
+
+  cartTotalEl.textContent = `Total: ₹${total}`;
+}
+
+function removeItem(index) {
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  cart.splice(index, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+}
+
+// Initial render
+renderCart();
+</script>
 <header>
 
 <div class="brand-wrapper">
