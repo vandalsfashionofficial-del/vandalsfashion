@@ -28,6 +28,7 @@ justify-content:space-between;
 align-items:center;
 padding:0.5rem 1rem;
 position:relative;
+z-index:1000;
 }
 
 /* BRAND */
@@ -69,6 +70,10 @@ nav a{
 color:white;
 text-decoration:none;
 font-size:0.9rem;
+}
+nav{
+position:relative;
+z-index:1001;
 }
 
 /* LOGIN FIX */
@@ -252,6 +257,13 @@ padding:1rem;
 
 nav.show{
 display:flex;
+position:absolute;
+top:70px;
+left:0;
+width:100%;
+background:black;
+z-index:2000;
+}
 }
 
 nav a{
