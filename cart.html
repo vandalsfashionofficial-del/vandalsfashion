@@ -9,331 +9,266 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet"/>
 
 <style>
-
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-font-family:'Poppins',sans-serif;
-background:#fff;
-color:#222;
+  font-family:'Poppins',sans-serif;
+  background:#fff;
+  color:#222;
 }
 
 /* HEADER */
-
 header{
-background:black;
-color:white;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:0.5rem 1rem;
-position:relative;
+  background:black;
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0.5rem 1rem;
+  position:relative;
 }
 
 .brand-wrapper{
-display:flex;
-align-items:center;
-gap:10px;
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
 .brand-text{
-display:flex;
-flex-direction:column;
-line-height:1.2;
+  display:flex;
+  flex-direction:column;
+  line-height:1.2;
 }
 
 .header-phone{
-font-size:14px;
-color:goldenrod;
-font-weight:bold;
+  font-size:14px;
+  color:goldenrod;
+  font-weight:bold;
 }
 
 .home-icon svg{
-width:28px;
-height:28px;
-fill:white;
-cursor:pointer;
+  width:28px;
+  height:28px;
+  fill:white;
+  cursor:pointer;
 }
 
 /* NAV */
-
 nav{
-display:flex;
-gap:1rem;
-align-items:center;
+  display:flex;
+  gap:1rem;
+  align-items:center;
 }
 
 nav a{
-color:white;
-text-decoration:none;
-font-size:0.9rem;
+  color:white;
+  text-decoration:none;
+  font-size:0.9rem;
 }
 
 /* RIGHT SIDE */
-
 .nav-right{
-display:flex;
-align-items:center;
-gap:15px;
+  display:flex;
+  align-items:center;
+  gap:15px;
 }
 
 /* HAMBURGER */
-
 .menu-toggle{
-display:none;
-flex-direction:column;
-cursor:pointer;
-gap:4px;
+  display:none;
+  flex-direction:column;
+  cursor:pointer;
+  gap:4px;
 }
 
 .menu-toggle div{
-width:25px;
-height:3px;
-background:white;
+  width:25px;
+  height:3px;
+  background:white;
 }
 
 /* PAGE */
-
 h1{
-font-family:'Playfair Display',serif;
-font-size:2.5rem;
-margin:2rem 0;
-text-align:center;
+  font-family:'Playfair Display',serif;
+  font-size:2.5rem;
+  margin:2rem 0;
+  text-align:center;
 }
 
 .cart-container{
-max-width:900px;
-margin:auto;
-padding:2rem;
+  max-width:900px;
+  margin:auto;
+  padding:2rem;
 }
 
 .item{
-border-bottom:1px solid #eee;
-padding:1rem 0;
-display:flex;
-gap:1rem;
-align-items:flex-start;
+  border-bottom:1px solid #eee;
+  padding:1rem 0;
+  display:flex;
+  gap:1rem;
+  align-items:flex-start;
 }
 
 .item img{
-width:120px;
-border-radius:10px;
+  width:120px;
+  border-radius:10px;
 }
 
 .item-details{
-flex:1;
+  flex:1;
 }
 
 .item h3{
-font-size:1.2rem;
-margin-bottom:0.3rem;
+  font-size:1.2rem;
+  margin-bottom:0.3rem;
 }
 
 .item-details p{
-margin:0.3rem 0;
+  margin:0.3rem 0;
 }
 
 .item button{
-background:black;
-color:white;
-border:none;
-padding:0.4rem 1rem;
-border-radius:20px;
-cursor:pointer;
-margin-top:0.5rem;
-transition:0.3s;
+  background:black;
+  color:white;
+  border:none;
+  padding:0.4rem 1rem;
+  border-radius:20px;
+  cursor:pointer;
+  margin-top:0.5rem;
+  transition:0.3s;
 }
 
 .item button:hover{
-background:#FFD700;
-color:black;
+  background:#FFD700;
+  color:black;
 }
 
 .total{
-text-align:right;
-font-size:1.3rem;
-font-weight:bold;
-margin-top:2rem;
+  text-align:right;
+  font-size:1.3rem;
+  font-weight:bold;
+  margin-top:2rem;
 }
 
 .buy-now{
-text-align:right;
-margin-top:1rem;
+  text-align:right;
+  margin-top:1rem;
 }
 
 .buy-now button{
-background:black;
-color:white;
-border:none;
-padding:0.7rem 1.8rem;
-border-radius:30px;
-font-weight:bold;
-cursor:pointer;
-transition:0.3s;
-font-size:1rem;
+  background:black;
+  color:white;
+  border:none;
+  padding:0.7rem 1.8rem;
+  border-radius:30px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+  font-size:1rem;
 }
 
 .buy-now button:hover{
-background:#FFD700;
-color:black;
+  background:#FFD700;
+  color:black;
 }
 
 /* MARQUEE */
-
 .marquee{
-background:black;
-color:white;
-font-weight:bold;
-padding:0.7rem 0;
-overflow:hidden;
-white-space:nowrap;
-z-index:1; /* add this */
-position: relative; /* required for z-index to work */
+  background:black;
+  color:white;
+  font-weight:bold;
+  padding:0.7rem 0;
+  overflow:hidden;
+  white-space:nowrap;
+  z-index:1;
+  position: relative;
 }
 
 .marquee span{
-display:inline-block;
-padding-left:100%;
-animation:scroll 20s linear infinite;
+  display:inline-block;
+  padding-left:100%;
+  animation:scroll 20s linear infinite;
 }
 
 @keyframes scroll{
-0%{transform:translateX(0);}
-100%{transform:translateX(-100%);}
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-100%);}
 }
 
 /* FOOTER */
-
 footer{
-text-align:center;
-font-size:0.9rem;
-color:#777;
-padding:1rem 0;
-background:#f9f9f9;
+  text-align:center;
+  font-size:0.9rem;
+  color:#777;
+  padding:1rem 0;
+  background:#f9f9f9;
 }
 
 /* MOBILE */
-
 @media(max-width:768px){
-
-.menu-toggle{
-display:flex;
-}
-
-nav{
-display:flex;
-flex-direction:column;
-background:black;
-position:absolute;
-top:100%;
-left:0;
-width:100%;
-padding:1rem;
-z-index:999; /* ensure nav is on top of marquee */  
-}
-
-nav.show{
-display:flex;
-}
-
-nav a{
-margin:0.5rem 0;
-text-align:left;
-width:100%;
-padding-left:1rem;
-}
-
-}
-
-</style>
-</head>
-
-<body>
-<script>
-const cartContainer = document.getElementById("cartItems");
-const cartTotalEl = document.getElementById("cartTotal");
-
-function renderCart() {
-  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-  cartContainer.innerHTML = "";
-
-  if (cart.length === 0) {
-    cartContainer.innerHTML = "<p>Your cart is empty.</p>";
-    cartTotalEl.textContent = "Total: ₹0";
-    return;
+  .menu-toggle{
+    display:flex;
   }
 
-  let total = 0;
+  nav{
+    display:flex;
+    flex-direction:column;
+    background:black;
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    padding:1rem;
+    z-index:999;  
+  }
 
-  cart.forEach((item, idx) => {
-    total += item.price;
-    const div = document.createElement("div");
-    div.classList.add("item");
-    div.innerHTML = `
-      <img src="${item.imageUrl}" alt="${item.name}" />
-      <div class="item-details">
-        <h3>${item.name}</h3>
-        <p>Price: ₹${item.price}</p>
-        <p>Size: ${item.size}${item.custom ? ` (Waist: ${item.custom.waist}", Hip: ${item.custom.hip}", Chest: ${item.custom.chest}")` : ""}</p>
-        <p>Color: ${item.colorPreference || 'N/A'}</p>
-        <button onclick="removeItem(${idx})">Remove</button>
-      </div>
-    `;
-    cartContainer.appendChild(div);
-  });
+  nav.show{
+    display:flex;
+  }
 
-  cartTotalEl.textContent = `Total: ₹${total}`;
+  nav a{
+    margin:0.5rem 0;
+    text-align:left;
+    width:100%;
+    padding-left:1rem;
+  }
 }
+</style>
+</head>
+<body>
 
-function removeItem(index) {
-  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-  cart.splice(index, 1);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  renderCart();
-}
-
-// Initial render
-renderCart();
-</script>
 <header>
+  <div class="brand-wrapper">
+    <a href="index.html" class="home-icon">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
+      </svg>
+    </a>
+    <div class="brand-text">
+      <strong>Vandals Fashion</strong>
+      <span class="header-phone">📞 +91 78374 98898</span>
+    </div>
+  </div>
 
-<div class="brand-wrapper">
+  <div class="nav-right">
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
 
-<a href="index.html" class="home-icon">
-<svg viewBox="0 0 24 24">
-<path d="M12 3l9 8-1.5 1.7L18 11.2V20a1 1 0 0 1-1 1h-4v-6h-2v6H7a1 1 0 0 1-1-1v-8.8L4.5 12.7 3 11l9-8z"/>
-</svg>
-</a>
-
-<div class="brand-text">
-<strong>Vandals Fashion</strong>
-<span class="header-phone">📞 +91 78374 98898</span>
-</div>
-
-</div>
-
-<div class="nav-right">
-
-<div class="menu-toggle" onclick="toggleMenu()">
-<div></div>
-<div></div>
-<div></div>
-</div>
-
-</div>
-
-<nav id="navbar">
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="shop.html">Shop</a>
-<a href="explore.html">Explore</a>
-<a href="custom-order.html">Customised Orders</a>
-<a href="contact.html">Contact</a>
-<a href="cart.html">🛒</a>
-<a href="orders.html">Your Orders</a>
-<a href="Directions.html">Directions</a>
-</nav>
-
+  <nav id="navbar">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="shop.html">Shop</a>
+    <a href="explore.html">Explore</a>
+    <a href="custom-order.html">Customised Orders</a>
+    <a href="contact.html">Contact</a>
+    <a href="cart.html">🛒</a>
+    <a href="orders.html">Your Orders</a>
+    <a href="Directions.html">Directions</a>
+  </nav>
 </header>
 
 <h1>Your Cart</h1>
@@ -342,11 +277,11 @@ renderCart();
 <div class="total" id="cartTotal">Total: ₹0</div>
 
 <div class="buy-now">
-<button id="buyNowBtn">Buy Now</button>
+  <button id="buyNowBtn">Buy Now</button>
 </div>
 
 <div class="marquee">
-<span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION •</span>
+  <span>ELEGANCE • STYLE • LUXURY • FASHION • ELEGANCE • STYLE • LUXURY • FASHION •</span>
 </div>
 
 <footer>
@@ -354,23 +289,57 @@ renderCart();
 </footer>
 
 <script>
-
 function toggleMenu(){
-document.getElementById("navbar").classList.toggle("show");
+  document.getElementById("navbar").classList.toggle("show");
 }
 
+// Wait for DOM
+document.addEventListener("DOMContentLoaded", () => {
+  const cartContainer = document.getElementById("cartItems");
+  const cartTotalEl = document.getElementById("cartTotal");
+
+  function renderCart() {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    cartContainer.innerHTML = "";
+
+    if (cart.length === 0) {
+      cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+      cartTotalEl.textContent = "Total: ₹0";
+      return;
+    }
+
+    let total = 0;
+
+    cart.forEach((item, idx) => {
+      total += item.price;
+      const div = document.createElement("div");
+      div.classList.add("item");
+      div.innerHTML = `
+        <img src="${item.imageUrl}" alt="${item.name}" />
+        <div class="item-details">
+          <h3>${item.name}</h3>
+          <p>Price: ₹${item.price}</p>
+          <p>Size: ${item.size}${item.custom ? ` (Waist: ${item.custom.waist}", Hip: ${item.custom.hip}", Chest: ${item.custom.chest}")` : ""}</p>
+          <p>Color: ${item.colorPreference || 'N/A'}</p>
+          <button onclick="removeItem(${idx})">Remove</button>
+        </div>
+      `;
+      cartContainer.appendChild(div);
+    });
+
+    cartTotalEl.textContent = `Total: ₹${total}`;
+  }
+
+  window.removeItem = function(index) {
+    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    renderCart();
+  };
+
+  renderCart();
+});
 </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+</body>
+</html>
