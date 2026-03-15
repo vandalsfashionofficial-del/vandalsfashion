@@ -63,9 +63,11 @@ try{
 const result=await signInWithEmailAndPassword(auth,email,password);
 const user=result.user;
 
+localStorage.setItem("vf_username", email.split("@")[0]); // ADD THIS
 localStorage.setItem("vf_user_email",email);
 localStorage.setItem("vf_user_uid",user.uid);
-
+localStorage.setItem("vf_user_photo", "");
+  
 localStorage.setItem("vf_user",JSON.stringify({
 email,
 uid:user.uid,
