@@ -336,99 +336,142 @@
     &copy; 2025 Vandals Fashion. All rights reserved.
   </footer>
 
-  <script>
-    // Navigation Toggle Function
-    function toggleMenu() {
-      const navbar = document.getElementById("navbar");
-      navbar.classList.toggle("active");
-    }
+ <script>
+function toggleMenu() {
+  const navbar = document.getElementById("navbar");
+  navbar.classList.toggle("active");
+}
 
-    document.addEventListener("DOMContentLoaded", () => {
-      // 1. Initialize EmailJS
-      if (window.emailjs) {
-        emailjs.init("CB8hwx-xnlGQcO9aL");
-        console.log("EmailJS initialized");
-      }
+document.addEventListener("DOMContentLoaded", () => {
 
-      // 2. Variables & Selectors
-      const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
-      const customOrder = JSON.parse(localStorage.getItem("customOrder") || "null");
-      const cartTotalBox = document.getElementById("cartTotal");
-      const orderSummaryList = document.querySelector("#orderSummary ul");
-      const customNote = document.getElementById("customNote");
-      const deliveryNote = document.querySelector(".delivery-note");
+  // Initialize EmailJS
+  if (window.emailjs) {
+    emailjs.init("CB8hwx-xnlGQcO9aL");
+    console.log("EmailJS initialized");
+  }
 
-      let total = 0;
-      let hasItems = false;
+  const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
+  const customOrder = JSON.parse(localStorage.getItem("customOrder") || "null");
 
-      // 3. Populate Cart Items
-      if (Array.isArray(cartItems) && cartItems.length > 0) {
-        cartItems.forEach(item => {
-          const li = document.createElement("li");
-          li.textContent = `${item.name} – ₹${item.price}`;
-          orderSummaryList.appendChild(li);
-          total += Number(item.price) || 0;
-        });
-        hasItems = true;
-      }
+  const cartTotalBox = document.getElementById("cartTotal");
+  const orderSummaryList = document.querySelector("#orderSummary ul");
+  const customNote = document.getElementById("customNote");
+  const deliveryNote = document.querySelector(".delivery-note");
 
-      // 4. Handle Custom Orders
-      if (customOrder) {
-        const li = document.createElement("li");
-        li.textContent = "Custom Order – Price to be discussed";
-        orderSummaryList.appendChild(li);
-        customNote.style.display = "block";
-        hasItems = true;
-      }
+  let total = 0;
+  let hasItems = false;
 
-      // 5. Calculate Total Display
-      let totalText = "";
-      if (total > 0 && customOrder) {
-        totalText = `₹${total} + Custom Order`;
-      } else if (total > 0) {
-        totalText = `₹${total}`;
-      } else if (customOrder) {
-        totalText = "Custom Order";
-      } else {
-        totalText = "₹0";
-      }
+  // Show cart products
+  if (Array.isArray(cartItems) && cartItems.length > 0) {
+    cartItems.forEach(item => {
 
-      // 6. Final UI check for empty carts
-      if (hasItems) {
-        cartTotalBox.textContent = `Total: ${totalText}`;
-      } else {
-        document.getElementById("orderSummary").style.display = "none";
-        cartTotalBox.style.display = "none";
-        customNote.style.display = "none";
-        deliveryNote.style.display = "none";
-        
-        const msg = document.createElement("p");
-        msg.textContent = "No items in cart to checkout.";
-        msg.className = "empty-msg";
-        document.querySelector(".checkout-container").prepend(msg);
-      }
+      const li = document.createElement("li");
+      li.textContent = `${item.name} – ₹${item.price}`;
+      orderSummaryList.appendChild(li);
+
+      total += Number(item.price) || 0;
     });
 
-    // 7. Order Helper Functions
-    function generateOrderID() {
-      return "VF-" + Math.floor(1000 + Math.random() * 9000);
-    }
+    hasItems = true;
+  }
 
-    window.placeOrder = async function() {
-      const name = document.getElementById("name").value;
-      if (!name) {
-        alert("Please enter your name.");
-        return;
+  // Custom order support
+  if (customOrder) {
+
+    const li = document.createElement("li");
+    li.textContent = "Custom Order – Price to be discussed";
+    orderSummaryList.appendChild(li);
+
+    customNote.style.display = "block";
+    hasItems = true;
+  }
+
+  let totalText = "";
+
+  if (total > 0 && customOrder) {
+    totalText = `₹${total} + Custom Order`;
+  } 
+  else if (total > 0) {
+    totalText = `₹${total}`;
+  } 
+  else if (customOrder) {
+    totalText = "Custom Order";
+  } 
+  else {
+    totalText = "₹0";
+  }
+
+  if (hasItems) {
+    cartTotalBox.textContent = `Total: ${totalText}`;
+  } 
+  else {
+
+    document.getElementById("orderSummary").style.display = "none";
+    cartTotalBox.style.display = "none";
+    customNote.style.display = "none";
+    deliveryNote.style.display = "none";
+
+    const msg = document.createElement("p");
+    msg.textContent = "No items in cart to checkout.";
+    msg.className = "empty-msg";
+
+    document.querySelector(".checkout-container").prepend(msg);
+  }
+
+});
+
+function generateOrderID() {
+  return "VF-" + Math.floor(1000 + Math.random() * 9000);
+}
+
+window.placeOrder = async function() {
+
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+
+  if (!name || !email) {
+    alert("Please fill all required fields.");
+    return;
+  }
+
+  const orderID = generateOrderID();
+
+  const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
+
+  let orderText = "";
+
+  cartItems.forEach(item => {
+    orderText += `${item.name} - ₹${item.price}\n`;
+  });
+
+  try {
+
+    await emailjs.send(
+      "service_byyvwjh",
+      "template_z8lkhwp",
+      {
+        customer_name: name,
+        customer_email: email,
+        order_details: orderText,
+        order_id: orderID
       }
-      
-      const orderID = generateOrderID();
-      alert(`Order ${orderID} placed successfully! Thank you, ${name}.`);
-      
-      // Clean up cart after success
-      localStorage.removeItem("cart");
-      localStorage.removeItem("customOrder");
-      window.location.href = "index.html";
-    };
-  </script>
+    );
+
+    alert(`Order ${orderID} placed successfully!`);
+
+    localStorage.removeItem("cart");
+    localStorage.removeItem("customOrder");
+
+    window.location.href = "index.html";
+
+  } catch(error) {
+
+    console.error(error);
+    alert("Order placed but email failed.");
+
+  }
+
+};
+</script>
 </body>
 </html>
