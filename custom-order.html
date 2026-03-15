@@ -286,8 +286,8 @@ if(nav) nav.classList.toggle('show');
 <div id="loading">
 Uploading image(s)... please wait
 </div>
-
-<label for="referenceImage">Upload Reference Image(s) (required)</label> <input type="file" id="referenceImage" accept="image/*" multiple required/>
+<form id="customOrderForm">
+<label for="referenceImage">Upload Reference Image(s) (required)</label> <input type="file" id="referenceImage" accept="image/png, image/jpeg, image/webp, image/heif, image/svg*" multiple required/>
 
 <div class="small-muted">You can upload multiple images. They are required.</div>
 
@@ -298,8 +298,6 @@ Uploading image(s)... please wait
 <label for="description">Order Description</label>
 
 <textarea id="description" rows="4" required></textarea>
-
-<form id="customOrderForm">
 
 <label for="name">Your Name</label> <input type="text" id="name" required/>
 
