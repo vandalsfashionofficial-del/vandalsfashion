@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -461,6 +461,68 @@ window.placeOrder = async function(){
 
   cartItems.forEach(item=>{
     orderText += `${item.name} - ₹${item.price}\n`;
+
+    
+  });
+
+  try{
+
+    await emailjs.send(
+      "service_byyvwjh",
+      "template_z8lkhwp",
+      {
+        customer_name: name,
+        customer_email: email,
+        order_details: orderText,
+        order_id: orderID
+      }
+    );
+window.placeOrder = async function(){
+
+  const name = document.getElementById("name").value;
+
+  if(!name){
+    alert("Please enter your name.");
+    return;
+  }
+
+  if(!currentUserEmail){
+    alert("Please login before placing an order.");
+    window.location.href = "auth.html";
+    return;
+  }
+
+  const email = currentUserEmail;
+
+  const orderID = generateOrderID();
+
+  const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
+
+  let orderText = "";
+
+  cartItems.forEach(item=>{
+    orderText += `${item.name} - ₹${item.price}\n`;
+
+    // Get existing orders
+let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
+
+// Create new order object
+const newOrder = {
+  orderId: orderID,
+  name: name,
+  phone: document.getElementById("phone").value,
+  address: document.getElementById("address").value,
+  pincode: document.getElementById("pincode").value,
+  payment: document.getElementById("payment").value,
+  total: orderText || "Custom Order",
+  custom: JSON.parse(localStorage.getItem("customOrder")) ? true : false
+};
+
+// Save it
+allOrders.push(newOrder);
+
+// Store back
+localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
   });
 
   try{
@@ -476,6 +538,21 @@ window.placeOrder = async function(){
       }
     );
 
+    alert(`Order ${orderID} placed successfully!`);
+
+    localStorage.removeItem("cart");
+    localStorage.removeItem("customOrder");
+
+    window.location.href="index.html";
+
+  }catch(error){
+
+    console.error(error);
+    alert("Order placed but email failed.");
+
+  }
+
+};
     alert(`Order ${orderID} placed successfully!`);
 
     localStorage.removeItem("cart");
