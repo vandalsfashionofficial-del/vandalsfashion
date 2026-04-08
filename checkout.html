@@ -439,6 +439,10 @@ onAuthStateChanged(auth, (user) => {
 window.placeOrder = async function(){
 
   const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const address = document.getElementById("address").value;
+  const pincode = document.getElementById("pincode").value;
+  const payment = document.getElementById("payment").value;
 
   if(!name){
     alert("Please enter your name.");
@@ -452,17 +456,15 @@ window.placeOrder = async function(){
   }
 
   const email = currentUserEmail;
-
   const orderID = generateOrderID();
 
   const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
+  const customOrder = JSON.parse(localStorage.getItem("customOrder"));
 
   let orderText = "";
 
   cartItems.forEach(item=>{
     orderText += `${item.name} - ₹${item.price}\n`;
-
-    
   });
 
   try{
@@ -473,96 +475,36 @@ window.placeOrder = async function(){
       {
         customer_name: name,
         customer_email: email,
-        order_details: orderText,
+        order_details: orderText || "Custom Order",
         order_id: orderID
       }
     );
 
-  const name = document.getElementById("name").value;
+    let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
 
-  if(!name){
-    alert("Please enter your name.");
-    return;
-  }
+    const newOrder = {
+      orderId: orderID,
+      name,
+      phone,
+      address,
+      pincode,
+      payment,
+      total: document.getElementById("cartTotal").textContent,
+      custom: customOrder ? true : false
+    };
 
-  if(!currentUserEmail){
-    alert("Please login before placing an order.");
-    window.location.href = "auth.html";
-    return;
-  }
-
-  const email = currentUserEmail;
-
-  const orderID = generateOrderID();
-
-  const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
-
-  let orderText = "";
-
-  cartItems.forEach(item=>{
-    orderText += `${item.name} - ₹${item.price}\n`;
-  });
-
-      // Get existing orders
-let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
-
-// Create new order object
-const newOrder = {
-  orderId: orderID,
-  name: name,
-  phone: document.getElementById("phone").value,
-  address: document.getElementById("address").value,
-  pincode: document.getElementById("pincode").value,
-  payment: document.getElementById("payment").value,
-  total: orderText || "Custom Order",
-  custom: JSON.parse(localStorage.getItem("customOrder")) ? true : false
-};
-
-// Save it
-allOrders.push(newOrder);
-
-// Store back
-localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
-  try{
-
-    await emailjs.send(
-      "service_byyvwjh",
-      "template_z8lkhwp",
-      {
-        customer_name: name,
-        customer_email: email,
-        order_details: orderText,
-        order_id: orderID
-      }
-    );
-
-    alert(`Order ${orderID} placed successfully!`);
+    allOrders.push(newOrder);
+    localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
 
     localStorage.removeItem("cart");
     localStorage.removeItem("customOrder");
 
-    window.location.href="index.html";
-
-  }catch(error){
-
-    console.error(error);
-    alert("Order placed but email failed.");
-
-  }
-
-};
     alert(`Order ${orderID} placed successfully!`);
-
-    localStorage.removeItem("cart");
-    localStorage.removeItem("customOrder");
-
     window.location.href="index.html";
 
   }catch(error){
-
     console.error(error);
     alert("Order placed but email failed.");
-
   }
 
 };
