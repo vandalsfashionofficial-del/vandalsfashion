@@ -484,7 +484,7 @@ window.placeOrder = async function(){
   let orderText = "";
 
   cartItems.forEach(item=>{
-    orderText += `${item.name} - ₹${item.price}\n`;
+   orderText += `• ${item.name} - ₹${item.price}\n`;
   });
 
     let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
@@ -502,7 +502,8 @@ window.placeOrder = async function(){
 
     allOrders.push(newOrder);
     localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
-
+try{
+  
     await sendOrderToScript({
   name,
   phone,
