@@ -477,7 +477,6 @@ window.placeOrder = async function(){
         order_id: orderID
       }
     );
-window.placeOrder = async function(){
 
   const name = document.getElementById("name").value;
 
@@ -502,8 +501,9 @@ window.placeOrder = async function(){
 
   cartItems.forEach(item=>{
     orderText += `${item.name} - ₹${item.price}\n`;
+  });
 
-    // Get existing orders
+      // Get existing orders
 let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
 
 // Create new order object
@@ -523,8 +523,6 @@ allOrders.push(newOrder);
 
 // Store back
 localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
-  });
-
   try{
 
     await emailjs.send(
