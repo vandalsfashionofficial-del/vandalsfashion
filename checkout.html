@@ -253,8 +253,6 @@
       }
     }
   </style>
-  
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js" defer></script>
 </head>
 
 <body>
@@ -347,11 +345,6 @@ function toggleMenu() {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  // Initialize EmailJS
-  if (window.emailjs) {
-    emailjs.init("CB8hwx-xnlGQcO9aL");
-    console.log("EmailJS initialized");
-  }
 
   const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
   const customOrder = JSON.parse(localStorage.getItem("customOrder") || "null");
@@ -436,6 +429,33 @@ onAuthStateChanged(auth, (user) => {
   }
 
 });
+   async function sendOrderToScript(orderData) {
+  try {
+    const res = await fetch("https://script.google.com/macros/s/AKfycbz0qTqa00ob40CjE0ROHIg0yJVZ9wGzDW3frE36R5K9xJ0Y6PS1w0Ioxyhk4iDGZCM/exec", {
+      method: "POST",
+      body: JSON.stringify({
+        secret: "MYSUPERSECRETSCRIPTaBc09*7^@$Secure",
+        origin: window.location.origin,
+
+        name: orderData.name,
+        phone: orderData.phone,
+        address: orderData.address,
+        pincode: orderData.pincode,
+        payment: orderData.payment,
+        total: orderData.total,
+        orderId: orderData.orderId,
+        orderDetails: orderData.orderDetails,
+        images: orderData.images
+      })
+    });
+
+    const text = await res.text();
+    console.log("Script response:", text);
+
+  } catch (err) {
+    console.error("Error sending to script:", err);
+  }
+}
 window.placeOrder = async function(){
 
   const name = document.getElementById("name").value;
@@ -467,24 +487,6 @@ window.placeOrder = async function(){
     orderText += `${item.name} - ₹${item.price}\n`;
   });
 
-  try{
-
- await emailjs.send(
-  "service_byyvwjh",
-  "template_z8lkhwp",
-  {
-    customer_name: name,
-    customer_email: email,
-    phone: phone,
-    address: address,
-    pincode: pincode,
-    payment: payment,
-    total: document.getElementById("cartTotal").textContent,
-    order_details: orderText || "Custom Order",
-    order_id: orderID
-  }
-);
-
     let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
 
     const newOrder = {
@@ -501,6 +503,18 @@ window.placeOrder = async function(){
     allOrders.push(newOrder);
     localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
 
+    await sendOrderToScript({
+  name,
+  phone,
+  address,
+  pincode,
+  payment,
+  total: document.getElementById("cartTotal").textContent,
+  orderId: orderID,
+  orderDetails: orderText,
+  images: "No images yet" // we will upgrade later
+});
+    
     localStorage.removeItem("cart");
     localStorage.removeItem("customOrder");
 
