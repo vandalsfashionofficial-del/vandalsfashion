@@ -469,16 +469,21 @@ window.placeOrder = async function(){
 
   try{
 
-    await emailjs.send(
-      "service_byyvwjh",
-      "template_z8lkhwp",
-      {
-        customer_name: name,
-        customer_email: email,
-        order_details: orderText || "Custom Order",
-        order_id: orderID
-      }
-    );
+ await emailjs.send(
+  "service_byyvwjh",
+  "template_z8lkhwp",
+  {
+    customer_name: name,
+    customer_email: email,
+    phone: phone,
+    address: address,
+    pincode: pincode,
+    payment: payment,
+    total: document.getElementById("cartTotal").textContent,
+    order_details: orderText || "Custom Order",
+    order_id: orderID
+  }
+);
 
     let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
 
