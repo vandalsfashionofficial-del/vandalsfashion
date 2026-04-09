@@ -74,14 +74,15 @@ form.addEventListener("submit", async (e) => {
     statusDiv.textContent = "⏳ Uploading product data...";
 
     const productData = {
-      name,
-      price,
-      category,
-      description,
-      imageUrls,
-      displayOn,
-      createdAt: Timestamp.now()
-    };
+  name,
+  price,
+  category,
+  description,
+  images: imageUrls, // ✅ standard name
+  displayOn,
+  inStock: true, // 🔥 for Step 8 later
+  createdAt: Timestamp.now()
+};
 
     await addDoc(collection(db, "products"), productData);
 
