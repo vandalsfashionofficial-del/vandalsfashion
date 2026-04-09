@@ -11,13 +11,16 @@ const authLink = document.getElementById("authLink");
 const profileDropdown = document.getElementById("profileDropdown");
 
 const categories = [
-  "Pakistani Luxe Wear",
-  "Designer",
-  "Trendy",
+  "Co-ord Set",
+  "Pakistani",
+  "Southern Wear",
+  "Trendy Wear",
+  "Farshi Salwar Suit",
+  "Palazo Suit",
+  "Ethnic Wear",
   "Lehenga",
-  "Indo-Western",
-  "Western",
-  "Embroidery"
+  "Saree",
+  "Casual Wear"
 ];
 
 const container = document.getElementById("categoryContainer");
