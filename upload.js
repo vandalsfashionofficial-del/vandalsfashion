@@ -78,7 +78,7 @@ form.addEventListener("submit", async (e) => {
   price,
   category,
   description,
-  images: imageUrls,
+  imageUrls: imageUrls,
   displayOn,
   inStock: true, // 🔥 for Step 8 later
   createdAt: Timestamp.now()
