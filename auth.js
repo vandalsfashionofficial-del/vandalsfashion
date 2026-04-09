@@ -7,7 +7,10 @@ signInWithPopup,
 createUserWithEmailAndPassword,
 signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
-
+import {
+  RecaptchaVerifier,
+  signInWithPhoneNumber
+} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 const provider = new GoogleAuthProvider();
 
 window.signup = async function(){
@@ -126,4 +129,57 @@ window.showLogin=function(){
 document.getElementById("signupForm").classList.add("hidden");
 document.getElementById("loginForm").classList.remove("hidden");
 document.getElementById("formTitle").innerText="Login";
+};
+let confirmationResult;
+
+// Setup reCAPTCHA
+window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+  'size': 'invisible'
+});
+
+// Send OTP
+window.sendOTP = async function() {
+  const phone = document.getElementById("phoneNumber").value;
+
+  if (!phone) {
+    alert("Enter phone number");
+    return;
+  }
+
+  try {
+    confirmationResult = await signInWithPhoneNumber(auth, phone, window.recaptchaVerifier);
+    alert("OTP sent!");
+  } catch (error) {
+    alert("Error sending OTP: " + error.message);
+  }
+};
+
+// Verify OTP
+window.verifyOTP = async function() {
+  const code = document.getElementById("otpCode").value;
+
+  if (!code) {
+    alert("Enter OTP");
+    return;
+  }
+
+  try {
+    const result = await confirmationResult.confirm(code);
+    const user = result.user;
+
+    localStorage.setItem("vf_user_uid", user.uid);
+    localStorage.setItem("vf_user_phone", user.phoneNumber);
+    localStorage.setItem("vf_username", user.phoneNumber);
+
+    localStorage.setItem("vf_user", JSON.stringify({
+      phone: user.phoneNumber,
+      uid: user.uid,
+      phoneLogin: true
+    }));
+
+    window.location.href = "index.html";
+
+  } catch (error) {
+    alert("Invalid OTP");
+  }
 };
