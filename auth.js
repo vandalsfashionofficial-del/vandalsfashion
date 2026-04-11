@@ -43,7 +43,7 @@ const existing = localStorage.getItem("vf_user_details");
 const justLoggedIn = localStorage.getItem("vf_just_logged_in");
 
 if (!existing && justLoggedIn === "true") {
-  document.getElementById("addressModal").classList.remove("hidden");
+ document.getElementById("addressModal").classList.add("show");
   localStorage.removeItem("vf_just_logged_in");
 } else {
   window.location.href = redirectUrl;
@@ -89,7 +89,7 @@ const existing = localStorage.getItem("vf_user_details");
 const justLoggedIn = localStorage.getItem("vf_just_logged_in");
 
 if (!existing && justLoggedIn === "true") {
-  document.getElementById("addressModal").classList.remove("hidden");
+ document.getElementById("addressModal").classList.add("show");
   localStorage.removeItem("vf_just_logged_in");
 } else {
   window.location.href = redirectUrl;
@@ -129,7 +129,7 @@ const existing = localStorage.getItem("vf_user_details");
 const justLoggedIn = localStorage.getItem("vf_just_logged_in");
 
 if (!existing && justLoggedIn === "true") {
-  document.getElementById("addressModal").classList.remove("hidden");
+ document.getElementById("addressModal").classList.add("show");
   localStorage.removeItem("vf_just_logged_in");
 } else {
   window.location.href = redirectUrl;
@@ -177,3 +177,12 @@ window.saveUserDetails = function() {
 
   window.location.href = redirectUrl;
 };
+// 🚫 Prevent modal from showing on page load
+window.addEventListener("DOMContentLoaded", () => {
+  const justLoggedIn = localStorage.getItem("vf_just_logged_in");
+
+  if (justLoggedIn !== "true") {
+    const modal = document.getElementById("addressModal");
+    if (modal) modal.classList.remove("show");
+  }
+});
