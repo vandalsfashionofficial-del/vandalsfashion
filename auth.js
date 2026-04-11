@@ -38,7 +38,13 @@ google:false
 const redirectUrl=localStorage.getItem("vf_redirect_after_login") || "index.html";
 localStorage.removeItem("vf_redirect_after_login");
 
-window.location.href=redirectUrl;
+const existing = localStorage.getItem("vf_user_details");
+
+if (!existing) {
+  document.getElementById("addressModal").classList.remove("hidden");
+} else {
+  window.location.href = redirectUrl;
+}
 
 }catch(error){
 alert("Signup failed: "+error.message);
@@ -75,7 +81,13 @@ google:false
 const redirectUrl=localStorage.getItem("vf_redirect_after_login") || "index.html";
 localStorage.removeItem("vf_redirect_after_login");
 
-window.location.href=redirectUrl;
+const existing = localStorage.getItem("vf_user_details");
+
+if (!existing) {
+  document.getElementById("addressModal").classList.remove("hidden");
+} else {
+  window.location.href = redirectUrl;
+}
 
 }catch(error){
 alert("Login failed: "+error.message);
@@ -106,7 +118,13 @@ photo:user.photoURL
 const redirectUrl=localStorage.getItem("vf_redirect_after_login") || "index.html";
 localStorage.removeItem("vf_redirect_after_login");
 
-window.location.href=redirectUrl;
+const existing = localStorage.getItem("vf_user_details");
+
+if (!existing) {
+  document.getElementById("addressModal").classList.remove("hidden");
+} else {
+  window.location.href = redirectUrl;
+}
 
 }catch(error){
 alert("Google Sign-In failed: "+error.message);
@@ -124,4 +142,29 @@ window.showLogin=function(){
 document.getElementById("signupForm").classList.add("hidden");
 document.getElementById("loginForm").classList.remove("hidden");
 document.getElementById("formTitle").innerText="Login";
+};
+window.saveUserDetails = function() {
+  const name = document.getElementById("modalName").value.trim();
+  const phone = document.getElementById("modalPhone").value.trim();
+  const address = document.getElementById("modalAddress").value.trim();
+  const pincode = document.getElementById("modalPincode").value.trim();
+
+  if (!name || !phone || !address || !pincode) {
+    alert("Fill all details");
+    return;
+  }
+
+  const userDetails = {
+    name,
+    phone,
+    address,
+    pincode
+  };
+
+  localStorage.setItem("vf_user_details", JSON.stringify(userDetails));
+
+  const redirectUrl = localStorage.getItem("vf_redirect_after_login") || "index.html";
+  localStorage.removeItem("vf_redirect_after_login");
+
+  window.location.href = redirectUrl;
 };
