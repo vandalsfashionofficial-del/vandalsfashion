@@ -36,12 +36,15 @@ google:false
 }));
 
 const redirectUrl=localStorage.getItem("vf_redirect_after_login") || "index.html";
-localStorage.removeItem("vf_redirect_after_login");
 
+  
+localStorage.setItem("vf_just_logged_in", "true");
 const existing = localStorage.getItem("vf_user_details");
+const justLoggedIn = localStorage.getItem("vf_just_logged_in");
 
-if (!existing) {
+if (!existing && justLoggedIn === "true") {
   document.getElementById("addressModal").classList.remove("hidden");
+  localStorage.removeItem("vf_just_logged_in");
 } else {
   window.location.href = redirectUrl;
 }
@@ -79,12 +82,15 @@ google:false
 }));
 
 const redirectUrl=localStorage.getItem("vf_redirect_after_login") || "index.html";
-localStorage.removeItem("vf_redirect_after_login");
 
+
+localStorage.setItem("vf_just_logged_in", "true");
 const existing = localStorage.getItem("vf_user_details");
+const justLoggedIn = localStorage.getItem("vf_just_logged_in");
 
-if (!existing) {
+if (!existing && justLoggedIn === "true") {
   document.getElementById("addressModal").classList.remove("hidden");
+  localStorage.removeItem("vf_just_logged_in");
 } else {
   window.location.href = redirectUrl;
 }
@@ -116,12 +122,15 @@ photo:user.photoURL
 }));
 
 const redirectUrl=localStorage.getItem("vf_redirect_after_login") || "index.html";
-localStorage.removeItem("vf_redirect_after_login");
 
+
+localStorage.setItem("vf_just_logged_in", "true");
 const existing = localStorage.getItem("vf_user_details");
+const justLoggedIn = localStorage.getItem("vf_just_logged_in");
 
-if (!existing) {
+if (!existing && justLoggedIn === "true") {
   document.getElementById("addressModal").classList.remove("hidden");
+  localStorage.removeItem("vf_just_logged_in");
 } else {
   window.location.href = redirectUrl;
 }
