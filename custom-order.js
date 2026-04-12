@@ -2,6 +2,22 @@
 import { auth } from "./firebase-config.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 
+async function uploadToCloudinary(file) {
+  const url = "https://api.cloudinary.com/v1_1/ddxivdsgb/image/upload";
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "vandals_upload");
+
+  const res = await fetch(url, {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await res.json();
+  return data.secure_url;
+}
+
 const profileContainer = document.getElementById("profileContainer");
 const profilePic = document.getElementById("profile-Pic");
 const authLink = document.getElementById("authLink");
