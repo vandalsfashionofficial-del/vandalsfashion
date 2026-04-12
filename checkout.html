@@ -413,7 +413,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelector(".checkout-container").prepend(msg);
   }
+// 🔁 Autofill saved user details
+const saved = JSON.parse(localStorage.getItem("vf_user_details"));
 
+if (saved) {
+  document.getElementById("name").value = saved.name || "";
+  document.getElementById("phone").value = saved.phone || "";
+  document.getElementById("address").value = saved.address || "";
+  document.getElementById("pincode").value = saved.pincode || "";
+}
 });
 
 function generateOrderID() {
@@ -464,16 +472,26 @@ window.placeOrder = async function(){
   const pincode = document.getElementById("pincode").value;
   const payment = document.getElementById("payment").value;
 
-  if(!name){
-    alert("Please enter your name.");
+  if(!name || !phone || !address || !pincode){
+    alert("Please fill all details.");
     return;
   }
-
-  if(!currentUserEmail){
+   if(!currentUserEmail){
     alert("Please login before placing an order.");
     window.location.href = "auth.html";
     return;
   }
+// 💾 Save user details for next time
+const userDetails = {
+  name,
+  phone,
+  address,
+  pincode
+};
+
+localStorage.setItem("vf_user_details", JSON.stringify(userDetails));
+  
+ 
 
   const email = currentUserEmail;
   const orderID = generateOrderID();
