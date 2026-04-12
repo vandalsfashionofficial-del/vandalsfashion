@@ -531,7 +531,7 @@ try{
   total: document.getElementById("cartTotal").textContent,
   orderId: orderID,
   orderDetails: orderText,
-  images: "No images yet" // we will upgrade later
+ images: cartItems.flatMap(item => item.images || [])
 });
     
     localStorage.removeItem("cart");
