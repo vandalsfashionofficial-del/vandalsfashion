@@ -292,7 +292,13 @@ Order cancellation is <strong>only allowed within 1–2 days</strong> of placing
 
 const ordersContainer=document.getElementById("ordersContainer");
 
-const allOrders=JSON.parse(localStorage.getItem("vf_all_orders")||"[]");
+let allOrders = [];
+
+try{
+  allOrders = JSON.parse(localStorage.getItem("vf_all_orders")) || [];
+}catch(e){
+  allOrders = [];
+}
 
 if(!Array.isArray(allOrders)||allOrders.length===0){
 
@@ -306,6 +312,15 @@ const card=document.createElement("div");
 
 card.className="order-card";
 
+let productList = "No products";
+
+if(order.items && order.items.length > 0){
+  productList = order.items.map(item => `• ${item.name}`).join("<br>");
+}
+else if(order.type === "custom-order"){
+  productList = `• ${order.description || "Custom Design"} (Custom Order)`;
+}
+  
 card.innerHTML=`
 
 <h3>Order – ${order.orderId || 'VF-XXXX'}</h3>
@@ -314,13 +329,18 @@ card.innerHTML=`
 
 <p><strong>Phone:</strong> ${order.phone}</p>
 
-<p><strong>Total:</strong> ${order.total}</p>
+<p><strong>Total:</strong> ₹${order.total}</p>
 
 <p><strong>Payment:</strong> ${order.payment}</p>
 
 <p><strong>Address:</strong> ${order.address}, ${order.pincode}</p>
 
-${order.custom
+<div class="order-products">
+  <strong>Products:</strong><br>
+  ${productList}
+</div>
+
+${order.type === "custom-order"
 ? '<p><strong>Note:</strong> Custom order – cancellation not supported online.</p>'
 : `<a href="cancel.html" class="btn-cancel" onclick="prepareCancel('${order.name}','${order.orderId}','${order.phone}')">Cancel Order</a>`}
 
