@@ -72,41 +72,52 @@ document.addEventListener("DOMContentLoaded", () => {
   form?.addEventListener("submit", async (e) => {
     e.preventDefault();
     loading.style.display = "block";
+    
+  const files = imageInput.files;
 
-    // Build order object
-    const order = {
-      name: document.getElementById("name").value,
-      phone: document.getElementById("phone").value,
-      size: document.getElementById("size").value || "N/A",
-      description: document.getElementById("description").value,
-      images: [],
-      type: "custom-order",
-      timestamp: new Date().toISOString(),
-      price: 0 // default price for custom orders
-    };
-
-    // Convert uploaded images to base64
-    const files = imageInput.files;
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const dataUrl = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (e) => resolve(e.target.result);
-        reader.readAsDataURL(file);
-      });
-      order.images.push(dataUrl);
-    }
-
-    // Add to localStorage cart
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    cart.push(order);
-    localStorage.setItem("cart", JSON.stringify(cart));
-
+  // ✅ validation
+  if (files.length === 0) {
+    alert("Please upload at least 1 image");
     loading.style.display = "none";
-    alert("Custom order added to cart! 🛒");
+    return;
+  }
 
-    // Reset form & preview
-    form.reset();
-    imagePreview.innerHTML = "";
-  });
+  if (files.length > 2) {
+    alert("Max 2 images allowed");
+    loading.style.display = "none";
+    return;
+  }
+
+  // ✅ Build order object
+  const order = {
+    name: document.getElementById("name").value,
+    phone: document.getElementById("phone").value,
+    size: document.getElementById("size").value || "N/A",
+    description: document.getElementById("description").value,
+    images: [],
+    type: "custom-order",
+    timestamp: new Date().toISOString(),
+    price: 0
+  };
+
+  // 🔥 Upload images to Cloudinary
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+
+    const imageUrl = await uploadToCloudinary(file);
+    order.images.push(imageUrl);
+  }
+
+  // ✅ Save to cart
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  cart.push(order);
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  loading.style.display = "none";
+  alert("Custom order added to cart! 🛒");
+
+  // reset
+  form.reset();
+  imagePreview.innerHTML = "";
+});
 });
