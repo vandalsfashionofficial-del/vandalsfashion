@@ -2,6 +2,36 @@
 import { auth } from "./firebase-config.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 
+ async function compressImage(file) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      img.src = e.target.result;
+    };
+
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      const MAX_WIDTH = 800;
+      const scaleSize = MAX_WIDTH / img.width;
+
+      canvas.width = MAX_WIDTH;
+      canvas.height = img.height * scaleSize;
+
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      canvas.toBlob((blob) => {
+        resolve(blob);
+      }, "image/jpeg", 0.7); // 👈 quality (0.7 = perfect balance)
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
 async function uploadToCloudinary(file) {
   const url = "https://api.cloudinary.com/v1_1/ddxivdsgb/image/upload";
 
@@ -104,7 +134,10 @@ document.addEventListener("DOMContentLoaded", () => {
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
 
-    const imageUrl = await uploadToCloudinary(file);
+   
+    
+    const compressedFile = await compressImage(file);
+const imageUrl = await uploadToCloudinary(compressedFile);
     order.images.push(imageUrl);
   }
 
