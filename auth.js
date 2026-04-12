@@ -36,18 +36,9 @@ google:false
 }));
 
 const redirectUrl=localStorage.getItem("vf_redirect_after_login") || "index.html";
+localStorage.removeItem("vf_redirect_after_login");
 
-  
-localStorage.setItem("vf_just_logged_in", "true");
-const existing = localStorage.getItem("vf_user_details");
-const justLoggedIn = localStorage.getItem("vf_just_logged_in");
-
-if (!existing && justLoggedIn === "true") {
- document.getElementById("addressModal").classList.add("show");
-  localStorage.removeItem("vf_just_logged_in");
-} else {
-  window.location.href = redirectUrl;
-}
+window.location.href=redirectUrl;
 
 }catch(error){
 alert("Signup failed: "+error.message);
@@ -74,7 +65,7 @@ localStorage.setItem("vf_username", email.split("@")[0]); // ADD THIS
 localStorage.setItem("vf_user_email",email);
 localStorage.setItem("vf_user_uid",user.uid);
 localStorage.setItem("vf_user_photo", "");
-  
+
 localStorage.setItem("vf_user",JSON.stringify({
 email,
 uid:user.uid,
@@ -82,18 +73,9 @@ google:false
 }));
 
 const redirectUrl=localStorage.getItem("vf_redirect_after_login") || "index.html";
+localStorage.removeItem("vf_redirect_after_login");
 
-
-localStorage.setItem("vf_just_logged_in", "true");
-const existing = localStorage.getItem("vf_user_details");
-const justLoggedIn = localStorage.getItem("vf_just_logged_in");
-
-if (!existing && justLoggedIn === "true") {
- document.getElementById("addressModal").classList.add("show");
-  localStorage.removeItem("vf_just_logged_in");
-} else {
-  window.location.href = redirectUrl;
-}
+window.location.href=redirectUrl;
 
 }catch(error){
 alert("Login failed: "+error.message);
@@ -122,18 +104,9 @@ photo:user.photoURL
 }));
 
 const redirectUrl=localStorage.getItem("vf_redirect_after_login") || "index.html";
+localStorage.removeItem("vf_redirect_after_login");
 
-
-localStorage.setItem("vf_just_logged_in", "true");
-const existing = localStorage.getItem("vf_user_details");
-const justLoggedIn = localStorage.getItem("vf_just_logged_in");
-
-if (!existing && justLoggedIn === "true") {
- document.getElementById("addressModal").classList.add("show");
-  localStorage.removeItem("vf_just_logged_in");
-} else {
-  window.location.href = redirectUrl;
-}
+window.location.href=redirectUrl;
 
 }catch(error){
 alert("Google Sign-In failed: "+error.message);
@@ -152,37 +125,3 @@ document.getElementById("signupForm").classList.add("hidden");
 document.getElementById("loginForm").classList.remove("hidden");
 document.getElementById("formTitle").innerText="Login";
 };
-window.saveUserDetails = function() {
-  const name = document.getElementById("modalName").value.trim();
-  const phone = document.getElementById("modalPhone").value.trim();
-  const address = document.getElementById("modalAddress").value.trim();
-  const pincode = document.getElementById("modalPincode").value.trim();
-
-  if (!name || !phone || !address || !pincode) {
-    alert("Fill all details");
-    return;
-  }
-
-  const userDetails = {
-    name,
-    phone,
-    address,
-    pincode
-  };
-
-  localStorage.setItem("vf_user_details", JSON.stringify(userDetails));
-
-  const redirectUrl = localStorage.getItem("vf_redirect_after_login") || "index.html";
-  localStorage.removeItem("vf_redirect_after_login");
-
-  window.location.href = redirectUrl;
-};
-// 🚫 Prevent modal from showing on page load
-window.addEventListener("DOMContentLoaded", () => {
-  const justLoggedIn = localStorage.getItem("vf_just_logged_in");
-
-  if (justLoggedIn !== "true") {
-    const modal = document.getElementById("addressModal");
-    if (modal) modal.classList.remove("show");
-  }
-});
