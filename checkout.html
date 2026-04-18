@@ -506,18 +506,26 @@ localStorage.setItem("vf_user_details", JSON.stringify(userDetails));
   });
 
     let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
+const newOrder = {
+  orderId: orderID,
+  name,
+  phone,
+  address,
+  pincode,
+  payment,
+  total: document.getElementById("cartTotal").textContent,
 
-    const newOrder = {
-      orderId: orderID,
-      name,
-      phone,
-      address,
-      pincode,
-      payment,
-      total: document.getElementById("cartTotal").textContent,
-      custom: customOrder ? true : false
-    };
+  // ✅ ADD THIS
+  items: cartItems.map(item => ({
+    name: item.name
+  })),
 
+  // ✅ FIX custom order structure
+  type: customOrder ? "custom-order" : "normal",
+
+  // ✅ optional but powerful
+  description: customOrder?.description || null
+};
     allOrders.push(newOrder);
     localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
 try{
