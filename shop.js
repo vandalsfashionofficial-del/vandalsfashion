@@ -1,5 +1,10 @@
-import { auth, db } from './firebase-config.js';
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabase = createClient(
+  "https://tckvbedfkidouvcltxci.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRja3ZiZWRma2lkb3V2Y2x0eGNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MDI1ODksImV4cCI6MjA5MjA3ODU4OX0.ADrsPheVPnns-_Iclx6QueJt76D3hzvo16Xdv_9-77k"
+);
+import { auth } from "./firebase-config.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
 
 const grid = document.getElementById('productGrid');
@@ -47,18 +52,13 @@ window.logout = () => {
 // 🔄 Load Shop Products
 async function loadProducts() {
   try {
-    const snapshot = await getDocs(collection(db, "products"));
-    const products = [];
+    const { data, error } = await supabase
+  .from("products")
+  .select("*")
+  .eq("is_sold", false);
 
-    snapshot.forEach(docSnap => {
-      const data = docSnap.data();
-      const showOnShop = data.displayOn === "shop" || data.displayOn === "both";
-      const matchesCategory = !selectedCategory || data.category === selectedCategory;
-
-      if (showOnShop && matchesCategory) {
-        products.push({ id: docSnap.id, ...data });
-      }
-    });
+if (error) throw error;
+   const products = data;
 
     if (products.length === 0) {
       grid.innerHTML = "<p style='text-align:center; color:#888;'>No products found in this category.</p>";
@@ -66,7 +66,9 @@ async function loadProducts() {
     }
 
     grid.innerHTML = "";
-    products.forEach(p => {
+   products
+  .filter(p => !selectedCategory || p.category === selectedCategory)
+  .forEach(p => {
       const imageUrl = Array.isArray(p.imageUrls) && p.imageUrls.length > 0
         ? p.imageUrls[0]
         : (p.imageUrl || "placeholder.jpg"); // fallback
