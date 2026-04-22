@@ -55,7 +55,7 @@ async function loadProducts() {
     const { data, error } = await supabase
   .from("products")
   .select("*")
-  .eq("is_sold", false);
+// REMOVE FILTER TEMPORARILY
 
 if (error) throw error;
    const products = data;
