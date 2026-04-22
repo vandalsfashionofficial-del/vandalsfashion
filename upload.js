@@ -73,6 +73,13 @@ form.addEventListener("submit", async (e) => {
 
     statusDiv.textContent = "⏳ Uploading product data...";
 
+     console.log("SENDING TO SUPABASE:", {
+  name,
+  price,
+  category,
+  description,
+  image_url: imageUrls[0]
+});
     const { data, error } = await supabase
   .from("products")
   .insert([
@@ -85,15 +92,20 @@ form.addEventListener("submit", async (e) => {
       is_sold: false
     }
   ])
+   
   .select(); // 👈 VERY IMPORTANT
-console.log("INSERT RESPONSE:", data, error);
-
+console.log("INSERT RESPONSE FULL:", JSON.stringify({ data, error }, null, 2));
+  
     if (error) {
   console.error("SUPABASE ERROR:", error);
   statusDiv.textContent = "❌ Upload failed: " + error.message;
   return;
 }
-
+ if (!data || data.length === 0) {
+  statusDiv.textContent = "❌ Insert returned empty!";
+  console.warn("No rows inserted!");
+  return;
+}
     statusDiv.textContent = "✅ Product uploaded successfully!";
     form.reset();
 } catch (err) {
