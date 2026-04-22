@@ -1,6 +1,10 @@
 // product.js
-import { db } from './firebase-config.js';
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabase = createClient(
+  "https://tckvbedfkidouvcltxci.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRja3ZiZWRma2lkb3V2Y2x0eGNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MDI1ODksImV4cCI6MjA5MjA3ODU4OX0.ADrsPheVPnns-_Iclx6QueJt76D3hzvo16Xdv_9-77k"
+);
 
 const params = new URLSearchParams(window.location.search);
 const productId = params.get("id");
@@ -23,35 +27,46 @@ async function loadProduct() {
   }
 
   try {
-    const productRef = doc(db, "products", productId);
-    const productSnap = await getDoc(productRef);
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("id", productId)
+      .single();
 
-    if (!productSnap.exists()) {
+    if (error || !data) {
       alert("Product not found.");
       return;
     }
 
-    const product = productSnap.data();
-    const images = product.imageUrls || [product.imageUrl];
+    const product = data;
+
+    // Handle image (Supabase uses image_url)
+    const images = product.image_urls || [product.image_url];
 
     productImage.src = images[0];
-    productImage.setAttribute("data-url", images[0]); // for cart
+    productImage.setAttribute("data-url", images[0]);
+
     productName.textContent = product.name;
     productPrice.textContent = `Price: ₹${product.price}`;
 
-    // Add image thumbnails if available
+    // Thumbnails (same as before)
     if (gallery) {
-      gallery.innerHTML = ""; // clear existing
+      gallery.innerHTML = "";
       images.forEach((url, idx) => {
         const thumb = document.createElement("img");
         thumb.src = url;
         if (idx === 0) thumb.classList.add("active");
+
         thumb.addEventListener("click", () => {
           productImage.src = url;
           productImage.setAttribute("data-url", url);
-          document.querySelectorAll(".thumbnail-gallery img").forEach(t => t.classList.remove("active"));
+
+          document.querySelectorAll("#thumbnailRow img")
+            .forEach(t => t.classList.remove("active"));
+
           thumb.classList.add("active");
         });
+
         gallery.appendChild(thumb);
       });
     }
@@ -61,7 +76,6 @@ async function loadProduct() {
     alert("Failed to load product.");
   }
 }
-
 window.addToCart = () => {
   const size = sizeSelect.value;
   if (!size) return alert("Please select a size.");
