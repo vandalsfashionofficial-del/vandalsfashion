@@ -84,16 +84,26 @@ form.addEventListener("submit", async (e) => {
   createdAt: Timestamp.now()
 };
 
-   await supabase.from("products").insert([
-  {
-    name,
-    price,
-    category,
-    description,
-    image_url: imageUrls[0], // first image
-    is_sold: false
-  }
-]);
+  const { data, error } = await supabase
+  .from("products")
+  .insert([
+    {
+      name,
+      price,
+      category,
+      description,
+      image_url: imageUrls[0],
+      is_sold: false
+    }
+  ]);
+
+if (error) {
+  console.error("SUPABASE ERROR:", error);
+  statusDiv.textContent = "❌ Upload failed: " + error.message;
+  return;
+}
+
+console.log("Inserted:", data);
 
     statusDiv.textContent = "✅ Product uploaded successfully!";
     form.reset();
