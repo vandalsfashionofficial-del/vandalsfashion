@@ -4,11 +4,12 @@ const supabase = createClient(
   "https://tckvbedfkidouvcltxci.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRja3ZiZWRma2lkb3V2Y2x0eGNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MDI1ODksImV4cCI6MjA5MjA3ODU4OX0.ADrsPheVPnns-_Iclx6QueJt76D3hzvo16Xdv_9-77k"
 );
+import { auth } from "./firebase-config.js";
 import {
   onAuthStateChanged,
   signOut
 } from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js';
-
+console.log("UPLOAD JS LOADED");
 const imgbbAPIKey = "bbfd6eceec416726284963eb08f78632";
 
 onAuthStateChanged(auth, (user) => {
@@ -34,7 +35,7 @@ const statusDiv = document.getElementById("uploadStatus");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-
+console.log("FORM SUBMITTED");
   const files = document.getElementById("productImageFile").files;
   if (files.length === 0) {
     statusDiv.textContent = "❗ Please select at least one image.";
