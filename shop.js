@@ -69,9 +69,7 @@ if (error) throw error;
    products
   .filter(p => !selectedCategory || p.category === selectedCategory)
   .forEach(p => {
-      const imageUrl = Array.isArray(p.imageUrls) && p.imageUrls.length > 0
-        ? p.imageUrls[0]
-        : (p.imageUrl || "placeholder.jpg"); // fallback
+     const imageUrl = p.image_url || "placeholder.jpg";
 
       const card = document.createElement("div");
       card.className = "card";
