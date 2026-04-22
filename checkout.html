@@ -560,6 +560,13 @@ try{
     items: cartItems  
   }
 ]);
+  // 🔥 MARK PRODUCTS AS SOLD
+for (const item of cartItems) {
+  await supabase
+    .from("products")
+    .update({ is_sold: true })
+    .eq("id", item.id);
+}
     localStorage.removeItem("cart");
     localStorage.removeItem("customOrder");
 
