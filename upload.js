@@ -1,9 +1,9 @@
-import { auth, db } from './firebase-config.js';
-import {
-  collection,
-  addDoc,
-  Timestamp
-} from 'https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js';
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabase = createClient(
+  "https://tckvbedfkidouvcltxci.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRja3ZiZWRma2lkb3V2Y2x0eGNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MDI1ODksImV4cCI6MjA5MjA3ODU4OX0.ADrsPheVPnns-_Iclx6QueJt76D3hzvo16Xdv_9-77k"
+);
 import {
   onAuthStateChanged,
   signOut
@@ -84,7 +84,16 @@ form.addEventListener("submit", async (e) => {
   createdAt: Timestamp.now()
 };
 
-    await addDoc(collection(db, "products"), productData);
+   await supabase.from("products").insert([
+  {
+    name,
+    price,
+    category,
+    description,
+    image_url: imageUrls[0], // first image
+    is_sold: false
+  }
+]);
 
     statusDiv.textContent = "✅ Product uploaded successfully!";
     form.reset();
