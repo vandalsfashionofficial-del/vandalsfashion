@@ -73,18 +73,7 @@ form.addEventListener("submit", async (e) => {
 
     statusDiv.textContent = "⏳ Uploading product data...";
 
-    const productData = {
-  name,
-  price,
-  category,
-  description,
-  imageUrls: imageUrls,
-  displayOn,
-  inStock: true, // 🔥 for Step 8 later
-  createdAt: Timestamp.now()
-};
-
-  const { data, error } = await supabase
+    const { data, error } = await supabase
   .from("products")
   .insert([
     {
@@ -95,22 +84,22 @@ form.addEventListener("submit", async (e) => {
       image_url: imageUrls[0],
       is_sold: false
     }
-  ]);
+  ])
+  .select(); // 👈 VERY IMPORTANT
+console.log("INSERT RESPONSE:", data, error);
 
-if (error) {
+    if (error) {
   console.error("SUPABASE ERROR:", error);
   statusDiv.textContent = "❌ Upload failed: " + error.message;
   return;
 }
 
-console.log("Inserted:", data);
-
     statusDiv.textContent = "✅ Product uploaded successfully!";
     form.reset();
-  } catch (err) {
-    console.error(err);
-    statusDiv.textContent = "❌ Upload failed.";
-  }
+} catch (err) {
+  console.error("FULL ERROR:", err);
+  statusDiv.textContent = "❌ " + err.message;
+}
 });
 
 function toBase64(file) {
