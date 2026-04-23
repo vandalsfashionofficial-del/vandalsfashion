@@ -561,23 +561,25 @@ try{
   }
 ]);
 
- console.log("CART ITEMS:", cartItems);
+console.log("CART ITEMS:", cartItems);
 
-  for (const item of cartItems) {
-  console.log("UPDATING ITEM:", item);
-    
-  // 🔥 MARK PRODUCTS AS SOLD
 for (const item of cartItems) {
-  await supabase
+  console.log("UPDATING ITEM:", item);
+
+  const { data, error } = await supabase
     .from("products")
     .update({ is_sold: true })
     .eq("id", item.id);
+
+  console.log("UPDATE RESULT:", data, error);
 }
-    localStorage.removeItem("cart");
-    localStorage.removeItem("customOrder");
-  
-    alert(`Order ${orderID} placed successfully!`);
-    window.location.href="index.html";
+
+// ✅ AFTER loop (not inside)
+localStorage.removeItem("cart");
+localStorage.removeItem("customOrder");
+
+alert(`Order ${orderID} placed successfully!`);
+window.location.href = "index.html";  
   }
   }catch(error){
     console.error(error);
