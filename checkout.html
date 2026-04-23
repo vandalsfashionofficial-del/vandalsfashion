@@ -560,6 +560,12 @@ try{
     items: cartItems  
   }
 ]);
+
+ console.log("CART ITEMS:", cartItems);
+
+  for (const item of cartItems) {
+  console.log("UPDATING ITEM:", item);
+    
   // 🔥 MARK PRODUCTS AS SOLD
 for (const item of cartItems) {
   await supabase
@@ -569,7 +575,7 @@ for (const item of cartItems) {
 }
     localStorage.removeItem("cart");
     localStorage.removeItem("customOrder");
-
+  
     alert(`Order ${orderID} placed successfully!`);
     window.location.href="index.html";
 
