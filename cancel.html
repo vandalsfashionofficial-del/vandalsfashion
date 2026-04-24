@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cancel Order - Vandals Fashion</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <style>
     body {
       font-family: 'Quicksand', sans-serif;
@@ -97,8 +96,6 @@
   </div>
 
   <script>
-    emailjs.init("CB8hwx-xnlGQcO9aL");
-
     document.getElementById("cancelForm").addEventListener("submit", function(event) {
       event.preventDefault();
 
@@ -107,23 +104,32 @@
       const reason = document.getElementById("reason").value.trim();
       const phone = document.getElementById("phone").value.trim();
 
-      emailjs.send("service_byyvwjh", "template_q5qbgho", {
-        name: name,
-        order_id: orderId,
-        reason: reason,
-        phone: phone,
-      })
+      fetch("https://script.google.com/macros/s/AKfycbz0qTqa00ob40CjE0ROHIg0yJVZ9wGzDW3frE36R5K9xJ0Y6PS1w0Ioxyhk4iDGZCM/exec", {
+  method: "POST",
+  body: JSON.stringify({
+    secret: "MYSUPERSECRETSCRIPTaBc09*7^@$Secure",
+    type: "cancel",
+    name: name,
+    orderId: orderId,
+    reason: reason,
+    phone: phone
+  })
+})
       .then(function(response) {
-        console.log("SUCCESS!", response.status, response.text);
-        document.getElementById("cancelForm").reset();
-        document.getElementById("successMsg").style.display = "block";
-        setTimeout(() => {
-          window.location.href = "cancel-confirmed.html";
+  return response.text();
+})
+.then(function(text) {
+  console.log("Cancel response:", text);
 
-        }, 2000);
-      })
+  document.getElementById("cancelForm").reset();
+  document.getElementById("successMsg").style.display = "block";
+
+  setTimeout(() => {
+    window.location.href = "cancel-confirmed.html";
+  }, 2000);
+})
       .catch(function(error) {
-        console.error("EmailJS Error:", error);
+       console.error("Error:", error);
         alert("Something went wrong. Try again later.");
       });
     });
