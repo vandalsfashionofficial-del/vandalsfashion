@@ -6,46 +6,87 @@
   <title>Cancel Requests - Admin</title>
 
   <style>
-    body {
-      font-family: Arial;
-      background: #fff5fa;
-      padding: 20px;
-    }
+  body {
+    font-family: 'Quicksand', sans-serif;
+    background: #ffffff;
+    margin: 0;
+    padding: 20px;
+    color: #111;
+  }
 
-    h2 {
-      text-align: center;
-      color: #e91e63;
-    }
+  h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
 
-    .card {
-      background: white;
-      padding: 15px;
-      margin: 15px auto;
-      max-width: 600px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
+  .container {
+    max-width: 800px;
+    margin: auto;
+  }
 
-    button {
-      margin-top: 10px;
-      margin-right: 10px;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: bold;
-    }
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    transition: 0.2s ease;
+  }
 
-    .approve {
-      background: #4CAF50;
-      color: white;
-    }
+  .card:hover {
+    transform: translateY(-3px);
+  }
 
-    .reject {
-      background: #f44336;
-      color: white;
-    }
-  </style>
+  .label {
+    font-size: 12px;
+    color: #888;
+  }
+
+  .value {
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .status {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
+  .pending { color: orange; }
+  .approved { color: green; }
+  .rejected { color: red; }
+
+  .btn {
+    padding: 10px 16px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    margin-right: 10px;
+    margin-top: 10px;
+    transition: 0.2s;
+  }
+
+  .approve {
+    background: #000;
+    color: #fff;
+  }
+
+  .approve:hover {
+    background: #333;
+  }
+
+  .reject {
+    background: #f2f2f2;
+    color: #000;
+  }
+
+  .reject:hover {
+    background: #ddd;
+  }
+</style>
 </head>
 <body>
 
@@ -79,21 +120,33 @@ async function loadRequests() {
     card.className = "card";
 
     card.innerHTML = `
-      <p><b>Name:</b> ${name}</p>
-      <p><b>Order ID:</b> ${orderId}</p>
-      <p><b>Phone:</b> ${phone}</p>
-      <p><b>Reason:</b> ${reason}</p>
-      <p><b>Status:</b> ${status}</p>
+  <div class="label">Customer</div>
+  <div class="value">${name}</div>
 
-      ${
-        status === "Pending"
-          ? `
-        <button class="approve" onclick="updateStatus('${orderId}', 'Approved')">Approve</button>
-        <button class="reject" onclick="updateStatus('${orderId}', 'Rejected')">Reject</button>
-      `
-          : ""
-      }
-    `;
+  <div class="label">Order ID</div>
+  <div class="value">${orderId}</div>
+
+  <div class="label">Phone</div>
+  <div class="value">${phone}</div>
+
+  <div class="label">Reason</div>
+  <div class="value">${reason}</div>
+
+  <div class="status ${status.toLowerCase()}">Status: ${status}</div>
+
+  ${
+    status === "Pending"
+      ? `
+    <button class="btn approve" onclick="updateStatus('${orderId}', 'Approved')">
+      Approve
+    </button>
+    <button class="btn reject" onclick="updateStatus('${orderId}', 'Rejected')">
+      Reject
+    </button>
+  `
+      : ""
+  }
+`;
 
     container.appendChild(card);
   });
