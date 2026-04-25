@@ -132,8 +132,30 @@ async function loadRequests() {
   const container = document.getElementById("requests");
   container.innerHTML = "";
 
+   // remove header row
+let rows = data.slice(1);
+
+// 🧠 SORT LOGIC
+rows.sort((a, b) => {
+  const statusA = a[5]; // Pending / Approved / Rejected
+  const statusB = b[5];
+
+  const timeA = new Date(a[6]).getTime();
+  const timeB = new Date(b[6]).getTime();
+
+  // 1. Pending always on top
+  const isPendingA = statusA === "Pending";
+  const isPendingB = statusB === "Pending";
+
+  if (isPendingA && !isPendingB) return -1;
+  if (!isPendingA && isPendingB) return 1;
+
+  // 2. inside same group → newest first
+  return timeB - timeA;
+});
+
   // skip header row if exists
-  data.slice(1).forEach(row => {
+  rows.forEach(row => {
     const [type, name, orderId, phone, reason, status, date] = row;
 
     const card = document.createElement("div");
