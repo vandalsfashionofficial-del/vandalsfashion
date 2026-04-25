@@ -74,7 +74,7 @@
 
   <div class="container">
     <h2>Cancel Your Order</h2>
-    <form id="cancelForm" onsubmit="sendCancelRequest(event)">
+    <form id="cancelForm">
 
       <label for="name">Your Name</label>
       <input type="text" id="name" name="name" required />
@@ -109,6 +109,7 @@
   body: JSON.stringify({
     secret: "MYSUPERSECRETSCRIPTaBc09*7^@$Secure",
     type: "cancel",
+    origin: window.location.origin, // ✅ ADD THIS
     name: name,
     orderId: orderId,
     reason: reason,
