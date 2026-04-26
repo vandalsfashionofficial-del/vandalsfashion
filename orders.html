@@ -371,36 +371,7 @@ card.innerHTML=`
 </div>
 
 <p><strong>Status:</strong> ${statusText}</p>
-let statusText = "Order Placed";
 
-if (cancelStatus === "Pending") {
-  statusText = "Cancel Status: Pending";
-} else if (cancelStatus === "Approved") {
-  statusText = "✔️   Cancel Approved";
-} else if (cancelStatus === "Rejected") {
-  statusText = "❌ Cancel Rejected";
-}
-  
-card.innerHTML=`
-
-<h3>Order – ${order.orderId || 'VF-XXXX'}</h3>
-
-<p><strong>Name:</strong> ${order.name}</p>
-
-<p><strong>Phone:</strong> ${order.phone}</p>
-
-<p><strong>Total:</strong> ₹${order.total}</p>
-
-<p><strong>Payment:</strong> ${order.payment}</p>
-
-<p><strong>Address:</strong> ${order.address}, ${order.pincode}</p>
-
-<div class="order-products">
-  <strong>Products:</strong><br>
-  ${productList}
-</div>
-
-<p><strong>Status:</strong> ${statusText}</p>
 ${order.type === "custom-order"
 ? '<p><strong>Note:</strong> Custom order – cancellation not supported online.</p>'
 : (cancelStatus === "Pending" || cancelStatus === "Approved")
