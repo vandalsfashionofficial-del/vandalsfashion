@@ -346,7 +346,7 @@ let statusText = "Order Placed";
 if (cancelStatus === "Pending") {
   statusText = "Cancel Status: Pending";
 } else if (cancelStatus === "Approved") {
-  statusText = "❌ Cancel Approved";
+  statusText = "✔️   Cancel Approved";
 } else if (cancelStatus === "Rejected") {
   statusText = "❌ Cancel Rejected";
 }
@@ -371,12 +371,47 @@ card.innerHTML=`
 </div>
 
 <p><strong>Status:</strong> ${statusText}</p>
+let statusText = "Order Placed";
 
+if (cancelStatus === "Pending") {
+  statusText = "Cancel Status: Pending";
+} else if (cancelStatus === "Approved") {
+  statusText = "✔️   Cancel Approved";
+} else if (cancelStatus === "Rejected") {
+  statusText = "❌ Cancel Rejected";
+}
+  
+card.innerHTML=`
+
+<h3>Order – ${order.orderId || 'VF-XXXX'}</h3>
+
+<p><strong>Name:</strong> ${order.name}</p>
+
+<p><strong>Phone:</strong> ${order.phone}</p>
+
+<p><strong>Total:</strong> ₹${order.total}</p>
+
+<p><strong>Payment:</strong> ${order.payment}</p>
+
+<p><strong>Address:</strong> ${order.address}, ${order.pincode}</p>
+
+<div class="order-products">
+  <strong>Products:</strong><br>
+  ${productList}
+</div>
+
+<p><strong>Status:</strong> ${statusText}</p>
 ${order.type === "custom-order"
 ? '<p><strong>Note:</strong> Custom order – cancellation not supported online.</p>'
-: `<a href="cancel.html" class="btn-cancel" onclick="prepareCancel('${order.name}','${order.orderId}','${order.phone}')">Cancel Order</a>`}
-
+: (cancelStatus === "Pending" || cancelStatus === "Approved")
+  ? `<p style="margin-top:10px; font-weight:bold; color:#e91e63;">Cancellation Requested</p>`
+  : `<a href="cancel.html" class="btn-cancel" onclick="prepareCancel('${order.name}','${order.orderId}','${order.phone}')">Cancel Order</a>`
+}
 `;
+ordersContainer.appendChild(card);
+}
+})();
+
 
 ordersContainer.appendChild(card);
 }
