@@ -374,7 +374,7 @@ card.innerHTML=`
 
 ${order.type === "custom-order"
 ? '<p><strong>Note:</strong> Custom order – cancellation not supported online.</p>'
-: (cancelStatus === "Pending" || cancelStatus === "Approved")
+: (cancelStatus !== null)
   ? `<p style="margin-top:10px; font-weight:bold; color:#e91e63;">Cancellation Requested</p>`
   : `<a href="cancel.html" class="btn-cancel" onclick="prepareCancel('${order.name}','${order.orderId}','${order.phone}')">Cancel Order</a>`
 }
