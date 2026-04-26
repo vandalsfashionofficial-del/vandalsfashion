@@ -290,6 +290,23 @@ Order cancellation is <strong>only allowed within 1–2 days</strong> of placing
 
 <script>
 
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz0qTqa00ob40CjE0ROHIg0yJVZ9wGzDW3frE36R5K9xJ0Y6PS1w0Ioxyhk4iDGZCM/exec";
+
+async function getCancelStatus(orderId) {
+  const res = await fetch(SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      secret: "MYSUPERSECRETSCRIPTaBc09*7^@$Secure",
+      type: "get_cancel_status",
+      orderId: orderId,
+      origin: window.location.origin
+    })
+  });
+
+  const data = await res.json();
+  return data.status;
+}
+
 const ordersContainer=document.getElementById("ordersContainer");
 
 let allOrders = [];
@@ -306,7 +323,9 @@ ordersContainer.innerHTML='<p class="empty-msg">No orders found.</p>';
 
 }else{
 
-allOrders.slice().reverse().forEach((order)=>{
+(async () => {
+
+for (const order of allOrders.slice().reverse()) {
 
 const card=document.createElement("div");
 
@@ -319,6 +338,17 @@ if(order.items && order.items.length > 0){
 }
 else if(order.type === "custom-order"){
   productList = `• ${order.description || "Custom Design"} (Custom Order)`;
+}
+  const cancelStatus = await getCancelStatus(order.orderId);
+
+let statusText = "Order Placed";
+
+if (cancelStatus === "Pending") {
+  statusText = "Cancel Status: Pending";
+} else if (cancelStatus === "Approved") {
+  statusText = "❌ Cancel Approved";
+} else if (cancelStatus === "Rejected") {
+  statusText = "❌ Cancel Rejected";
 }
   
 card.innerHTML=`
@@ -340,6 +370,8 @@ card.innerHTML=`
   ${productList}
 </div>
 
+<p><strong>Status:</strong> ${statusText}</p>
+
 ${order.type === "custom-order"
 ? '<p><strong>Note:</strong> Custom order – cancellation not supported online.</p>'
 : `<a href="cancel.html" class="btn-cancel" onclick="prepareCancel('${order.name}','${order.orderId}','${order.phone}')">Cancel Order</a>`}
@@ -347,8 +379,8 @@ ${order.type === "custom-order"
 `;
 
 ordersContainer.appendChild(card);
-
-});
+}
+})();
 
 }
 
