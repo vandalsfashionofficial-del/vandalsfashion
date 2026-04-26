@@ -58,14 +58,6 @@
     <p>Your cancellation request has been received.<br>We'll review and get back to you within 24–48 hours.</p>
     <a href="index.html">Back to Home</a>
   </div>
-  <script>
-const orderId = localStorage.getItem("cancel_order_id");
-
-let orders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
-
-orders = orders.filter(order => order.orderId !== orderId);
-
-localStorage.setItem("vf_all_orders", JSON.stringify(orders));
-</script>
+ 
 </body>
 </html>
