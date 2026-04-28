@@ -44,11 +44,12 @@ console.log("FORM SUBMITTED");
 
   const name = document.getElementById("productName").value.trim();
   const price = parseFloat(document.getElementById("productPrice").value);
+  const stock = parseInt(document.getElementById("productStock").value);
   const category = document.getElementById("productCategory").value;
   const description = document.getElementById("productDescription").value.trim();
   const displayOn = document.getElementById("productTarget").value;
 
-  if (!name || !price || !category || !description || !displayOn) {
+  if (!name || !price || !category || !description || !displayOn || isNaN(stock) || stock < 1) {
     statusDiv.textContent = "❗ Please fill all fields.";
     return;
   }
@@ -77,6 +78,7 @@ console.log("FORM SUBMITTED");
      console.log("SENDING TO SUPABASE:", {
   name,
   price,
+  stock,
   category,
   description,
   image_url: imageUrls[0]
@@ -90,7 +92,8 @@ console.log("FORM SUBMITTED");
       category,
       description,
       image_url: imageUrls[0],
-      is_sold: false
+      is_sold: false,
+      stock: stock
     }
   ])
    
