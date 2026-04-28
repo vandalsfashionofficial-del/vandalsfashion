@@ -161,6 +161,25 @@
       color: #999;
       margin-top: 4rem;
     }
+    .qty-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+.qty-container button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+#qty {
+  min-width: 20px;
+  text-align: center;
+  font-weight: bold;
+}
   </style>
 </head>
 <body>
@@ -212,6 +231,12 @@
 
       <label for="colorChange">Color Preference:</label>
       <input type="text" id="colorChange" placeholder="e.g., pastel mint" />
+
+      <div class="qty-container">
+  <button onclick="changeQty(-1)">-</button>
+  <span id="qty">1</span>
+  <button onclick="changeQty(1)">+</button>
+</div>
 
       <button onclick="addToCart()">Add to Cart</button>
     </div>
