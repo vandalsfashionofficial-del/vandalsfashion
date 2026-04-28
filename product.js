@@ -76,6 +76,15 @@ async function loadProduct() {
     alert("Failed to load product.");
   }
 }
+
+let quantity = 1;
+
+window.changeQty = (change) => {
+  quantity += change;
+  if (quantity < 1) quantity = 1;
+
+  document.getElementById("qty").innerText = quantity;
+};
 window.addToCart = () => {
   const size = sizeSelect.value;
   if (!size) return alert("Please select a size.");
@@ -99,7 +108,8 @@ window.addToCart = () => {
     imageUrl: productImage.getAttribute("data-url"),
     size,
     custom,
-    colorPreference: colorPref
+    colorPreference: colorPref,
+    quantity: quantity
   });
 
   localStorage.setItem("cart", JSON.stringify(cart));
