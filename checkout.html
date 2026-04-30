@@ -368,10 +368,15 @@ document.addEventListener("DOMContentLoaded", () => {
     cartItems.forEach(item => {
 
       const li = document.createElement("li");
-      li.textContent = `${item.name} – ₹${item.price}`;
+     if (item.type === "custom-order") {
+  const displayName = item.productName || "Custom Order";
+  li.textContent = `${displayName} – Price to be discussed`;
+} else {
+  li.textContent = `${item.name} x${item.quantity || 1} – ₹${item.price}`;
+}
       orderSummaryList.appendChild(li);
 
-      total += Number(item.price) || 0;
+      total += (Number(item.price) || 0) * (item.quantity || 1);
     });
 
     hasItems = true;
@@ -380,13 +385,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // Custom order support
   if (customOrder) {
 
-    const li = document.createElement("li");
-    li.textContent = "Custom Order – Price to be discussed";
-    orderSummaryList.appendChild(li);
+  const li = document.createElement("li");
 
-    customNote.style.display = "block";
-    hasItems = true;
-  }
+  const customName = customOrder.name || "Custom Order";
+
+  li.textContent = `${customName} – Price to be discussed`;
+
+  orderSummaryList.appendChild(li);
+
+  customNote.style.display = "block";
+  hasItems = true;
+}
 
   let totalText = "";
 
@@ -471,6 +480,7 @@ onAuthStateChanged(auth, (user) => {
   }
 }
 window.placeOrder = async function(){
+  
 
   const name = document.getElementById("name").value;
   const phone = document.getElementById("phone").value;
@@ -505,10 +515,24 @@ localStorage.setItem("vf_user_details", JSON.stringify(userDetails));
   const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
   const customOrder = JSON.parse(localStorage.getItem("customOrder"));
 
+  // ✅ CHECK STOCK FIRST
+for (const item of cartItems) {
+  const { data: product } = await supabase
+    .from("products")
+    .select("stock")
+    .eq("id", item.id)
+    .single();
+
+  if (!product || product.stock < (item.quantity || 1)) {
+    alert(`Not enough stock for ${item.name}`);
+    return; // 🚨 STOP EVERYTHING
+  }
+}
+
   let orderText = "";
 
   cartItems.forEach(item=>{
-   orderText += `• ${item.name} - ₹${item.price}\n`;
+   orderText += `• ${item.name} x${item.quantity || 1} - ₹${item.price}\n`;
   });
 
     let allOrders = JSON.parse(localStorage.getItem("vf_all_orders") || "[]");
@@ -534,57 +558,74 @@ const newOrder = {
 };
     allOrders.push(newOrder);
     localStorage.setItem("vf_all_orders", JSON.stringify(allOrders));
-try{
-  
+try {
+
+  // 1. UPDATE STOCK
+  for (const item of cartItems) {
+    const { data: product } = await supabase
+      .from("products")
+      .select("stock")
+      .eq("id", item.id)
+      .single();
+
+    const currentStock = product.stock || 0;
+    const orderedQty = item.quantity || 1;
+
+    let newStock = currentStock - orderedQty;
+    if (newStock < 0) newStock = 0;
+
+    await supabase
+      .from("products")
+      .update({
+        stock: newStock,
+        is_sold: newStock === 0
+      })
+      .eq("id", item.id);
+  }
+
+  // 2. SAVE ORDER
+  await supabase.from("orders").insert([
+    {
+      order_id: orderID,
+      name,
+      phone,
+      address,
+      pincode,
+      payment,
+      total: document.getElementById("cartTotal").textContent,
+      email: email,
+      items: cartItems
+    }
+  ]);
+
+  // 3. TRY EMAIL (SEPARATE TRY)
+  try {
     await sendOrderToScript({
-  name,
-  phone,
-  address,
-  pincode,
-  payment,
-  total: document.getElementById("cartTotal").textContent,
-  orderId: orderID,
-  orderDetails: orderText,
- images: cartItems.flatMap(item => item.images || [])
-});
-    await supabase.from("orders").insert([
-  {
-    order_id: orderID,
-    name,
-    phone,
-    address,
-    pincode,
-    payment,
-    total: document.getElementById("cartTotal").textContent,
-    email: email,
-    items: cartItems  
+      name,
+      phone,
+      address,
+      pincode,
+      payment,
+      total: document.getElementById("cartTotal").textContent,
+      orderId: orderID,
+      orderDetails: orderText,
+      images: cartItems.flatMap(item => item.images || [])
+    });
+  } catch (emailError) {
+    console.error("Email failed:", emailError);
   }
-]);
 
-console.log("CART ITEMS:", cartItems);
+  // 4. CLEAR CART
+  localStorage.removeItem("cart");
+  localStorage.removeItem("customOrder");
 
-for (const item of cartItems) {
-  console.log("UPDATING ITEM:", item);
+  alert(`Order ${orderID} placed successfully!`);
+  window.location.href = "index.html";
 
-  const { data, error } = await supabase
-    .from("products")
-    .update({ is_sold: true })
-    .eq("id", item.id)
-    .select(); 
-  console.log("UPDATE RESULT:", data, error);
+} catch (error) {
+  console.error(error);
+  alert("Order failed. Please try again.");
 }
-
-// ✅ AFTER loop (not inside)
-localStorage.removeItem("cart");
-localStorage.removeItem("customOrder");
-
-alert(`Order ${orderID} placed successfully!`);
-window.location.href = "index.html";  
-  
-  }catch(error){
-    console.error(error);
-    alert("Order placed but email failed.");
-  }
 
 };
 </script>
