@@ -120,15 +120,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ✅ Build order object
   const order = {
-    name: document.getElementById("name").value,
-    phone: document.getElementById("phone").value,
-    size: document.getElementById("size").value || "N/A",
-    description: document.getElementById("description").value,
-    images: [],
-    type: "custom-order",
-    timestamp: new Date().toISOString(),
-    price: 0
-  };
+  productName: document.getElementById("productName").value,
+  name: document.getElementById("name").value,
+  phone: document.getElementById("phone").value,
+  size: document.getElementById("size").value || "N/A",
+  description: document.getElementById("description").value,
+  images: [],
+  type: "custom-order",
+  timestamp: new Date().toISOString(),
+  price: 0
+};
 
   // 🔥 Upload images to Cloudinary
   for (let i = 0; i < files.length; i++) {
