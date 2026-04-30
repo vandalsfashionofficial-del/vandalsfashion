@@ -121,7 +121,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // ✅ Build order object
   const order = {
   productName: document.getElementById("productName").value,
-  name: document.getElementById("name").value,
   phone: document.getElementById("phone").value,
   size: document.getElementById("size").value || "N/A",
   description: document.getElementById("description").value,
