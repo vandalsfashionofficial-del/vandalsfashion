@@ -517,6 +517,10 @@ localStorage.setItem("vf_user_details", JSON.stringify(userDetails));
 
   // ✅ CHECK STOCK FIRST
 for (const item of cartItems) {
+
+   // 🚨 SKIP CUSTOM ORDERS
+  if (item.type === "custom-order") continue;
+
   const { data: product } = await supabase
     .from("products")
     .select("stock")
@@ -562,6 +566,10 @@ try {
 
   // 1. UPDATE STOCK
   for (const item of cartItems) {
+
+     // 🚨 SKIP CUSTOM ORDERS
+  if (item.type === "custom-order") continue;
+
     const { data: product } = await supabase
       .from("products")
       .select("stock")
