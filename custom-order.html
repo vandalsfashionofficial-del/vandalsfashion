@@ -287,11 +287,15 @@ if(nav) nav.classList.toggle('show');
 Uploading image(s)... please wait
 </div>
 <form id="customOrderForm">
-<label for="referenceImage">Upload Reference Image (required)</label> <input type="file" id="referenceImage" accept="image/png, image/jpeg, image/webp, image/heif, image/svg*" multiple required/>
+<label for="referenceImage">Upload Reference Image (required)</label> <input type="file" id="referenceImage" accept="image/png, image/jpeg, image/webp, image/heif, image/svg*" required/>
 
 <div class="small-muted">You can upload only one image. It is required.</div>
 
 <div id="imagePreview"></div>
+
+  <label for="productName">Name of the product you want to get made</label>
+  
+<input type="text" id="productName" placeholder="e.g. Custom Kurta, Hoodie, Dress" required>
 
 <label for="size">Size</label> <input type="text" id="size"/>
 
