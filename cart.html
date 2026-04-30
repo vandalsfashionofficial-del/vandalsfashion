@@ -319,8 +319,14 @@ document.addEventListener("DOMContentLoaded", () => {
       div.innerHTML = `
        <img src="${item.images ? item.images[0] : item.imageUrl || ''}" alt="${item.name}" />
         <div class="item-details">
-          <h3>${item.name}</h3>
-          <p>Price: ₹${item.price}</p>
+          <h3>${item.type === "custom-order" ? item.productName : item.name}</h3>
+<p>
+  Price: ${
+    item.type === "custom-order"
+      ? "Price to be discussed"
+      : `₹${item.price}`
+  }
+</p>
           <p>Size: ${item.size}${item.custom ? ` (Waist: ${item.custom.waist}", Hip: ${item.custom.hip}", Chest: ${item.custom.chest}")` : ""}</p>
           <p>Color: ${item.colorPreference || 'N/A'}</p>
           <button onclick="removeItem(${idx})">Remove</button>
