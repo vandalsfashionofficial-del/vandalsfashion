@@ -144,7 +144,6 @@ async function loadRequests() {
   const res = await fetch(SCRIPT_URL, {
     method: "POST",
     body: JSON.stringify({
-      secret: "MYSUPERSECRETSCRIPTaBc09*7^@$Secure",
       type: "get_cancel_requests",
       origin: window.location.origin
     })
