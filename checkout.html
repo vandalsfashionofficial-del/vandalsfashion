@@ -335,6 +335,13 @@
     &copy; 2025 Vandals Fashion. All rights reserved.
   </footer>
 
+  <script>
+    function toggleMenu() {
+      const navbar = document.getElementById("navbar");
+      navbar.classList.toggle("active");
+    }
+  </script>
+
  <script type="module">
    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
@@ -345,11 +352,6 @@ const supabase = createClient(
    import { auth } from "./firebase-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
    
-function toggleMenu() {
-  const navbar = document.getElementById("navbar");
-  navbar.classList.toggle("active");
-}
-
 document.addEventListener("DOMContentLoaded", () => {
 
 
