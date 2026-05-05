@@ -109,7 +109,7 @@ window.addToCart = () => {
     size,
     custom,
     colorPreference: colorPref,
-    quantity: quantity
+    quantity: parseInt(quantity) || 1
   });
 
   localStorage.setItem("cart", JSON.stringify(cart));
