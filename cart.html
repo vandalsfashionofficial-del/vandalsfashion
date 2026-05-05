@@ -314,7 +314,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let total = 0;
 
     cart.forEach((item, idx) => {
-      total += item.price * (item.quantity || 1);
+      if (item.type !== "custom-order") {
+  total += (item.price || 0) * (item.quantity || 1);
+}
       const div = document.createElement("div");
       div.classList.add("item");
       div.innerHTML = `
@@ -325,11 +327,16 @@ document.addEventListener("DOMContentLoaded", () => {
   Price: ${
     item.type === "custom-order"
       ? "Price to be discussed"
-      : `₹${item.price}`
+      : `₹${item.price} × ${item.quantity || 1}`
   }
 </p>
           <p>Size: ${item.size}${item.custom ? ` (Waist: ${item.custom.waist}", Hip: ${item.custom.hip}", Chest: ${item.custom.chest}")` : ""}</p>
           <p>Color: ${item.colorPreference || 'N/A'}</p>
+          <div style="margin-top:8px;">
+            <button onclick="changeQty(${idx}, -1)">−</button>
+            <span style="margin:0 10px;">${item.quantity || 1}</span>
+            <button onclick="changeQty(${idx}, 1)">+</button>
+          </div>
           <button onclick="removeItem(${idx})">Remove</button>
         </div>
       `;
@@ -339,20 +346,36 @@ document.addEventListener("DOMContentLoaded", () => {
     cartTotalEl.textContent = `Total: ₹${total}`;
   }
 
-  // Remove item from cart
-  window.removeItem = function(index) {
+  window.changeQty = function(index, change) {
     let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    cart.splice(index, 1);
+
+    if (!cart[index].quantity) cart[index].quantity = 1;
+
+    cart[index].quantity += change;
+
+    if (cart[index].quantity < 1) {
+  cart.splice(index, 1);
+}
+
     localStorage.setItem("cart", JSON.stringify(cart));
     renderCart();
   };
-
+window.removeItem = function(index) {
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  cart.splice(index, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+};
   // Initial render
   renderCart();
 
   // Buy Now button functionality
   buyNowBtn.addEventListener("click", () => {
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    cart.forEach(item => {
+  if (!item.quantity) item.quantity = 1;
+});
+localStorage.setItem("cart", JSON.stringify(cart));
     if (cart.length === 0) {
       alert("Your cart is empty!");
       return;
