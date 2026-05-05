@@ -78,21 +78,25 @@ async function loadProducts() {
           try {
             console.log("Deleting product with ID:", id);
             
-            const { data, error } = await supabase
+            const { error } = await supabase
               .from("products")
               .delete()
-              .eq("id", id)
-              .select();
+              .eq("id", id);
 
-            console.log("Delete response:", { data, error });
+            console.log("Delete error:", error);
 
             if (error) {
-              console.error("Delete error:", error);
+              console.error("Delete error details:", error);
               throw error;
             }
 
             btn.parentElement.remove();
             alert("Product deleted successfully!");
+            
+            // Reload to verify deletion from database
+            setTimeout(() => {
+              window.location.reload();
+            }, 500);
           } catch (e) {
             console.error("Delete failed:", e);
             alert("Delete failed: " + (e.message || "Unknown error"));
