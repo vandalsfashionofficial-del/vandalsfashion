@@ -1,15 +1,15 @@
 // manage.js
-import { db, auth } from './firebase-config.js';
-import {
-  collection,
-  getDocs,
-  deleteDoc,
-  doc
-} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+import { auth } from './firebase-config.js';
 import {
   onAuthStateChanged,
   signOut
 } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-auth.js";
+
+const supabase = createClient(
+  "https://tckvbedfkidouvcltxci.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRja3ZiZWRma2lkb3V2Y2x0eGNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MDI1ODksImV4cCI6MjA5MjA3ODU4OX0.ADrsPheVPnns-_Iclx6QueJt76D3hzvo16Xdv_9-77k"
+);
 
 // 🛡️ Team-only Access
 const allowedEmails = [
@@ -45,26 +45,28 @@ onAuthStateChanged(auth, async (user) => {
 
 async function loadProducts() {
   try {
-    const colRef = collection(db, "products");
-    const snapshot = await getDocs(colRef);
+    const { data, error } = await supabase
+      .from("products")
+      .select("*");
 
-    if (snapshot.empty) {
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
       grid.innerHTML = "<p>No products found.</p>";
       return;
     }
 
     grid.innerHTML = "";
 
-    snapshot.forEach((docSnap) => {
-      const data = docSnap.data();
+    data.forEach((product) => {
       const card = document.createElement("div");
       card.className = "product-card";
       card.innerHTML = `
-        <img src="${data.imageUrl}" alt="${data.name}">
-        <h3>${data.name}</h3>
-        <p>₹${data.price}</p>
-        <p style="font-size: 0.85rem; color: #666;">${data.description || "Estimated delivery: 15–20 days. International shipping may take an additional 15–20 days."}</p>
-        <button class="delete-btn" data-id="${docSnap.id}">Delete</button>
+        <img src="${product.image_url}" alt="${product.name}">
+        <h3>${product.name}</h3>
+        <p>₹${product.price}</p>
+        <p style="font-size: 0.85rem; color: #666;">${product.description || "No description"}</p>
+        <button class="delete-btn" data-id="${product.id}">Delete</button>
       `;
       grid.appendChild(card);
     });
@@ -74,7 +76,13 @@ async function loadProducts() {
         const id = btn.getAttribute("data-id");
         if (confirm("Delete this product?")) {
           try {
-            await deleteDoc(doc(db, "products", id));
+            const { error } = await supabase
+              .from("products")
+              .delete()
+              .eq("id", id);
+
+            if (error) throw error;
+
             btn.parentElement.remove();
             alert("Deleted.");
           } catch (e) {
