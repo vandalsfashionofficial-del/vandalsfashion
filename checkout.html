@@ -523,15 +523,15 @@ for (const item of cartItems) {
    // 🚨 SKIP CUSTOM ORDERS
   if (item.type === "custom-order") continue;
 
-  const { data: product } = await supabase
+  const { data, error } = await supabase
     .from("products")
     .select("stock")
     .eq("id", item.id)
     .single();
 
-  if (!product || product.stock < (item.quantity || 1)) {
-    alert(`Not enough stock for ${item.name}`);
-    return; // 🚨 STOP EVERYTHING
+  if (data.stock < (item.quantity || 1)) {
+    alert("Out of stock!");
+    return;
   }
 }
 
@@ -572,13 +572,18 @@ try {
      // 🚨 SKIP CUSTOM ORDERS
   if (item.type === "custom-order") continue;
 
-    const { data: product } = await supabase
-      .from("products")
-      .select("stock")
-      .eq("id", item.id)
-      .single();
+ const { data, error } = await supabase
+  .from("products")
+  .select("stock")
+  .eq("id", item.id)
+  .single();
 
-    const currentStock = product.stock || 0;
+if (error || !data) {
+  console.error("Stock fetch error:", error);
+  continue;
+}
+
+const currentStock = data.stock || 0;
     const orderedQty = item.quantity || 1;
 
     let newStock = currentStock - orderedQty;

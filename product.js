@@ -16,6 +16,9 @@ const sizeSelect = document.getElementById("sizeSelect");
 const customSizeFields = document.getElementById("customSizeFields");
 const gallery = document.getElementById("thumbnailRow");
 
+let stock = 1; // Default stock value
+let quantity = 1;
+
 sizeSelect.addEventListener("change", () => {
   customSizeFields.style.display = sizeSelect.value === "custom" ? "block" : "none";
 });
@@ -39,6 +42,7 @@ async function loadProduct() {
     }
 
     const product = data;
+    stock = product.stock || 1; // Get stock from product
 
     // Handle image (Supabase uses image_url)
     const images = product.image_urls || [product.image_url];
@@ -71,23 +75,52 @@ async function loadProduct() {
       });
     }
 
+    // Initialize quantity UI after product loads
+    updateQtyUI();
+
   } catch (err) {
     console.error("Error loading product:", err);
     alert("Failed to load product.");
   }
 }
 
-let quantity = 1;
+function updateQtyUI() {
+  const plusBtn = document.querySelector('.qty-container button:nth-child(3)');
+  const minusBtn = document.querySelector('.qty-container button:nth-child(1)');
+  const qtyDisplay = document.getElementById("qty");
+
+  qtyDisplay.textContent = quantity;
+
+  // Disable minus if quantity is 1
+  minusBtn.disabled = quantity <= 1;
+  minusBtn.style.opacity = quantity <= 1 ? "0.5" : "1";
+
+  // Disable plus if quantity equals stock
+  plusBtn.disabled = quantity >= stock;
+  plusBtn.style.opacity = quantity >= stock ? "0.5" : "1";
+}
 
 window.changeQty = (change) => {
-  quantity += change;
-  if (quantity < 1) quantity = 1;
+  if (change > 0 && quantity >= stock) {
+    return; // Don't increase if we're at stock limit
+  }
+  if (change < 0 && quantity <= 1) {
+    return; // Don't decrease below 1
+  }
 
-  document.getElementById("qty").innerText = quantity;
+  quantity += change;
+  updateQtyUI();
 };
-window.addToCart = () => {
+
+window.addToCart = async () => {
   const size = sizeSelect.value;
   if (!size) return alert("Please select a size.");
+
+  // Check if enough stock available
+  if (quantity > stock) {
+    alert("Not enough stock available!");
+    return;
+  }
 
   let custom = null;
   if (size === "custom") {
@@ -113,10 +146,14 @@ window.addToCart = () => {
   });
 
   localStorage.setItem("cart", JSON.stringify(cart));
+
+  // Update local stock
+ stock = Math.max(0, stock - quantity);
+  quantity = 1;
+  updateQtyUI();
+
   alert("Added to cart!");
   window.location.href = "cart.html";
 };
-
-loadProduct();
 
 
