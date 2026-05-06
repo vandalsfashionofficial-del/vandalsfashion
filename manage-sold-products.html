@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Sold Products | Vandals Fashion</title>
+  <link rel="icon" href="favicon.png" />
+<link rel="apple-touch-icon" href="brand (1).png">
+
+  <style>
+    body {
+      background: #fcefe3;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    header h1 {
+      color: #c39a6b;
+      font-size: 1.5rem;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    .product-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 1rem;
+      position: relative;
+    }
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 15px;
+      margin-bottom: 1rem;
+    }
+    .product-card h3 {
+      margin: 0.5rem 0;
+      color: #c39a6b;
+    }
+    .product-card p {
+      margin: 0.25rem 0;
+      font-size: 0.9rem;
+    }
+    .product-card button {
+      background: #e74c3c;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.3s ease;
+      margin-top: 0.5rem;
+    }
+    .product-card button:hover {
+      background: #c0392b;
+    }
+
+    #authOverlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 192, 203, 0.2);
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .auth-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+    }
+    .auth-box input {
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 0.8rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+    .auth-box button {
+      margin-top: 1rem;
+      width: 100%;
+      background: #c39a6b;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN OVERLAY -->
+  <div id="authOverlay">
+    <div class="auth-box">
+      <h2>Team Login</h2>
+      <input type="email" id="authEmail" placeholder="Team Email" required />
+      <input type="password" id="authPassword" placeholder="Password" required />
+      <button onclick="checkAccess()">Login</button>
+      <p id="authError" style="color:red; margin-top:1rem;"></p>
+    </div>
+  </div>
+
+  <header>
+    <h1>Manage Sold Products</h1>
+    <span style="cursor:pointer; color:#c39a6b; font-weight:600;" onclick="logout()">Logout</span>
+  </header>
+
+  <div class="container">
+    <div class="product-grid" id="productGrid">
+      <!-- Product cards load here -->
+    </div>
+  </div>
+
+  <script>
+    const allowedEmails = [
+      'arjunbtskimm123098@gmail.com',
+      'vandalsfashionofficial@gmail.com'
+    ];
+    const allowedPassword = 'specialindicatedsite45';
+
+    function checkAccess() {
+      const email = document.getElementById("authEmail").value.trim();
+      const password = document.getElementById("authPassword").value;
+      const error = document.getElementById("authError");
+
+      if (!allowedEmails.includes(email) || password !== allowedPassword) {
+        error.textContent = "Access denied. Invalid credentials.";
+        return;
+      }
+
+      localStorage.setItem("vf_auth", "true");
+      document.getElementById("authOverlay").style.display = "none";
+    }
+
+    function logout() {
+      localStorage.removeItem("vf_auth");
+      location.reload();
+    }
+
+    window.onload = () => {
+      const isAuth = localStorage.getItem("vf_auth");
+      if (isAuth !== "true") {
+        document.getElementById("authOverlay").style.display = "flex";
+      } else {
+        document.getElementById("authOverlay").style.display = "none";
+      }
+    };
+  </script>
+
+ <script type="module" src="firebase-config.js"></script>
+<script type="module" src="manage-sold-products.js"></script>
+
+</body>
+</html>
