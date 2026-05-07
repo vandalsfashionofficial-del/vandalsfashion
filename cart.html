@@ -289,6 +289,16 @@ footer{
 © 2025 Vandals Fashion. All rights reserved.
 </footer>
 
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+const supabase = createClient(
+  "https://tckvbedfkidouvcltxci.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRja3ZiZWRma2lkb3V2Y2x0eGNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1MDI1ODksImV4cCI6MjA5MjA3ODU4OX0.ADrsPheVPnns-_Iclx6QueJt76D3hzvo16Xdv_9-77k"
+);
+
+window.supabase = supabase;
+</script>
 <script>
 function toggleMenu(){
   document.getElementById("navbar").classList.toggle("show");
@@ -350,6 +360,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
     if (!cart[index].quantity) cart[index].quantity = 1;
+
+    // 🚫 Prevent exceeding stock
+if (change > 0 && cart[index].stock && cart[index].quantity >= cart[index].stock) {
+  alert("Maximum stock reached!");
+  return;
+}
 
     cart[index].quantity += change;
 

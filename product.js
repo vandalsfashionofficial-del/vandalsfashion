@@ -142,7 +142,8 @@ window.addToCart = async () => {
     size,
     custom,
     colorPreference: colorPref,
-    quantity: parseInt(quantity) || 1
+    quantity: parseInt(quantity) || 1,
+    stock: stock // Store stock for cart validation
   });
 
   localStorage.setItem("cart", JSON.stringify(cart));
