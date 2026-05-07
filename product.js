@@ -157,3 +157,4 @@ window.addToCart = async () => {
 };
 
 
+loadProduct();
