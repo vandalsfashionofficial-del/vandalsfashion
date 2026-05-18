@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Access Notice - Vandals Fashion</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #0d0d0d;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #111;
+      border: 1px solid #2a2a2a;
+      padding: 30px;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #f5c6ff; /* pastel accent */
+    }
+
+    p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #ccc;
+    }
+
+    .warning {
+      margin-top: 15px;
+      color: #ffb3b3;
+    }
+
+    .agree-box {
+      margin-top: 25px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+    }
+
+    input[type="checkbox"] {
+      accent-color: #f5c6ff;
+      transform: scale(1.2);
+    }
+
+    .btn {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: not-allowed;
+      background: #333;
+      color: #777;
+      transition: 0.3s ease;
+    }
+
+    .btn.active {
+      background: #f5c6ff;
+      color: #000;
+      cursor: pointer;
+    }
+
+    .btn.active:hover {
+      background: #e8a9ff;
+    }
+
+    .footer {
+      text-align: right;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #777;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h2>⚠️ Access Notice</h2>
+
+    <p>
+      This website is an original project developed for Vandals Fashion.
+      It reflects significant effort in design, development, and functionality.
+    </p>
+
+    <p>
+      Viewing is permitted for inspiration and general reference purposes only.
+      Direct replication, cloning, or reuse of structure, design, or logic is
+      not encouraged.
+    </p>
+
+    <p class="warning">
+      If your project begins to resemble this one beyond inspiration,
+      it will be noticed.
+    </p>
+
+    <div class="agree-box">
+      <input type="checkbox" id="agree">
+      <label for="agree">I have read and agree to the above terms</label>
+    </div>
+
+    <button id="enterBtn" class="btn" disabled>Enter Website</button>
+
+    <div class="footer">
+      — Vandals Fashion
+    </div>
+  </div>
+
+  <script>
+    const checkbox = document.getElementById('agree');
+    const button = document.getElementById('enterBtn');
+
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+        button.disabled = false;
+        button.classList.add('active');
+      } else {
+        button.disabled = true;
+        button.classList.remove('active');
+      }
+    });
+
+    button.addEventListener('click', () => {
+      if (!button.disabled) {
+        window.location.href = "index.html"; // change if needed
+      }
+    });
+  </script>
+
+</body>
+</html>
