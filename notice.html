@@ -6,6 +6,14 @@
 
   <style>
     body {
+  opacity: 0;
+  animation: fadeIn 0.8s ease forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+    body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
       background: #f5f5f7;
@@ -91,6 +99,9 @@
 
   <div class="container">
     <h1>Access Agreement</h1>
+    <p style="font-size:12px; color:#86868b; margin-top:-10px;">
+  Version 1.3 • Last updated: May 2026
+</p>
 
     <p>
       This website is an original digital property developed for Vandals Fashion.
@@ -106,7 +117,9 @@
     <p class="subtle">
       Continued access implies acknowledgment of these terms.
     </p>
-
+<p class="subtle">
+Access sessions may be logged to maintain system integrity.
+</p>
     <div class="agree-box">
       <input type="checkbox" id="agree">
       <label for="agree">
@@ -120,30 +133,40 @@
 
     <div class="footer">
       Vandals Fashion
+      <br>
       Session activity may be monitored for integrity purposes.
     </div>
+    
   </div>
+  
 
-  <script>
-    const checkbox = document.getElementById('agree');
-    const button = document.getElementById('enterBtn');
+ <script>
+const checkbox = document.getElementById('agree');
+const button = document.getElementById('enterBtn');
 
-    checkbox.addEventListener('change', () => {
-      if (checkbox.checked) {
-        button.disabled = false;
-        button.classList.add('active');
-      } else {
-        button.disabled = true;
-        button.classList.remove('active');
-      }
-    });
+checkbox.addEventListener('change', () => {
+  if (checkbox.checked) {
+    button.textContent = "Verifying...";
+    
+    setTimeout(() => {
+      button.disabled = false;
+      button.classList.add('active');
+      button.textContent = "Agree & Continue";
+    }, 1500);
+    
+  } else {
+    button.disabled = true;
+    button.classList.remove('active');
+    button.textContent = "Continue";
+  }
+});
 
-    button.addEventListener('click', () => {
-      if (!button.disabled) {
-        window.location.href = "index.html";
-      }
-    });
-  </script>
-
+// ✅ OUTSIDE the checkbox event
+button.addEventListener('click', () => {
+  if (!button.disabled) {
+    window.location.href = "index.html";
+  }
+});
+</script>
 </body>
 </html>
